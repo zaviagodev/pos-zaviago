@@ -1,6 +1,6 @@
 <div align="center">
     <img src="https://frappecloud.com/files/pos.png" height="128">
-    <h2>POS AWESOME</h2>
+    <h2>POS Zaviago</h2>
 </div>
 
 #### An open-source Point of Sale for [Erpnext](https://github.com/frappe/erpnext) using [Vue.js](https://github.com/vuejs/vue) and [Vuetify](https://github.com/vuetifyjs/vuetify)
@@ -85,7 +85,7 @@ Available in GitHub [discussions](https://github.com/yrestom/POS-Awesome/discuss
 
 ### How To Use:
 
-[POS Awesome Wiki](https://github.com/yrestom/POS-Awesome/wiki)
+[POS Zaviago Wiki](https://github.com/yrestom/POS-Awesome/wiki)
 
 ---
 
@@ -121,4 +121,4 @@ Will using for this the same guidelines from Erpnext
 
 GNU/General Public License (see [license.txt](https://github.com/yrestom/POS-Awesome/blob/master/license.txt))
 
-The POS Awesome code is licensed as GNU General Public License (v3)
+The POS Zaviago code is licensed as GNU General Public License (v3)

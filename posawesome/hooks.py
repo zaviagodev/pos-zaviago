@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 from . import __version__ as app_version
 
-app_name = "posawesome"
-app_title = "POS Awesome"
+app_name = "postzaviago"
+app_title = "POS Zaviago"
 app_publisher = "Youssef Restom"
-app_description = "POS Awesome"
+app_description = "POS Zaviago"
 app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "youssef@totrox.com"
@@ -15,16 +15,16 @@ app_license = "GPLv3"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/posawesome/css/posawesome.css"
-# app_include_js = "/assets/posawesome/js/posawesome.js"
+# app_include_css = "/assets/postzaviago/css/postzaviago.css"
+# app_include_js = "/assets/postzaviago/js/postzaviago.js"
 app_include_js = [
-    "/assets/posawesome/node_modules/vuetify/dist/vuetify.js",
-    "posawesome.bundle.js",
+    "/assets/postzaviago/node_modules/vuetify/dist/vuetify.js",
+    "postzaviago.bundle.js",
 ]
 
 # include js, css files in header of web template
-# web_include_css = "/assets/posawesome/css/posawesome.css"
-# web_include_js = "/assets/posawesome/js/posawesome.js"
+# web_include_css = "/assets/postzaviago/css/postzaviago.css"
+# web_include_js = "/assets/postzaviago/js/postzaviago.js"
 
 # include js, css files in header of web form
 # webform_include_js = {"doctype": "public/js/doctype.js"}
@@ -35,9 +35,9 @@ app_include_js = [
 
 # include js in doctype views
 doctype_js = {
-    "POS Profile": "posawesome/api/pos_profile.js",
-    "Sales Invoice": "posawesome/api/invoice.js",
-    "Company": "posawesome/api/company.js",
+    "POS Profile": "postzaviago/api/pos_profile.js",
+    "Sales Invoice": "postzaviago/api/invoice.js",
+    "Company": "postzaviago/api/company.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -55,7 +55,7 @@ doctype_js = {
 # }
 
 # Website user home page (by function)
-# get_website_user_home_page = "posawesome.utils.get_home_page"
+# get_website_user_home_page = "postzaviago.utils.get_home_page"
 
 # Generators
 # ----------
@@ -66,16 +66,16 @@ doctype_js = {
 # Installation
 # ------------
 
-# before_install = "posawesome.install.before_install"
-# after_install = "posawesome.install.after_install"
-# before_uninstall = "posawesome.uninstall.before_uninstall"
-after_uninstall = "posawesome.uninstall.after_uninstall"
+# before_install = "postzaviago.install.before_install"
+# after_install = "postzaviago.install.after_install"
+# before_uninstall = "postzaviago.uninstall.before_uninstall"
+after_uninstall = "postzaviago.uninstall.after_uninstall"
 
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
 
-# notification_config = "posawesome.notifications.get_notification_config"
+# notification_config = "postzaviago.notifications.get_notification_config"
 
 # Permissions
 # -----------
@@ -95,13 +95,13 @@ after_uninstall = "posawesome.uninstall.after_uninstall"
 
 doc_events = {
     "Sales Invoice": {
-        "validate": "posawesome.posawesome.api.invoice.validate",
-        "before_submit": "posawesome.posawesome.api.invoice.before_submit",
-        "before_cancel": "posawesome.posawesome.api.invoice.before_cancel",
+        "validate": "postzaviago.postzaviago.api.invoice.validate",
+        "before_submit": "postzaviago.postzaviago.api.invoice.before_submit",
+        "before_cancel": "postzaviago.postzaviago.api.invoice.before_cancel",
     },
     "Customer": {
-        "validate": "posawesome.posawesome.api.customer.validate",
-        "after_insert": "posawesome.posawesome.api.customer.after_insert",
+        "validate": "postzaviago.postzaviago.api.customer.validate",
+        "after_insert": "postzaviago.postzaviago.api.customer.after_insert",
     },
 }
 
@@ -110,39 +110,39 @@ doc_events = {
 
 # scheduler_events = {
 # 	"all": [
-# 		"posawesome.tasks.all"
+# 		"postzaviago.tasks.all"
 # 	],
 # 	"daily": [
-# 		"posawesome.tasks.daily"
+# 		"postzaviago.tasks.daily"
 # 	],
 # 	"hourly": [
-# 		"posawesome.tasks.hourly"
+# 		"postzaviago.tasks.hourly"
 # 	],
 # 	"weekly": [
-# 		"posawesome.tasks.weekly"
+# 		"postzaviago.tasks.weekly"
 # 	]
 # 	"monthly": [
-# 		"posawesome.tasks.monthly"
+# 		"postzaviago.tasks.monthly"
 # 	]
 # }
 
 # Testing
 # -------
 
-# before_tests = "posawesome.install.before_tests"
+# before_tests = "postzaviago.install.before_tests"
 
 # Overriding Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "posawesome.event.get_events"
+# 	"frappe.desk.doctype.event.event.get_events": "postzaviago.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-# 	"Task": "posawesome.task.get_dashboard_data"
+# 	"Task": "postzaviago.task.get_dashboard_data"
 # }
 
 # override_doctype_class = {

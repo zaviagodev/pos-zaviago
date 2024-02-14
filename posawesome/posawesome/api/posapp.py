@@ -26,8 +26,8 @@ from erpnext.selling.doctype.sales_order.sales_order import make_sales_invoice
 from erpnext.accounts.doctype.loyalty_program.loyalty_program import (
     get_loyalty_program_details_with_points,
 )
-from posawesome.posawesome.doctype.pos_coupon.pos_coupon import check_coupon_code
-from posawesome.posawesome.doctype.delivery_charges.delivery_charges import (
+from postzaviago.postzaviago.doctype.pos_coupon.pos_coupon import check_coupon_code
+from postzaviago.postzaviago.doctype.delivery_charges.delivery_charges import (
     get_applicable_delivery_charges as _get_applicable_delivery_charges,
 )
 from frappe.utils.caching import redis_cache

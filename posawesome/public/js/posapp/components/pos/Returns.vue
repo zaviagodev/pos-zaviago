@@ -117,7 +117,7 @@ export default {
     search_invoices() {
       const vm = this;
       frappe.call({
-        method: 'posawesome.posawesome.api.posapp.search_invoices_for_return',
+        method: 'postzaviago.postzaviago.api.posapp.search_invoices_for_return',
         args: {
           invoice_name: vm.invoice_name,
           company: vm.company,

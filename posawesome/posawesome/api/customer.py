@@ -4,7 +4,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe import _
-from posawesome.posawesome.doctype.referral_code.referral_code import (
+from postzaviago.postzaviago.doctype.referral_code.referral_code import (
     create_referral_code,
 )
 

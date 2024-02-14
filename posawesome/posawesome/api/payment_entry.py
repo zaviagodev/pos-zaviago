@@ -11,7 +11,7 @@ from erpnext.accounts.doctype.journal_entry.journal_entry import (
 )
 from erpnext.setup.utils import get_exchange_rate
 from erpnext.accounts.doctype.bank_account.bank_account import get_party_bank_account
-from posawesome.posawesome.api.m_pesa import submit_mpesa_payment
+from postzaviago.postzaviago.api.m_pesa import submit_mpesa_payment
 from erpnext.accounts.utils import QueryPaymentLedger, get_outstanding_invoices as _get_outstanding_invoices
 
 
@@ -227,7 +227,7 @@ def process_pos_payment(payload):
     data = json.loads(payload)
     data = frappe._dict(data)
     if not data.pos_profile.get("posa_use_pos_awesome_payments"):
-        frappe.throw(_("POS Awesome Payments is not enabled for this POS Profile"))
+        frappe.throw(_("POS Zaviago Payments is not enabled for this POS Profile"))
 
     # validate data
     if not data.customer:

@@ -132,7 +132,7 @@ export default {
     search_orders() {
       const vm = this;
       frappe.call({
-        method: "posawesome.posawesome.api.posapp.search_orders",
+        method: "postzaviago.postzaviago.api.posapp.search_orders",
         args: {
           order_name: vm.order_name,
           company: this.pos_profile.company,
@@ -152,7 +152,7 @@ export default {
         var invoice_doc_for_load = {};
         await frappe.call({
           method:
-            "posawesome.posawesome.api.posapp.create_sales_invoice_from_order",
+            "postzaviago.postzaviago.api.posapp.create_sales_invoice_from_order",
           args: {
             sales_order: this.selected[0].name,
           },
@@ -193,7 +193,7 @@ export default {
         evntBus.$emit("load_order", this.selected[0]);
         this.draftsDialog = false;
         frappe.call({
-          method: "posawesome.posawesome.api.posapp.delete_sales_invoice",
+          method: "postzaviago.postzaviago.api.posapp.delete_sales_invoice",
           args: {
             sales_invoice: invoice_doc_for_load.name,
           },

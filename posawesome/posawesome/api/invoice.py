@@ -8,9 +8,9 @@ import frappe
 from frappe import _
 from frappe.model.mapper import get_mapped_doc
 from frappe.utils import flt, add_days
-from posawesome.posawesome.doctype.pos_coupon.pos_coupon import update_coupon_code_count
-from posawesome.posawesome.api.posapp import get_company_domain
-from posawesome.posawesome.doctype.delivery_charges.delivery_charges import (
+from postzaviago.postzaviago.doctype.pos_coupon.pos_coupon import update_coupon_code_count
+from postzaviago.postzaviago.api.posapp import get_company_domain
+from postzaviago.postzaviago.doctype.delivery_charges.delivery_charges import (
     get_applicable_delivery_charges,
 )
 

@@ -1,6 +1,6 @@
 <div align="center">
     <img src="https://frappecloud.com/files/pos.png" height="128">
-    <h2>POS AWESOME</h2>
+    <h2>POS Zaviago</h2>
 </div>
 
 #### An open-source Point of Sale for [Erpnext](https://github.com/frappe/erpnext) using [Vue.js](https://github.com/vuejs/vue) and [Vuetify](https://github.com/vuetifyjs/vuetify)
@@ -47,15 +47,15 @@
 
 #### Frappe Cloud:
 
-One-click installing available if you are hosting on FC from [here](https://frappecloud.com/marketplace/apps/posawesome)
+One-click installing available if you are hosting on FC from [here](https://frappecloud.com/marketplace/apps/postzaviago)
 
 #### Self Hosting:
 
 1. `bench get-app branch version-14 https://github.com/yrestom/POS-Awesome.git`
 2. `bench setup requirements`
-3. `bench build --app posawesome`
+3. `bench build --app postzaviago`
 4. `bench restart`
-5. `bench --site [your.site.name] install-app posawesome`
+5. `bench --site [your.site.name] install-app postzaviago`
 6. `bench --site [your.site.name] migrate`
 
 ---
@@ -64,7 +64,7 @@ One-click installing available if you are hosting on FC from [here](https://frap
 
 #### Frappe Cloud:
 
-If you are hosting on FC premium support is available [here](https://frappecloud.com/marketplace/apps/posawesome)
+If you are hosting on FC premium support is available [here](https://frappecloud.com/marketplace/apps/postzaviago)
 
 #### Self Hosting:
 
@@ -85,7 +85,7 @@ Available in GitHub [discussions](https://github.com/yrestom/POS-Awesome/discuss
 
 ### How To Use:
 
-[POS Awesome Wiki](https://github.com/yrestom/POS-Awesome/wiki)
+[POS Zaviago Wiki](https://github.com/yrestom/POS-Awesome/wiki)
 
 ---
 
@@ -121,4 +121,4 @@ Will using for this the same guidelines from Erpnext
 
 GNU/General Public License (see [license.txt](https://github.com/yrestom/POS-Awesome/blob/master/license.txt))
 
-The POS Awesome code is licensed as GNU General Public License (v3)
+The POS Zaviago code is licensed as GNU General Public License (v3)

@@ -881,7 +881,7 @@ export default {
 
       const vm = this;
       frappe.call({
-        method: "posawesome.posawesome.api.posapp.submit_invoice",
+        method: "postzaviago.postzaviago.api.posapp.submit_invoice",
         args: {
           data: data,
           invoice: this.invoice_doc,
@@ -984,7 +984,7 @@ export default {
       this.clear_all_amounts();
       if (e) {
         frappe
-          .call("posawesome.posawesome.api.posapp.get_available_credit", {
+          .call("postzaviago.postzaviago.api.posapp.get_available_credit", {
             customer: this.invoice_doc.customer,
             company: this.pos_profile.company,
           })
@@ -1024,7 +1024,7 @@ export default {
         return;
       }
       frappe.call({
-        method: "posawesome.posawesome.api.posapp.get_customer_addresses",
+        method: "postzaviago.postzaviago.api.posapp.get_customer_addresses",
         args: { customer: vm.invoice_doc.customer },
         async: true,
         callback: function (r) {
@@ -1071,7 +1071,7 @@ export default {
         );
       }
       frappe.call({
-        method: "posawesome.posawesome.api.posapp.get_sales_person_names",
+        method: "postzaviago.postzaviago.api.posapp.get_sales_person_names",
         callback: function (r) {
           if (r.message) {
             vm.sales_persons = r.message;
@@ -1125,7 +1125,7 @@ export default {
 
       frappe
         .call({
-          method: "posawesome.posawesome.api.posapp.update_invoice",
+          method: "postzaviago.postzaviago.api.posapp.update_invoice",
           args: {
             data: formData,
           },
@@ -1139,7 +1139,7 @@ export default {
         .then(() => {
           frappe
             .call({
-              method: "posawesome.posawesome.api.posapp.create_payment_request",
+              method: "postzaviago.postzaviago.api.posapp.create_payment_request",
               args: {
                 doc: vm.invoice_doc,
               },
@@ -1195,7 +1195,7 @@ export default {
     get_mpesa_modes() {
       const vm = this;
       frappe.call({
-        method: "posawesome.posawesome.api.m_pesa.get_mpesa_mode_of_payment",
+        method: "postzaviago.postzaviago.api.m_pesa.get_mpesa_mode_of_payment",
         args: { company: vm.pos_profile.company },
         async: true,
         callback: function (r) {

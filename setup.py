@@ -4,13 +4,13 @@ from setuptools import setup, find_packages
 with open("requirements.txt") as f:
     install_requires = f.read().strip().split("\n")
 
-# get version from __version__ variable in posawesome/__init__.py
-from posawesome import __version__ as version
+# get version from __version__ variable in postzaviago/__init__.py
+from postzaviago import __version__ as version
 
 setup(
-    name="posawesome",
+    name="postzaviago",
     version=version,
-    description="POS Awesome",
+    description="POS Zaviago",
     author="Yousef Restom",
     author_email="youssef@totrox.com",
     packages=find_packages(),

@@ -82,7 +82,7 @@ class POSClosingShift(Document):
     def get_payment_reconciliation_details(self):
         currency = frappe.get_cached_value("Company", self.company, "default_currency")
         return frappe.render_template(
-            "posawesome/posawesome/doctype/pos_closing_shift/closing_shift_details.html",
+            "postzaviago/postzaviago/doctype/pos_closing_shift/closing_shift_details.html",
             {"data": self, "currency": currency},
         )
 

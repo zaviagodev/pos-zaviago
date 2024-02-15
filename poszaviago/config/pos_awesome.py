@@ -9,7 +9,7 @@ def get_data():
 				 {
 				   "description": "POS Zaviago", 
 				   "name": "posapp", 
-				   "label": "POSAPP", 					
+				   "label": "posapp", 					
 				   "type": "page"
 				  }, 
 

@@ -6,7 +6,7 @@ frappe.pages['posapp'].on_page_load = function (wrapper) {
 		single_column: true
 	});
 
-	this.page.$PosApp = new frappe.PosApp.posapp(this.page);
+	this.page.$posapp = new frappe.posapp.posapp(this.page);
 
 	$('div.navbar-fixed-top').find('.container').css('padding', '0');
 

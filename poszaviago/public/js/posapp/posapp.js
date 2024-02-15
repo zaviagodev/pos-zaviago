@@ -3,7 +3,7 @@ import Home from './Home.vue';
 frappe.provide('frappe.posapp');
 
 
-frappe.posapp.posapp = class {
+frappe.posapp.poszaviago= class {
     constructor({ parent }) {
         this.$parent = $(document);
         this.page = parent.page;

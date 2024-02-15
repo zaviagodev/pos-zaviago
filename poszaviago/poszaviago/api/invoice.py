@@ -9,7 +9,7 @@ from frappe import _
 from frappe.model.mapper import get_mapped_doc
 from frappe.utils import flt, add_days
 from poszaviago.poszaviago.doctype.pos_coupon.pos_coupon import update_coupon_code_count
-from poszaviago.poszaviago.api.posapp import get_company_domain
+from poszaviago.poszaviago.api.poszaviagoimport get_company_domain
 from poszaviago.poszaviago.doctype.delivery_charges.delivery_charges import (
     get_applicable_delivery_charges,
 )

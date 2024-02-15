@@ -95,7 +95,7 @@ export default {
       this.address.customer = this.customer;
       this.address.doctype = 'Customer';
       frappe.call({
-        method: 'postzaviago.postzaviago.api.posapp.make_address',
+        method: 'poszaviago.poszaviago.api.posapp.make_address',
         args: {
           args: this.address,
         },

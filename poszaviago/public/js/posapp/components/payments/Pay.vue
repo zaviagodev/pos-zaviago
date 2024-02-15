@@ -489,7 +489,7 @@ export default {
   methods: {
     check_opening_entry() {
       return frappe
-        .call("postzaviago.postzaviago.api.posapp.check_opening_shift", {
+        .call("poszaviago.poszaviago.api.posapp.check_opening_shift", {
           user: frappe.session.user,
         })
         .then((r) => {
@@ -518,7 +518,7 @@ export default {
       if (!this.pos_profile.posa_allow_mpesa_reconcile_payments) return;
       return frappe
         .call(
-          "postzaviago.postzaviago.api.payment_entry.get_available_pos_profiles",
+          "poszaviago.poszaviago.api.payment_entry.get_available_pos_profiles",
           {
             company: this.company,
             currency: this.pos_profile.currency,
@@ -537,7 +537,7 @@ export default {
       const vm = this;
       if (this.customer_name) {
         frappe.call({
-          method: "postzaviago.postzaviago.api.posapp.get_customer_info",
+          method: "poszaviago.poszaviago.api.posapp.get_customer_info",
           args: {
             customer: vm.customer_name,
           },
@@ -562,7 +562,7 @@ export default {
       this.invoices_loading = true;
       return frappe
         .call(
-          "postzaviago.postzaviago.api.payment_entry.get_outstanding_invoices",
+          "poszaviago.poszaviago.api.payment_entry.get_outstanding_invoices",
           {
             customer: this.customer_name,
             company: this.company,
@@ -587,7 +587,7 @@ export default {
       }
       return frappe
         .call(
-          "postzaviago.postzaviago.api.payment_entry.get_unallocated_payments",
+          "poszaviago.poszaviago.api.payment_entry.get_unallocated_payments",
           {
             customer: this.customer_name,
             company: this.company,
@@ -617,7 +617,7 @@ export default {
       const vm = this;
       this.mpesa_payments_loading = true;
       return frappe
-        .call("postzaviago.postzaviago.api.m_pesa.get_mpesa_draft_payments", {
+        .call("poszaviago.poszaviago.api.m_pesa.get_mpesa_draft_payments", {
           company: vm.company,
           mode_of_payment: null,
           full_name: vm.mpesa_search_name || null,
@@ -707,7 +707,7 @@ export default {
       );
 
       frappe.call({
-        method: "postzaviago.postzaviago.api.payment_entry.process_pos_payment",
+        method: "poszaviago.poszaviago.api.payment_entry.process_pos_payment",
         args: { payload },
         freeze: true,
         freeze_message: __("Processing Payment"),

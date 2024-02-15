@@ -84,7 +84,7 @@ export default {
         vm.customers = JSON.parse(localStorage.getItem('customer_storage'));
       }
       frappe.call({
-        method: 'postzaviago.postzaviago.api.posapp.get_customer_names',
+        method: 'poszaviago.poszaviago.api.posapp.get_customer_names',
         args: {
           pos_profile: this.pos_profile.pos_profile,
         },

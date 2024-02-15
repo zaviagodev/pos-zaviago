@@ -6,7 +6,7 @@ def after_uninstall():
 
 
 def clear_custom_fields_and_properties():
-    fixtures = frappe.get_hooks("fixtures", app_name="postzaviago")
+    fixtures = frappe.get_hooks("fixtures", app_name="poszaviago")
     for fixture in fixtures:
         if fixture.get("doctype") == "Custom Field":
             filters = fixture.get("filters")

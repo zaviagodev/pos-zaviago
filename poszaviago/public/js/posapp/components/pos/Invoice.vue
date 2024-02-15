@@ -1079,7 +1079,7 @@ export default {
       this.posting_date = frappe.datetime.nowdate();
       if (doc.name && this.pos_profile.posa_allow_delete) {
         frappe.call({
-          method: "postzaviago.postzaviago.api.posapp.delete_invoice",
+          method: "poszaviago.poszaviago.api.posapp.delete_invoice",
           args: { invoice: doc.name },
           async: true,
           callback: function (r) {
@@ -1265,7 +1265,7 @@ export default {
       if (this.invoice_doc.doctype == "Sales Order") {
         await frappe.call({
           method:
-            "postzaviago.postzaviago.api.posapp.create_sales_invoice_from_order",
+            "poszaviago.poszaviago.api.posapp.create_sales_invoice_from_order",
           args: {
             sales_order: this.invoice_doc.name,
           },
@@ -1400,7 +1400,7 @@ export default {
     update_invoice(doc) {
       const vm = this;
       frappe.call({
-        method: "postzaviago.postzaviago.api.posapp.update_invoice",
+        method: "poszaviago.poszaviago.api.posapp.update_invoice",
         args: {
           data: doc,
         },
@@ -1417,7 +1417,7 @@ export default {
     update_invoice_from_order(doc) {
       const vm = this;
       frappe.call({
-        method: "postzaviago.postzaviago.api.posapp.update_invoice_from_order",
+        method: "poszaviago.poszaviago.api.posapp.update_invoice_from_order",
         args: {
           data: doc,
         },
@@ -1478,7 +1478,7 @@ export default {
         var sales_invoice_item_doc = {};
         frappe.call({
           method:
-            "postzaviago.postzaviago.api.posapp.get_sales_invoice_child_table",
+            "poszaviago.poszaviago.api.posapp.get_sales_invoice_child_table",
           args: {
             sales_invoice: this.invoice_doc.name,
             sales_invoice_item: sales_invoice_item.name,
@@ -1666,7 +1666,7 @@ export default {
     get_draft_invoices() {
       const vm = this;
       frappe.call({
-        method: "postzaviago.postzaviago.api.posapp.get_draft_invoices",
+        method: "poszaviago.poszaviago.api.posapp.get_draft_invoices",
         args: {
           pos_opening_shift: this.pos_opening_shift.name,
         },
@@ -1682,7 +1682,7 @@ export default {
     get_draft_orders() {
       const vm = this;
       frappe.call({
-        method: "postzaviago.postzaviago.api.posapp.search_orders",
+        method: "poszaviago.poszaviago.api.posapp.search_orders",
         args: {
           company: this.pos_profile.company,
           currency: this.pos_profile.currency,
@@ -1711,7 +1711,7 @@ export default {
       const vm = this;
       if (!vm.pos_profile) return;
       frappe.call({
-        method: "postzaviago.postzaviago.api.posapp.get_items_details",
+        method: "poszaviago.poszaviago.api.posapp.get_items_details",
         async: false,
         args: {
           pos_profile: vm.pos_profile,
@@ -1741,7 +1741,7 @@ export default {
       }
       const vm = this;
       frappe.call({
-        method: "postzaviago.postzaviago.api.posapp.get_item_detail",
+        method: "poszaviago.poszaviago.api.posapp.get_item_detail",
         args: {
           warehouse: this.pos_profile.warehouse,
           doc: this.get_invoice_doc(),
@@ -1835,7 +1835,7 @@ export default {
       const vm = this;
       if (this.customer) {
         frappe.call({
-          method: "postzaviago.postzaviago.api.posapp.get_customer_info",
+          method: "poszaviago.poszaviago.api.posapp.get_customer_info",
           args: {
             customer: vm.customer,
           },
@@ -2859,7 +2859,7 @@ export default {
       this.selcted_delivery_charges = {};
       frappe.call({
         method:
-          "postzaviago.postzaviago.api.posapp.get_applicable_delivery_charges",
+          "poszaviago.poszaviago.api.posapp.get_applicable_delivery_charges",
         args: {
           company: this.pos_profile.company,
           pos_profile: this.pos_profile.name,

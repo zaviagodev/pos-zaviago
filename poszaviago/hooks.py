@@ -15,16 +15,16 @@ app_license = "GPLv3"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/postzaviago/css/postzaviago.css"
-# app_include_js = "/assets/postzaviago/js/postzaviago.js"
+# app_include_css = "/assets/poszaviago/css/poszaviago.css"
+# app_include_js = "/assets/poszaviago/js/poszaviago.js"
 app_include_js = [
-    "/assets/postzaviago/node_modules/vuetify/dist/vuetify.js",
-    "postzaviago.bundle.js",
+    "/assets/poszaviago/node_modules/vuetify/dist/vuetify.js",
+    "poszaviago.bundle.js",
 ]
 
 # include js, css files in header of web template
-# web_include_css = "/assets/postzaviago/css/postzaviago.css"
-# web_include_js = "/assets/postzaviago/js/postzaviago.js"
+# web_include_css = "/assets/poszaviago/css/poszaviago.css"
+# web_include_js = "/assets/poszaviago/js/poszaviago.js"
 
 # include js, css files in header of web form
 # webform_include_js = {"doctype": "public/js/doctype.js"}
@@ -35,9 +35,9 @@ app_include_js = [
 
 # include js in doctype views
 doctype_js = {
-    "POS Profile": "postzaviago/api/pos_profile.js",
-    "Sales Invoice": "postzaviago/api/invoice.js",
-    "Company": "postzaviago/api/company.js",
+    "POS Profile": "poszaviago/api/pos_profile.js",
+    "Sales Invoice": "poszaviago/api/invoice.js",
+    "Company": "poszaviago/api/company.js",
 }
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
@@ -55,7 +55,7 @@ doctype_js = {
 # }
 
 # Website user home page (by function)
-# get_website_user_home_page = "postzaviago.utils.get_home_page"
+# get_website_user_home_page = "poszaviago.utils.get_home_page"
 
 # Generators
 # ----------
@@ -66,16 +66,16 @@ doctype_js = {
 # Installation
 # ------------
 
-# before_install = "postzaviago.install.before_install"
-# after_install = "postzaviago.install.after_install"
-# before_uninstall = "postzaviago.uninstall.before_uninstall"
-after_uninstall = "postzaviago.uninstall.after_uninstall"
+# before_install = "poszaviago.install.before_install"
+# after_install = "poszaviago.install.after_install"
+# before_uninstall = "poszaviago.uninstall.before_uninstall"
+after_uninstall = "poszaviago.uninstall.after_uninstall"
 
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
 
-# notification_config = "postzaviago.notifications.get_notification_config"
+# notification_config = "poszaviago.notifications.get_notification_config"
 
 # Permissions
 # -----------
@@ -95,13 +95,13 @@ after_uninstall = "postzaviago.uninstall.after_uninstall"
 
 doc_events = {
     "Sales Invoice": {
-        "validate": "postzaviago.postzaviago.api.invoice.validate",
-        "before_submit": "postzaviago.postzaviago.api.invoice.before_submit",
-        "before_cancel": "postzaviago.postzaviago.api.invoice.before_cancel",
+        "validate": "poszaviago.poszaviago.api.invoice.validate",
+        "before_submit": "poszaviago.poszaviago.api.invoice.before_submit",
+        "before_cancel": "poszaviago.poszaviago.api.invoice.before_cancel",
     },
     "Customer": {
-        "validate": "postzaviago.postzaviago.api.customer.validate",
-        "after_insert": "postzaviago.postzaviago.api.customer.after_insert",
+        "validate": "poszaviago.poszaviago.api.customer.validate",
+        "after_insert": "poszaviago.poszaviago.api.customer.after_insert",
     },
 }
 
@@ -110,39 +110,39 @@ doc_events = {
 
 # scheduler_events = {
 # 	"all": [
-# 		"postzaviago.tasks.all"
+# 		"poszaviago.tasks.all"
 # 	],
 # 	"daily": [
-# 		"postzaviago.tasks.daily"
+# 		"poszaviago.tasks.daily"
 # 	],
 # 	"hourly": [
-# 		"postzaviago.tasks.hourly"
+# 		"poszaviago.tasks.hourly"
 # 	],
 # 	"weekly": [
-# 		"postzaviago.tasks.weekly"
+# 		"poszaviago.tasks.weekly"
 # 	]
 # 	"monthly": [
-# 		"postzaviago.tasks.monthly"
+# 		"poszaviago.tasks.monthly"
 # 	]
 # }
 
 # Testing
 # -------
 
-# before_tests = "postzaviago.install.before_tests"
+# before_tests = "poszaviago.install.before_tests"
 
 # Overriding Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "postzaviago.event.get_events"
+# 	"frappe.desk.doctype.event.event.get_events": "poszaviago.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-# 	"Task": "postzaviago.task.get_dashboard_data"
+# 	"Task": "poszaviago.task.get_dashboard_data"
 # }
 
 # override_doctype_class = {

@@ -11,7 +11,7 @@ from erpnext.accounts.doctype.journal_entry.journal_entry import (
 )
 from erpnext.setup.utils import get_exchange_rate
 from erpnext.accounts.doctype.bank_account.bank_account import get_party_bank_account
-from postzaviago.postzaviago.api.m_pesa import submit_mpesa_payment
+from poszaviago.poszaviago.api.m_pesa import submit_mpesa_payment
 from erpnext.accounts.utils import QueryPaymentLedger, get_outstanding_invoices as _get_outstanding_invoices
 
 

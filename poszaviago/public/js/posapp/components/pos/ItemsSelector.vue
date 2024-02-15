@@ -70,7 +70,7 @@
                   <v-img
                     :src="
                       item.image ||
-                      '/assets/postzaviago/js/posapp/components/pos/placeholder-image.png'
+                      '/assets/poszaviago/js/posapp/components/pos/placeholder-image.png'
                     "
                     class="white--text align-end"
                     gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,0.4)"
@@ -242,7 +242,7 @@ export default {
         vm.loading = false;
       }
       frappe.call({
-        method: "postzaviago.postzaviago.api.posapp.get_items",
+        method: "poszaviago.poszaviago.api.posapp.get_items",
         args: {
           pos_profile: vm.pos_profile,
           price_list: vm.customer_price_list,
@@ -291,7 +291,7 @@ export default {
       } else {
         const vm = this;
         frappe.call({
-          method: "postzaviago.postzaviago.api.posapp.get_items_groups",
+          method: "poszaviago.poszaviago.api.posapp.get_items_groups",
           args: {},
           callback: function (r) {
             if (r.message) {
@@ -447,7 +447,7 @@ export default {
       // set debugger
       const vm = this;
       frappe.call({
-        method: "postzaviago.postzaviago.api.posapp.get_items_details",
+        method: "poszaviago.poszaviago.api.posapp.get_items_details",
         args: {
           pos_profile: vm.pos_profile,
           items_data: items,

@@ -6,7 +6,7 @@
         class="grey--text"
       ></v-app-bar-nav-icon>
       <v-img
-        src="/assets/postzaviago/js/posapp/components/pos/pos.png"
+        src="/assets/poszaviago/js/posapp/components/pos/pos.png"
         alt="POS Zaviago"
         max-width="32"
         class="mr-2"

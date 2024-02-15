@@ -10,7 +10,7 @@ frappe.ui.form.on('POS Opening Shift', {
 		}
 		frm.set_query("user", function(doc) {
 			return {
-				query: "postzaviago.postzaviago.doctype.pos_closing_shift.pos_closing_shift.get_cashiers",
+				query: "poszaviago.poszaviago.doctype.pos_closing_shift.pos_closing_shift.get_cashiers",
 				filters: { 'parent': doc.pos_profile }
 			};
 		});

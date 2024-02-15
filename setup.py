@@ -8,7 +8,7 @@ with open("requirements.txt") as f:
 from postzaviago import __version__ as version
 
 setup(
-    name="postzaviago",
+    name="poszaviago",
     version=version,
     description="POS Zaviago",
     author="Yousef Restom",

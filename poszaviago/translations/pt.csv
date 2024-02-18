@@ -99,7 +99,7 @@ DocType: POS Closing Shift,POS Profile,POS Perfil
 apps/poszaviago/poszaviago/poszaviago/doctype/pos_opening_shift/pos_opening_shift.py,POS Profile {} does not belongs to company {},POS Perfil {} não pertence a empresa {}
 Custom Field - label: Sales Invoice-posa_pos_opening_shift,POS Shift,POS Turno
 DocType: POS Closing Shift,POS Transactions,POS Transções
-DocType: POS Closing Shift,POSAwesome,POSAwesome
+DocType: POS Closing Shift,POSZaviago,POSZaviago
 DocType: POS Closing Shift,Payment Reconciliation,Reconciliação de Pagamento
 DocType: POS Closing Shift,Period End Date,Data de Fim de Periodo
 DocType: POS Closing Shift,Period Start Date,Data de Inicio de Periodo

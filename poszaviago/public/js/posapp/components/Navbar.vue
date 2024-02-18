@@ -7,7 +7,7 @@
       ></v-app-bar-nav-icon>
       <v-img
         src="/assets/poszaviago/js/posapp/components/pos/pos.png"
-        alt="POS Awesome"
+        alt="POS Zaviago"
         max-width="32"
         class="mr-2"
         color="primary"
@@ -157,7 +157,7 @@ export default {
       snack: false,
       snackColor: '',
       snackText: '',
-      company: 'POS Awesome',
+      company: 'POS Zaviago',
       company_img: '/assets/erpnext/images/erpnext-logo.svg',
       pos_profile: '',
       freeze: false,

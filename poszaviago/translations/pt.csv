@@ -82,9 +82,9 @@ DocType: POS Offer Detail,Offer Name,Nome da Oferta
 DocType: POS Opening Shift,Open,Aberto
 DocType: POS Closing Shift Detail,Opening Amount,Valor de Abertura
 DocType: POS Opening Shift,Opening Balance Details,Detalhes de Balanço de Abertura
-,POS Awesome,POS Awesome
-Custom Field - label: POS Profile-posa_pos_awesome_advance_settings,POS Awesome Advance Settings,Configurações Avançadas do POS Awesome
-Custom Field - label: POS Profile-posa_pos_awesome_settings,POS Awesome Settings,Configurações POS Awesome
+,POS Zaviago,POS Zaviago
+Custom Field - label: POS Profile-posa_pos_awesome_advance_settings,POS Zaviago Advance Settings,Configurações Avançadas do POS Zaviago
+Custom Field - label: POS Profile-posa_pos_awesome_settings,POS Zaviago Settings,Configurações POS Zaviago
 DocType: POS Closing Shift,POS Closing Shift,POS Fecho de Turno
 DocType: POS Closing Shift Detail,POS Closing Shift Detail,POS Detalhes de Fecho de Turno
 DocType: POS Closing Shift Taxes,POS Closing Shift Taxes,POS Impostos de Fecho de Turno

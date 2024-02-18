@@ -4,15 +4,15 @@ include *.json
 include *.md
 include *.py
 include *.txt
-recursive-include poszaviago *.css
-recursive-include poszaviago *.csv
-recursive-include poszaviago *.html
-recursive-include poszaviago *.ico
-recursive-include poszaviago *.js
-recursive-include poszaviago *.json
-recursive-include poszaviago *.md
-recursive-include poszaviago *.png
-recursive-include poszaviago *.py
-recursive-include poszaviago *.svg
-recursive-include poszaviago *.txt
-recursive-exclude poszaviago *.pyc
+recursive-include posawesome *.css
+recursive-include posawesome *.csv
+recursive-include posawesome *.html
+recursive-include posawesome *.ico
+recursive-include posawesome *.js
+recursive-include posawesome *.json
+recursive-include posawesome *.md
+recursive-include posawesome *.png
+recursive-include posawesome *.py
+recursive-include posawesome *.svg
+recursive-include posawesome *.txt
+recursive-exclude posawesome *.pyc

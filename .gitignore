@@ -3,6 +3,6 @@
 *.egg-info
 *.swp
 tags
-poszaviago/docs/current
+posawesome/docs/current
 node_modules
-poszaviago/public/dist
+posawesome/public/dist

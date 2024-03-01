@@ -1,6 +1,6 @@
 <template>
   <v-app class="container1">
-    <v-main>
+    <v-main :style="{ overflow:'hidden' }">
       <Navbar @changePage="setPage($event)"></Navbar>
       <component v-bind:is="page" class="mx-4 md-4"></component>
     </v-main>
@@ -46,7 +46,30 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+@font-face {
+  font-family:'SF Pro Text';
+  src: url('./components/fonts/SFProTHDisplay_light.woff2');
+  font-weight:300;
+  font-display:swap
+}
+@font-face {
+  font-family:'SF Pro Text';
+  src: url('./components/fonts/SFProTHDisplay_regular.woff2');
+  font-weight:400;
+  font-display:swap
+}
+@font-face {
+  font-family:'SF Pro Text';
+  src: url('./components/fonts/SFProTHDisplay_semibold.woff2');
+  font-weight:600;
+  font-display:swap
+}
+
+* {
+  font-family:'SF Pro Text',sans-serif !important
+}
+
 .container1 {
   margin-top: 0px;
 }

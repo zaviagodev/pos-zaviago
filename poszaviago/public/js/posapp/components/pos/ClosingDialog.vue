@@ -1,22 +1,20 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="closingDialog" max-width="900px">
-      <v-card>
-        <v-card-title>
-          <span class="headline primary--text">{{
-            __('Closing POS Shift')
-          }}</span>
+      <v-card class="px-6 py-8" :style="{ borderRadius:'10px' }">
+        <v-card-title class="pa-0 pb-8">
+          <span class="headline">ปิดการขาย</span>
         </v-card-title>
         <v-card-text class="pa-0">
           <v-container>
             <v-row>
-              <v-col cols="12" class="pa-1">
+              <v-col cols="12" class="pa-0">
                 <template>
                   <v-data-table
                     :headers="headers"
                     :items="dialog_data.payment_reconciliation"
                     item-key="mode_of_payment"
-                    class="elevation-1"
+                    class="elevation-0 px-0"
                     :items-per-page="itemsPerPage"
                     hide-default-footer
                   >
@@ -24,6 +22,7 @@
                       <v-edit-dialog
                         :return-value.sync="props.item.closing_amount"
                       >
+                        <v-icon>mdi-pencil-outline</v-icon>
                         {{ currencySymbol(pos_profile.currency) }}
                         {{ formtCurrency(props.item.closing_amount) }}
                         <template v-slot:input>
@@ -60,14 +59,10 @@
             </v-row>
           </v-container>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="pa-0 pt-8">
           <v-spacer></v-spacer>
-          <v-btn color="error" dark @click="close_dialog">{{
-            __('Close')
-          }}</v-btn>
-          <v-btn color="success" dark @click="submit_dialog">{{
-            __('Submit')
-          }}</v-btn>
+          <v-btn class="elevation-0 px-5" color="gray01" style="color:black;height:50px;border-radius:10px" dark @click="close_dialog">ยกเลิก</v-btn>
+          <v-btn class="elevation-0 px-5" color="black" style="height:50px;border-radius:10px" dark @click="submit_dialog">ยืนยันการทำรายการ</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -86,19 +81,19 @@ export default {
     pos_profile: '',
     headers: [
       {
-        text: __('Mode of Payment'),
+        text: "รูปแบบการชำระเงิน",
         value: 'mode_of_payment',
         align: 'start',
         sortable: true,
       },
       {
-        text: __('Opening Amount'),
+        text: "จำนวนเงินในลิ้นชัก",
         align: 'end',
         sortable: true,
         value: 'opening_amount',
       },
       {
-        text: __('Closing Amount'),
+        text: "คงเหลือ(ตามจริง)",
         value: 'closing_amount',
         align: 'end',
         sortable: true,
@@ -128,13 +123,13 @@ export default {
       this.pos_profile = data.pos_profile;
       if (!this.pos_profile.hide_expected_amount) {
         this.headers.push({
-          text: __('Expected Amount'),
+          text: "คงเหลือ(ที่คาดหวัง)",
           value: 'expected_amount',
           align: 'end',
           sortable: false,
         });
         this.headers.push({
-          text: __('Difference'),
+          text: "ส่วนต่าง",
           value: 'difference',
           align: 'end',
           sortable: false,

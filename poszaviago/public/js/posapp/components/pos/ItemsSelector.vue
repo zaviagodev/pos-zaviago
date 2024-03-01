@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card
-      class="selection mx-auto grey lighten-5 mt-3"
+      class="selection mx-auto elevation-0 mt-3"
       style="max-height: 75vh; height: 75vh"
     >
       <v-progress-linear
@@ -11,83 +11,102 @@
         top
         color="info"
       ></v-progress-linear>
-      <v-row class="items px-2 py-1">
-        <v-col class="pb-0 mb-2">
-          <v-text-field
-            dense
-            clearable
-            autofocus
-            outlined
-            color="primary"
-            :label="frappe._('Search Items')"
-            hint="Search by item code, serial number, batch no or barcode"
-            background-color="white"
-            hide-details
-            v-model="debounce_search"
-            @keydown.esc="esc_event"
-            @keydown.enter="search_onchange"
-            ref="debounce_search"
-          ></v-text-field>
+      <v-row class="items">
+        <v-col class="pt-5 pb-4 pl-7 pr-5 mr-5" :style="{ borderRight:'1px solid #F4F4F4',borderBottom:'1px solid #DFDFDF' }">
+          <v-row>
+            <v-col cols="6">
+              <v-text-field
+                dense
+                clearable
+                autofocus
+                outlined
+                color="primary"
+                label="ระบุชื่อสินค้า, SKU, หรือสแกนบาร์โค้ด"
+                hint="Search by item code, serial number, batch no or barcode"
+                background-color="white"
+                hide-details
+                prepend-inner-icon="mdi-line-scan"
+                v-model="debounce_search"
+                @keydown.esc="esc_event"
+                @keydown.enter="search_onchange"
+                ref="debounce_search"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-select
+                :items="items_group"
+                label="หมวดหมู่สินค้า"
+                dense
+                outlined
+                hide-details
+                v-model="item_group"
+                v-on:change="search_onchange"
+              ></v-select>
+            </v-col>
+          </v-row>
+          <v-row justify="end">
+            <v-col cols="4" class="pb-0 mb-2" v-if="pos_profile.posa_input_qty">
+              <v-text-field
+                dense
+                outlined
+                color="primary"
+                :label="frappe._('QTY')"
+                background-color="white"
+                hide-details
+                v-model.number="qty"
+                type="number"
+                @keydown.enter="enter_event"
+                @keydown.esc="esc_event"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="2" class="pb-0 mb-2" v-if="pos_profile.posa_new_line">
+              <v-checkbox
+                v-model="new_line"
+                color="primary"
+                value="true"
+                label="NLine"
+                dense
+                hide-details
+              ></v-checkbox>
+            </v-col>
+          </v-row>
         </v-col>
-        <v-col cols="3" class="pb-0 mb-2" v-if="pos_profile.posa_input_qty">
-          <v-text-field
-            dense
-            outlined
-            color="primary"
-            :label="frappe._('QTY')"
-            background-color="white"
-            hide-details
-            v-model.number="qty"
-            type="number"
-            @keydown.enter="enter_event"
-            @keydown.esc="esc_event"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="2" class="pb-0 mb-2" v-if="pos_profile.posa_new_line">
-          <v-checkbox
-            v-model="new_line"
-            color="accent"
-            value="true"
-            label="NLine"
-            dense
-            hide-details
-          ></v-checkbox>
-        </v-col>
-        <v-col cols="12" class="pt-0 mt-0">
+        <v-col cols="12" class="pa-0 pl-2">
           <div fluid class="items" v-if="items_view == 'card'">
-            <v-row dense class="overflow-y-auto" style="max-height: 67vh">
+            <v-row dense class="overflow-y-auto px-3 pt-3 ma-0 mr-5" :style="{ height: '75vh', maxHeight:'75vh',backgroundColor:'#DFDFDF', scrollbarWidth:'none',paddingBottom:'87px' }">
               <v-col
                 v-for="(item, idx) in filtred_items"
                 :key="idx"
                 xl="2"
                 lg="3"
-                md="6"
-                sm="6"
+                md="4"
+                sm="4"
                 cols="6"
                 min-height="50"
+                class="pa-2"
               >
-                <v-card hover="hover" @click="add_item(item)">
+                <v-card hover="hover" @click="add_item(item)" class="elevation-0 pa-3" :style="{ borderRadius:'10px' }">
                   <v-img
                     :src="
                       item.image ||
                       '/assets/poszaviago/js/posapp/components/pos/placeholder-image.png'
                     "
-                    class="white--text align-end"
-                    gradient="to bottom, rgba(0,0,0,0), rgba(0,0,0,0.4)"
-                    height="100px"
+                    class="align-end rounded-lg"
+                    height="120px"
                   >
-                    <v-card-text
-                      v-text="item.item_name"
-                      class="text-caption px-1 pb-0"
-                    ></v-card-text>
                   </v-img>
-                  <v-card-text class="text--primary pa-1">
-                    <div class="text-caption primary--text">
+                  <v-card-text
+                    v-text="item.item_name"
+                    class="pa-0 py-3 text-subtitle-2"
+                    :style="{ overflow:'hidden',whiteSpace:'pre',textOverflow:'ellipsis' }"
+                  ></v-card-text>
+                  <v-card-text class="pa-0">
+                    <div class="text-subtitle-2 font-weight-regular">
                       {{ currencySymbol(item.currency) || "" }}
                       {{ formtCurrency(item.rate) || 0 }}
                     </div>
-                    <div class="text-caption golden--text">
-                      {{ formtFloat(item.actual_qty) || 0 }}
+                    <div class="text-subtitle-2 primary--text font-weight-regular" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px',marginTop:'6px' }">
+                      {{ Math.round(formtFloat(item.actual_qty)) || 0 }}
                       {{ item.stock_uom || "" }}
                     </div>
                   </v-card-text>
@@ -96,26 +115,26 @@
             </v-row>
           </div>
           <div fluid class="items" v-if="items_view == 'list'">
-            <div class="my-0 py-0 overflow-y-auto" style="max-height: 65vh">
+            <div class="ma-0 px-5 pt-6 overflow-y-auto" :style="{ height: '75vh', maxHeight: '75vh',backgroundColor:'#DFDFDF', scrollbarWidth:'none', width:'calc(100% - 20px)',paddingBottom:'87px' }">
               <template>
                 <v-data-table
                   :headers="getItmesHeaders()"
                   :items="filtred_items"
                   item-key="item_code"
-                  class="elevation-1"
+                  class="elevation-0 table-lists"
                   :items-per-page="itemsPerPage"
                   hide-default-footer
                   @click:row="add_item"
+                  :style="{ borderRadius:'10px' }"
                 >
                   <template v-slot:item.rate="{ item }">
-                    <span class="primary--text"
-                      >{{ currencySymbol(item.currency) }}
+                    <span :style="{ whiteSpace:'nowrap' }">{{ currencySymbol(item.currency) }}
                       {{ formtCurrency(item.rate) }}</span
                     >
                   </template>
                   <template v-slot:item.actual_qty="{ item }">
-                    <span class="golden--text">{{
-                      formtFloat(item.actual_qty)
+                    <span class="primary--text" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px' }">{{
+                      Math.round(formtFloat(item.actual_qty))
                     }}</span>
                   </template>
                 </v-data-table>
@@ -125,44 +144,50 @@
         </v-col>
       </v-row>
     </v-card>
-    <v-card class="cards mb-0 mt-3 pa-2 grey lighten-5">
+    <div class="ma-0 py-4 px-5 bg-white list-group-btn">
       <v-row no-gutters align="center" justify="center">
-        <v-col cols="12">
-          <v-select
-            :items="items_group"
-            :label="frappe._('Items Group')"
-            dense
-            outlined
-            hide-details
-            v-model="item_group"
-            v-on:change="search_onchange"
-          ></v-select>
-        </v-col>
-        <v-col cols="3" class="mt-1">
+        <v-col class="mt-1" cols="5">
           <v-btn-toggle
             v-model="items_view"
             color="primary"
             group
-            dense
-            rounded
           >
-            <v-btn small value="list">{{ __("List") }}</v-btn>
-            <v-btn small value="card">{{ __("Card") }}</v-btn>
+            <v-btn value="list" class="primary--text rounded-lg list-btn">
+              <span class="d-flex justify-center align-center" style="gap:6px">
+                <v-icon>mdi-format-list-bulleted</v-icon>
+                รายการ
+              </span>
+            </v-btn>
+            <v-btn value="card" class="primary--text rounded-lg list-btn">
+              <span class="d-flex justify-center align-center" style="gap:6px">
+                <v-icon>mdi-view-grid-outline</v-icon>
+                การ์ด
+              </span>
+            </v-btn>
           </v-btn-toggle>
         </v-col>
-        <v-col cols="4" class="mt-2">
-          <v-btn small block color="primary" text @click="show_coupons"
-            >{{ couponsCount }} {{ __("Coupons") }}</v-btn
-          >
-        </v-col>
-        <v-col cols="5" class="mt-2">
-          <v-btn small block color="primary" text @click="show_offers"
-            >{{ offersCount }} {{ __("Offers") }} : {{ appliedOffersCount }}
-            {{ __("Applied") }}</v-btn
-          >
+        <v-col cols="7">
+          <v-row>
+            <v-col cols="6">
+              <v-btn class='text-white below-btn' block text @click="show_coupons">
+                <span class="d-flex justify-center align-center" style="gap:6px">
+                  <v-img src="/assets/poszaviago/js/posapp/components/icons/Ticket.svg" max-width="20"></v-img>
+                  {{ couponsCount }} คูปองส่วนลด
+                </span>
+              </v-btn>
+            </v-col>
+            <v-col cols="6">
+              <v-btn class='text-white below-btn' block text @click="show_offers">
+                <span class="d-flex justify-center align-center" style="gap:6px">
+                  <v-img src="/assets/poszaviago/js/posapp/components/icons/Bookmark.svg" max-width="20"></v-img>
+                  {{ offersCount }} โปรโมชั่น <!-- : {{ appliedOffersCount }} ใช้แล้ว -->
+                </span>
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
-    </v-card>
+    </div>
   </div>
 </template>
 
@@ -176,9 +201,9 @@ export default {
     pos_profile: "",
     flags: {},
     items_view: "list",
-    item_group: "ALL",
+    item_group: "สินค้าทั้งหมด",
     loading: false,
-    items_group: ["ALL"],
+    items_group: ["สินค้าทั้งหมด"],
     items: [],
     search: "",
     first_search: "",
@@ -229,7 +254,7 @@ export default {
       if (search) {
         sr = search;
       }
-      if (vm.item_group != "ALL") {
+      if (vm.item_group != "สินค้าทั้งหมด") {
         gr = vm.item_group.toLowerCase();
       }
       if (
@@ -306,10 +331,11 @@ export default {
     getItmesHeaders() {
       const items_headers = [
         {
-          text: __("Name"),
+          text: "ชื่อสินค้า",
           align: "start",
           sortable: true,
           value: "item_name",
+          width: "240"
         },
         {
           text: __("Code"),
@@ -317,9 +343,9 @@ export default {
           sortable: true,
           value: "item_code",
         },
-        { text: __("Rate"), value: "rate", align: "start" },
-        { text: __("Available QTY"), value: "actual_qty", align: "start" },
-        { text: __("UOM"), value: "stock_uom", align: "start" },
+        { text: "ราคา/หน่วย", value: "rate", align: "end" },
+        { text: "คงเหลือ", value: "actual_qty", align: "end",width:"120" },
+        { text: "หน่วย", value: "stock_uom", align: "end",width:"120" },
       ];
       if (!this.pos_profile.posa_display_item_code) {
         items_headers.splice(1, 1);
@@ -528,7 +554,7 @@ export default {
       if (!this.pos_profile.pose_use_limit_search) {
         let filtred_list = [];
         let filtred_group_list = [];
-        if (this.item_group != "ALL") {
+        if (this.item_group != "สินค้าทั้งหมด") {
           filtred_group_list = this.items.filter((item) =>
             item.item_group
               .toLowerCase()
@@ -675,4 +701,44 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.list-group-btn {
+  gap:0 !important;
+  position:fixed  !important;
+  bottom:0 !important;
+  left:0 !important;
+  bow-shadow:0px 4px 20px 0px #2323233D !important;
+  width:calc(58.3333333% - 8px) !important;
+}
+
+.list-btn {
+  font-size:16px !important;
+  height:40px !important;
+}
+
+.below-btn {
+  height:75px !important;
+  border-radius:10px !important;
+  font-size:18px !important;
+  background:#383838;
+}
+
+@media (max-width:1280px){
+  .below-btn {
+    height:60px !important;
+    font-size:14px !important;
+  }
+  .list-btn {
+    height:30px !important;
+    font-size:14px !important;
+  }
+  .list-group-btn {
+    gap:12px !important;
+  }
+  .table-lists .v-data-table__wrapper table {
+    width:120% !important;
+  }
+}
+
+</style>

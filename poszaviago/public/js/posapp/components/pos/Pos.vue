@@ -8,53 +8,57 @@
     <MpesaPayments></MpesaPayments>
     <Variants></Variants>
     <OpeningDialog v-if="dialog" :dialog="dialog"></OpeningDialog>
-    <v-row v-show="!dialog">
+    <v-row v-show="!dialog" class='pl-0'>
       <v-col
         v-show="!payment && !offers && !coupons"
-        xl="5"
-        lg="5"
-        md="5"
-        sm="5"
+        xl="7"
+        lg="7"
+        md="7"
+        sm="7"
         cols="12"
-        class="pos pr-0"
+        class="pos pa-0"
+        :style="{ position:'static' }"
       >
         <ItemsSelector></ItemsSelector>
       </v-col>
       <v-col
         v-show="offers"
-        xl="5"
-        lg="5"
-        md="5"
-        sm="5"
+        xl="7"
+        lg="7"
+        md="7"
+        sm="7"
         cols="12"
-        class="pos pr-0"
+        class="pos pa-0"
+        :style="{ position:'static' }"
       >
         <PosOffers></PosOffers>
       </v-col>
       <v-col
         v-show="coupons"
-        xl="5"
-        lg="5"
-        md="5"
-        sm="5"
+        xl="7"
+        lg="7"
+        md="7"
+        sm="7"
         cols="12"
-        class="pos pr-0"
+        class="pos pa-0"
+        :style="{ position:'static' }"
       >
         <PosCoupons></PosCoupons>
       </v-col>
       <v-col
         v-show="payment"
-        xl="5"
-        lg="5"
-        md="5"
-        sm="5"
+        xl="7"
+        lg="7"
+        md="7"
+        sm="7"
         cols="12"
-        class="pos pr-0"
+        class="pos pa-0"
+        :style="{ position:'static' }"
       >
         <Payments></Payments>
       </v-col>
 
-      <v-col xl="7" lg="7" md="7" sm="7" cols="12" class="pos">
+      <v-col xl="5" lg="5" md="5" sm="5" cols="12" class="pos" :style="{ position:'static' }">
         <Invoice></Invoice>
       </v-col>
     </v-row>

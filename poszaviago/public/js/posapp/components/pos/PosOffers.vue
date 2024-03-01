@@ -1,13 +1,13 @@
 <template>
   <div>
     <v-card
-      class="selection mx-auto grey lighten-5"
+      class="selection mx-auto elevation-0"
       style="max-height: 80vh; height: 80vh"
     >
-      <v-card-title>
-        <span class="text-h6 primary--text">{{ __('Offers') }}</span>
+      <v-card-title class="ml-n1 pt-6 pb-5 px-5 mr-2" :style="{ borderRight:'1px solid #F4F4F4',borderBottom:'1px solid #DFDFDF' }">
+        <span class="text-h5 font-weight-bold">โปรโมชัน</span>
       </v-card-title>
-      <div class="my-0 py-0 overflow-y-auto" style="max-height: 75vh">
+      <div class="ma-0 ml-n1 px-5 pt-6 overflow-y-auto" :style="{ height: '80vh', maxHeight:'80vh',backgroundColor:'#DFDFDF', scrollbarWidth:'none', width:'calc(100% - 4px)',paddingBottom:'100px' }">
         <template @mouseover="style = 'cursor: pointer'">
           <v-data-table
             :headers="items_headers"
@@ -16,9 +16,10 @@
             :expanded.sync="expanded"
             show-expand
             item-key="row_id"
-            class="elevation-1"
+            class="elevation-0 table-lists"
             :items-per-page="itemsPerPage"
             hide-default-footer
+            :style="{ borderRadius:'10px' }"
           >
             <template v-slot:item.offer_applied="{ item }">
               <v-simple-checkbox
@@ -36,7 +37,7 @@
             </template>
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length">
-                <v-row class="mt-2">
+                <v-row class="my-0">
                   <v-col v-if="item.description">
                     <div
                       class="primary--text"
@@ -67,25 +68,26 @@
       </div>
     </v-card>
 
-    <v-card
-      flat
-      style="max-height: 11vh; height: 11vh"
-      class="cards mb-0 mt-3 py-0"
-    >
+    <div class="ma-0 py-4 px-5 bg-white" :style="{ position:'fixed',bottom:0,left:0,boxShadow: '0px 4px 20px 0px #2323233D',width:'calc(58.3333333% - 8px)' }">
       <v-row align="start" no-gutters>
         <v-col cols="12">
           <v-btn
             block
-            class="pa-1"
+            class="pa-1 elevation-0"
             large
-            color="warning"
+            :style="{ backgroundColor:'#383838',height:'60px',borderRadius:'10px' }"
             dark
             @click="back_to_invoice"
-            >{{ __('Back') }}</v-btn
+            >
+              <span class="d-flex justify-center align-center" style="gap:6px">
+                <v-img src="/assets/poszaviago/js/posapp/components/icons/Reply.svg" max-width="25"></v-img>
+                ย้อนกลับ
+              </span>
+            </v-btn
           >
         </v-col>
       </v-row>
-    </v-card>
+    </div>
   </div>
 </template>
 
@@ -104,10 +106,10 @@ export default {
     expanded: [],
     singleExpand: true,
     items_headers: [
-      { text: __('Name'), value: 'name', align: 'start' },
-      { text: __('Apply On'), value: 'apply_on', align: 'start' },
-      { text: __('Offer'), value: 'offer', align: 'start' },
-      { text: __('Applied'), value: 'offer_applied', align: 'start' },
+      { text: "ชื่อโปรโมชัน", value: 'name', align: 'start' },
+      { text: "ใช้งานกับ", value: 'apply_on', align: 'start' },
+      { text: "ข้อเสนอ", value: 'offer', align: 'start' },
+      { text: "ใช้งาน", value: 'offer_applied', align: 'start' },
     ],
   }),
 
@@ -294,3 +296,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.table-lists .v-data-table__wrapper table {
+  width:120% !important;
+}
+
+</style>

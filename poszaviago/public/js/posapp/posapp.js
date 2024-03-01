@@ -20,17 +20,19 @@ frappe.PosApp.posapp = class {
                         themes: {
                             light: {
                                 background: '#FFFFFF',
-                                primary: '#0097A7',
-                                secondary: '#00BCD4',
+                                primary: '#2261FF', // #0097A7
+                                secondary: '#137448', // '#00BCD4'
                                 accent: '#9575CD',
                                 success: '#66BB6A',
                                 info: '#2196F3',
-                                warning: '#FF9800',
+                                warning: '#FFB03C', // '#FF9800'
                                 error: '#E86674',
                                 orange: '#E65100',
                                 golden: '#A68C59',
                                 badge: '#F5528C',
                                 customPrimary: '#085294',
+                                black: '#000000',
+                                gray01: '#F3F3F3',
                             },
                         },
                     },

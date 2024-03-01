@@ -4,43 +4,46 @@
       <!-- <template v-slot:activator="{ on, attrs }">
         <v-btn color="primary" dark v-bind="attrs" v-on="on">Open Dialog</v-btn>
       </template>-->
-      <v-card>
-        <v-card-title>
-          <span class="headline primary--text">{{
-            __('Create POS Opening Shift')
-          }}</span>
+      <v-card class="px-6 py-8" :style="{ borderRadius:'10px' }">
+        <v-card-title class="pa-0 pb-8">
+          <span class="headline">เปิดการขาย</span>
         </v-card-title>
-        <v-card-text>
+        <v-card-text class="pa-0">
           <v-container>
             <v-row>
-              <v-col cols="12">
+              <v-col cols="12" class="px-0">
                 <v-autocomplete
                   :items="companies"
-                  :label="frappe._('Company')"
+                  label="ชื่อธุรกิจ"
                   v-model="company"
                   required
+                  outlined
+                  hide-details
                 ></v-autocomplete>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" class="px-0">
                 <v-autocomplete
                   :items="pos_profiles"
-                  :label="frappe._('POS Profile')"
+                  label="สาขา"
                   v-model="pos_profile"
                   required
+                  outlined
+                  hide-details
                 ></v-autocomplete>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" class="px-0">
                 <template>
                   <v-data-table
                     :headers="payments_methods_headers"
                     :items="payments_methods"
                     item-key="mode_of_payment"
-                    class="elevation-1"
+                    class="elevation-0"
                     :items-per-page="itemsPerPage"
                     hide-default-footer
                   >
                     <template v-slot:item.amount="props">
                       <v-edit-dialog :return-value.sync="props.item.amount">
+                        <v-icon>mdi-pencil-outline</v-icon>
                         {{ currencySymbol(props.item.currency) }}
                         {{ formtCurrency(props.item.amount) }}
                         <template v-slot:input>
@@ -61,15 +64,15 @@
             </v-row>
           </v-container>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="pa-0 pt-8">
           <v-spacer></v-spacer>
-          <v-btn color="error" dark @click="go_desk">Cancel</v-btn>
+          <v-btn class="elevation-0 px-5" color="gray01" style="color:black;height:50px;border-radius:10px" dark @click="go_desk">ยกเลิก</v-btn>
           <v-btn
-            color="success"
+            class="elevation-0 px-5" color="black" style="height:50px;border-radius:10px"
             :disabled="is_loading"
             dark
             @click="submit_dialog"
-            >Submit</v-btn
+            >เปิดการขาย</v-btn
           >
         </v-card-actions>
       </v-card>
@@ -97,13 +100,13 @@ export default {
       payments_methods: [],
       payments_methods_headers: [
         {
-          text: __('Mode of Payment'),
+          text: "รูปแบบการชำระเงิน",
           align: 'start',
           sortable: false,
           value: 'mode_of_payment',
         },
         {
-          text: __('Opening Amount'),
+          text: "จำนวนเงินในลิ้นชัก",
           value: 'amount',
           align: 'center',
           sortable: false,

@@ -1,38 +1,39 @@
 <template>
   <div>
     <v-card
-      class="selection mx-auto grey lighten-5"
-      style="max-height: 80vh; height: 80vh"
+      class="selection mx-auto elevation-0"
+      style="max-height: 80vh; height: 80vh;"
     >
-      <v-card-title>
+      <v-card-title class="ml-n1 pt-5 pb-4 px-5 mr-2" :style="{ borderRight:'1px solid #F4F4F4',borderBottom:'1px solid #DFDFDF' }">
         <v-row no-gutters align="center" justify="center">
           <v-col cols="6">
-            <span class="text-h6 primary--text">{{ __('Coupons') }}</span>
+            <span class="text-h5 font-weight-bold">คูปอง</span>
           </v-col>
-          <v-col cols="4">
-            <v-text-field
-              dense
-              outlined
-              color="primary"
-              :label="frappe._('Coupon')"
-              background-color="white"
-              hide-details
-              v-model="new_coupon"
-              class="mr-4"
-            ></v-text-field>
-          </v-col>
-          <v-col cols="2">
-            <v-btn
-              class="pa-1"
-              color="success"
-              dark
-              @click="add_coupon(new_coupon)"
-              >{{ __('add') }}</v-btn
-            >
+          <v-col cols="6">
+            <div class="d-flex" :style="{ gap:'24px' }">
+              <v-text-field
+                dense
+                outlined
+                color="primary"
+                label="เพิ่มรหัสคูปอง"
+                background-color="white"
+                hide-details
+                v-model="new_coupon"
+              ></v-text-field>
+              <v-btn
+                class='d-flex align-center text-white elevation-0' :style="{ height:'40px' }"
+                color="black"
+                dark
+                @click="add_coupon(new_coupon)"
+              >
+                <v-icon class='mr-2'>mdi-plus-circle-outline</v-icon>
+                เพิ่มคูปอง
+              </v-btn>
+            </div>
           </v-col>
         </v-row>
       </v-card-title>
-      <div class="my-0 py-0 overflow-y-auto" style="max-height: 75vh">
+      <div class="ma-0 ml-n1 px-5 pt-6 overflow-y-auto" :style="{ height: '80vh', maxHeight:'80vh' ,backgroundColor:'#DFDFDF', scrollbarWidth:'none', width:'calc(100% - 4px)',paddingBottom:'100px' }">
         <template @mouseover="style = 'cursor: pointer'">
           <v-data-table
             :headers="items_headers"
@@ -40,9 +41,10 @@
             :single-expand="singleExpand"
             :expanded.sync="expanded"
             item-key="coupon"
-            class="elevation-1"
+            class="elevation-0 table-lists"
             :items-per-page="itemsPerPage"
             hide-default-footer
+            :style="{ borderRadius:'10px' }"
           >
             <template v-slot:item.applied="{ item }">
               <v-simple-checkbox
@@ -55,25 +57,26 @@
       </div>
     </v-card>
 
-    <v-card
-      flat
-      style="max-height: 11vh; height: 11vh"
-      class="cards mb-0 mt-3 py-0"
-    >
+    <div class="ma-0 py-4 px-5 bg-white" :style="{ position:'fixed',bottom:0,left:0,boxShadow: '0px 4px 20px 0px #2323233D',width:'calc(58.3333333% - 8px)' }">
       <v-row align="start" no-gutters>
         <v-col cols="12">
           <v-btn
             block
-            class="pa-1"
+            class="pa-1 elevation-0"
             large
-            color="warning"
+            :style="{ backgroundColor:'#383838',height:'60px',borderRadius:'10px' }"
             dark
             @click="back_to_invoice"
-            >{{ __('Back') }}</v-btn
+            >
+              <span class="d-flex justify-center align-center" style="gap:6px">
+                <v-img src="/assets/poszaviago/js/posapp/components/icons/Reply.svg" max-width="25"></v-img>
+                ย้อนกลับ
+              </span>
+            </v-btn
           >
         </v-col>
       </v-row>
-    </v-card>
+    </div>
   </div>
 </template>
 
@@ -89,10 +92,10 @@ export default {
     itemsPerPage: 1000,
     singleExpand: true,
     items_headers: [
-      { text: __('Coupon'), value: 'coupon_code', align: 'start' },
-      { text: __('Type'), value: 'type', align: 'start' },
-      { text: __('Offer'), value: 'pos_offer', align: 'start' },
-      { text: __('Applied'), value: 'applied', align: 'start' },
+      { text: "คูปอง", value: 'coupon_code', align: 'start' },
+      { text: "ประเภท", value: 'type', align: 'start' },
+      { text: "โปรโมชัน", value: 'pos_offer', align: 'start' },
+      { text: "ใช้งาน", value: 'applied', align: 'start' },
     ],
   }),
 
@@ -244,3 +247,11 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.table-lists .v-data-table__wrapper table {
+  width:120% !important;
+}
+
+</style>

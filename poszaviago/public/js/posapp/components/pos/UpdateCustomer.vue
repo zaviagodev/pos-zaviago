@@ -5,23 +5,22 @@
       max-width="600px"
       @click:outside="clear_customer"
     >
-      <v-card>
-        <v-card-title>
-          <span v-if="customer_id" class="headline primary--text">{{
+      <v-card class="px-6 py-8">
+        <v-card-title class="pa-0 pb-8">
+          <span v-if="customer_id" class="headline">{{
             __('Update Customer')
           }}</span>
-          <span v-else class="headline primary--text">{{
-            __('Create Customer')
-          }}</span>
+          <span v-else class="headline">สร้างลูกค้าใหม่</span> 
         </v-card-title>
         <v-card-text class="pa-0">
-          <v-container>
+          <v-container class="pa-0">
             <v-row>
               <v-col cols="12">
                 <v-text-field
+                  outlined
                   dense
                   color="primary"
-                  :label="frappe._('Customer Name') + ' *'"
+                  label="ชื่อลูกค้า *"
                   background-color="white"
                   hide-details
                   v-model="customer_name"
@@ -29,9 +28,10 @@
               </v-col>
               <v-col cols="6">
                 <v-text-field
+                  outlined
                   dense
                   color="primary"
-                  :label="frappe._('Tax ID')"
+                  label="เลขประจำตัวผู้เสียภาษี"
                   background-color="white"
                   hide-details
                   v-model="tax_id"
@@ -39,9 +39,10 @@
               </v-col>
               <v-col cols="6">
                 <v-text-field
+                  outlined
                   dense
                   color="primary"
-                  :label="frappe._('Mobile No')"
+                  label="เบอร์โทร"
                   background-color="white"
                   hide-details
                   v-model="mobile_no"
@@ -49,9 +50,10 @@
               </v-col>
               <v-col cols="6">
                 <v-text-field
+                  outlined
                   dense
                   color="primary"
-                  :label="frappe._('Email Id')"
+                  label="อีเมล"
                   background-color="white"
                   hide-details
                   v-model="email_id"
@@ -59,17 +61,20 @@
               </v-col>
               <v-col cols="6">
                 <v-select
+                  outlined
                   dense
-                  label="Gender"
+                  hide-details
+                  label="เพศ"
                   :items="genders"
                   v-model="gender"
                 ></v-select>
               </v-col>
               <v-col cols="6">
                 <v-text-field
+                  outlined
                   dense
                   color="primary"
-                  :label="frappe._('Referral Code')"
+                  label="รหัสแนะนำ"
                   background-color="white"
                   hide-details
                   v-model="referral_code"
@@ -86,8 +91,9 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
                       v-model="birthday"
-                      :label="frappe._('Birthday')"
+                      label="วันเกิด"
                       readonly
+                      outlined
                       dense
                       clearable
                       hide-details
@@ -100,6 +106,8 @@
                     v-model="birthday"
                     color="primary"
                     no-title
+                    outlined
+                    dense
                     scrollable
                     :max="frappe.datetime.now_date()"
                     @input="birthday_menu = false"
@@ -110,10 +118,11 @@
               <v-col cols="6">
                 <v-autocomplete
                   clearable
+                  outlined
                   dense
                   auto-select-first
                   color="primary"
-                  :label="frappe._('Customer Group') + ' *'"
+                  label="กลุ่มลูกค้า *"
                   v-model="group"
                   :items="groups"
                   background-color="white"
@@ -126,10 +135,11 @@
               <v-col cols="6">
                 <v-autocomplete
                   clearable
+                  outlined
                   dense
                   auto-select-first
                   color="primary"
-                  :label="frappe._('Territory') + ' *'"
+                  label="ภูมิภาค *"
                   v-model="territory"
                   :items="territorys"
                   background-color="white"
@@ -143,6 +153,7 @@
                 <v-text-field
                   v-model="loyalty_program"
                   :label="frappe._('Loyalty Program')"
+                  outlined
                   dense
                   readonly
                   hide-details
@@ -152,6 +163,7 @@
                 <v-text-field
                   v-model="loyalty_points"
                   :label="frappe._('Loyalty Points')"
+                  outlined
                   dense
                   readonly
                   hide-details
@@ -160,14 +172,13 @@
             </v-row>
           </v-container>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="pa-0 pt-8">
           <v-spacer></v-spacer>
-          <v-btn color="error" dark @click="close_dialog">{{
-            __('Close')
-          }}</v-btn>
-          <v-btn color="success" dark @click="submit_dialog">{{
-            __('Submit')
-          }}</v-btn>
+          <v-btn class="elevation-0 px-5" color="gray01" style="color:black;height:50px;border-radius:10px" dark @click="close_dialog">ยกเลิก</v-btn>
+          <v-btn class="elevation-0 px-5" color="black" style="height:50px;border-radius:10px" dark @click="submit_dialog">
+            <v-icon class='mr-2'>mdi-plus-circle-outline</v-icon>
+            ยืนยัน
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -274,21 +285,21 @@ export default {
       // validate if all required fields are filled
       if (!this.customer_name) {
         evntBus.$emit('show_mesage', {
-          text: __('Customer name is required.'),
+          text: "จำเป็นต้องระบุชื่อลูกค้า",
           color: 'error',
         });
         return;
       }
       if (!this.group) {
         evntBus.$emit('show_mesage', {
-          text: __('Customer group is required.'),
+          text: "จำเป็นต้องระบุกลุ่มลูกค้า",
           color: 'error',
         });
         return;
       }
       if (!this.territory) {
         evntBus.$emit('show_mesage', {
-          text: __('Customer territory is required.'),
+          text: "จำเป็นต้องระบุภูมิภาค",
           color: 'error',
         });
         return;
@@ -316,7 +327,7 @@ export default {
           args: args,
           callback: (r) => {
             if (!r.exc && r.message.name) {
-              let text = __('Customer created successfully.');
+              let text = "เพิ่มลูกค้าใหม่สำเร็จ";
               if (vm.customer_id) {
                 text = __('Customer updated successfully.');
               }

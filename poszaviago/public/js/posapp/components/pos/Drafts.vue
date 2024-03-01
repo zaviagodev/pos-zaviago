@@ -4,22 +4,20 @@
       <!-- <template v-slot:activator="{ on, attrs }">
         <v-btn color="primary" dark v-bind="attrs" v-on="on">Open Dialog</v-btn>
       </template>-->
-      <v-card>
-        <v-card-title>
-          <span class="headline primary--text">{{
-            __('Select Hold Invoice')
-          }}</span>
+      <v-card class="px-6 py-8" style="border-radius:10px">
+        <v-card-title class="pa-0 pb-8" :style="{ borderRadius:'10px' }">
+          <span class="headline">เรียกบิลที่พักไว้</span>
         </v-card-title>
         <v-card-text class="pa-0">
-          <v-container>
+          <v-container class="pa-0">
             <v-row no-gutters>
-              <v-col cols="12" class="pa-1">
+              <v-col cols="12" class="pa-0">
                 <template>
                   <v-data-table
                     :headers="headers"
                     :items="dialog_data"
                     item-key="name"
-                    class="elevation-1"
+                    class="elevation-0"
                     :single-select="singleSelect"
                     show-select
                     v-model="selected"
@@ -37,10 +35,13 @@
             </v-row>
           </v-container>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="pa-0 pt-8">
           <v-spacer></v-spacer>
-          <v-btn color="error" dark @click="close_dialog">Close</v-btn>
-          <v-btn color="success" dark @click="submit_dialog">Select</v-btn>
+          <v-btn class="elevation-0 px-5" color="gray01" style="color:black;height:50px;border-radius:10px" dark @click="close_dialog">ยกเลิก</v-btn>
+          <v-btn class="elevation-0 px-5" color="black" style="height:50px;border-radius:10px" dark @click="submit_dialog">
+            <v-icon class='mr-2'>mdi-plus-circle-outline</v-icon>
+            ยืนยัน
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -60,31 +61,31 @@ export default {
     dialog_data: {},
     headers: [
       {
-        text: __('Customer'),
+        text: "ลูกค้า",
         value: 'customer_name',
         align: 'start',
         sortable: true,
       },
       {
-        text: __('Date'),
+        text: "วันที่",
         align: 'start',
         sortable: true,
         value: 'posting_date',
       },
       {
-        text: __('Time'),
+        text: "เวลา",
         align: 'start',
         sortable: true,
         value: 'posting_time',
       },
       {
-        text: __('Invoice'),
+        text: "ใบเสร็จ",
         value: 'name',
         align: 'start',
         sortable: true,
       },
       {
-        text: __('Amount'),
+        text: "ยอดรวม",
         value: 'grand_total',
         align: 'end',
         sortable: false,

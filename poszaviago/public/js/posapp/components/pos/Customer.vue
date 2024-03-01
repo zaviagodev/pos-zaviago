@@ -1,57 +1,62 @@
 <template>
   <div>
-    <v-autocomplete
-      dense
-      clearable
-      auto-select-first
-      outlined
-      color="primary"
-      :label="frappe._('Customer')"
-      v-model="customer"
-      :items="customers"
-      item-text="customer_name"
-      item-value="name"
-      background-color="white"
-      :no-data-text="__('Customer not found')"
-      hide-details
-      :filter="customFilter"
-      :disabled="readonly"
-      append-icon="mdi-plus"
-      @click:append="new_customer"
-      prepend-inner-icon="mdi-account-edit"
-      @click:prepend-inner="edit_customer"
-    >
-      <template v-slot:item="data">
-        <template>
-          <v-list-item-content>
-            <v-list-item-title
-              class="primary--text subtitle-1"
-              v-html="data.item.customer_name"
-            ></v-list-item-title>
-            <v-list-item-subtitle
-              v-if="data.item.customer_name != data.item.name"
-              v-html="`ID: ${data.item.name}`"
-            ></v-list-item-subtitle>
-            <v-list-item-subtitle
-              v-if="data.item.tax_id"
-              v-html="`TAX ID: ${data.item.tax_id}`"
-            ></v-list-item-subtitle>
-            <v-list-item-subtitle
-              v-if="data.item.email_id"
-              v-html="`Email: ${data.item.email_id}`"
-            ></v-list-item-subtitle>
-            <v-list-item-subtitle
-              v-if="data.item.mobile_no"
-              v-html="`Mobile No: ${data.item.mobile_no}`"
-            ></v-list-item-subtitle>
-            <v-list-item-subtitle
-              v-if="data.item.primary_address"
-              v-html="`Primary Address: ${data.item.primary_address}`"
-            ></v-list-item-subtitle>
-          </v-list-item-content>
+    <div class='d-flex align-center' :style="{ gap:'24px' }">
+      <v-autocomplete
+        dense
+        clearable
+        auto-select-first
+        outlined
+        color="primary"
+        label="เลือกลูกค้า"
+        v-model="customer"
+        :items="customers"
+        item-text="customer_name"
+        item-value="name"
+        background-color="white"
+        no-data-text="ไม่พบลูกค้า"
+        hide-details
+        :filter="customFilter"
+        :disabled="readonly"
+        append-icon=""
+        prepend-inner-icon="mdi-account-edit"
+        @click:prepend-inner="edit_customer"
+      >
+        <template v-slot:item="data">
+          <template>
+            <v-list-item-content>
+              <v-list-item-title
+                class="primary--text subtitle-1"
+                v-html="data.item.customer_name"
+              ></v-list-item-title>
+              <v-list-item-subtitle
+                v-if="data.item.customer_name != data.item.name"
+                v-html="`ID: ${data.item.name}`"
+              ></v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-if="data.item.tax_id"
+                v-html="`TAX ID: ${data.item.tax_id}`"
+              ></v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-if="data.item.email_id"
+                v-html="`Email: ${data.item.email_id}`"
+              ></v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-if="data.item.mobile_no"
+                v-html="`Mobile No: ${data.item.mobile_no}`"
+              ></v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-if="data.item.primary_address"
+                v-html="`Primary Address: ${data.item.primary_address}`"
+              ></v-list-item-subtitle>
+            </v-list-item-content>
+          </template>
         </template>
-      </template>
-    </v-autocomplete>
+      </v-autocomplete>
+      <v-btn @click="new_customer" class='d-flex align-center text-white elevation-0' :style="{ height:'40px',borderRadius:'10px' }" color="black">
+        <v-icon class='mr-2'>mdi-plus-circle-outline</v-icon>
+        เพิ่มลูกค้า
+      </v-btn>
+    </div>
     <div class="mb-8">
       <UpdateCustomer></UpdateCustomer>
     </div>

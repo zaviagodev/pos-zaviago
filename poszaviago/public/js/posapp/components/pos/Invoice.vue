@@ -1,43 +1,39 @@
 <template>
   <div>
-    <v-dialog v-model="cancel_dialog" max-width="330">
-      <v-card>
-        <v-card-title class="text-h5">
-          <span class="headline primary--text">{{
-            __("Cancel Current Invoice ?")
-          }}</span>
+    <v-dialog v-model="cancel_dialog" max-width="500">
+      <v-card class="px-6 py-8" :style="{ borderRadius:'10px' }">
+        <v-card-title class="pa-0 justify-center text-center" style="font-size:24px;font-weight:600">
+          <span>ยกเลิกบิลนี้ ?</span>
         </v-card-title>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="error" @click="cancel_invoice">
-            {{ __("Cancel") }}
+        <v-card-actions class="d-flex justify-space-between pa-0 pt-8">
+          <v-btn color="gray01" class="elevation-0 pa-0" style="height:80px;width:48%;font-size:18px;border-radius:10px" @click="cancel_dialog = false">
+            ดำเนินการต่อ
           </v-btn>
-          <v-btn color="warning" @click="cancel_dialog = false">
-            {{ __("Back") }}
+          <v-btn color="black" class="text-white elevation-0 pa-0" style="height:80px;width:48%;font-size:18px;border-radius:10px" @click="cancel_invoice">
+            ยกเลิกบิล
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-card
-      style="max-height: 70vh; height: 70vh"
-      class="cards my-0 py-0 mt-3 grey lighten-5"
+    <div
+      style="height:70vh;max-height:70vh"
+      class="cards my-0 py-0 mt-3"
     >
       <v-row align="center" class="items px-2 py-1">
         <v-col
-          v-if="pos_profile.posa_allow_sales_order"
-          cols="9"
-          class="pb-2 pr-0"
-        >
-          <Customer></Customer>
-        </v-col>
-        <v-col
-          v-if="!pos_profile.posa_allow_sales_order"
           cols="12"
-          class="pb-2"
+          class="pa-1 pb-2"
         >
           <Customer></Customer>
         </v-col>
-        <v-col v-if="pos_profile.posa_allow_sales_order" cols="3" class="pb-2">
+      </v-row>
+
+      <v-row
+        align="center"
+        class="items mt-0 mb-3"
+        v-if="pos_profile.posa_use_delivery_charges"
+      >
+        <v-col v-if="pos_profile.posa_allow_sales_order" cols="6" class="pb-2">
           <v-select
             dense
             hide-details
@@ -50,21 +46,14 @@
             :disabled="invoiceType == 'Return'"
           ></v-select>
         </v-col>
-      </v-row>
-
-      <v-row
-        align="center"
-        class="items px-2 py-1 mt-0 pt-0"
-        v-if="pos_profile.posa_use_delivery_charges"
-      >
-        <v-col cols="8" class="pb-0 mb-0 pr-0 pt-0">
+        <v-col cols="6">
           <v-autocomplete
             dense
             clearable
             auto-select-first
             outlined
             color="primary"
-            :label="frappe._('Delivery Charges')"
+            label="รูปแบบการจัดส่ง"
             v-model="selcted_delivery_charges"
             :items="delivery_charges"
             item-text="name"
@@ -91,12 +80,12 @@
             </template>
           </v-autocomplete>
         </v-col>
-        <v-col cols="4" class="pb-0 mb-0 pt-0">
+        <v-col cols="6">
           <v-text-field
             dense
             outlined
             color="primary"
-            :label="frappe._('Delivery Charges Rate')"
+            label="ราคาค่าจัดส่ง"
             background-color="white"
             hide-details
             :value="formtCurrency(delivery_charges_rate)"
@@ -104,15 +93,9 @@
             disabled
           ></v-text-field>
         </v-col>
-      </v-row>
-      <v-row
-        align="center"
-        class="items px-2 py-1 mt-0 pt-0"
-        v-if="pos_profile.posa_allow_change_posting_date"
-      >
         <v-col
           v-if="pos_profile.posa_allow_change_posting_date"
-          cols="4"
+          cols="6"
           class="pb-2"
         >
           <v-menu
@@ -125,7 +108,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="posting_date"
-                :label="frappe._('Posting Date')"
+                label="วันที่ออกใบกำกับ/ใบเสร็จ"
                 readonly
                 outlined
                 dense
@@ -153,7 +136,7 @@
         </v-col>
       </v-row>
 
-      <div class="my-0 py-0 overflow-y-auto" style="max-height: 60vh">
+      <div class="my-0 overflow-y-auto" style="height:75vh;max-height:75vh;padding-bottom:312px">
         <template @mouseover="style = 'cursor: pointer'">
           <v-data-table
             :headers="items_headers"
@@ -162,26 +145,28 @@
             :expanded.sync="expanded"
             show-expand
             item-key="posa_row_id"
-            class="elevation-1"
+            class="elevation-0"
             :items-per-page="itemsPerPage"
             hide-default-footer
           >
-            <template v-slot:item.qty="{ item }">{{
-              formtFloat(item.qty)
-            }}</template>
+            <template v-slot:item.qty="{ item }">
+              <span class="primary--text" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px' }">{{ Math.round(formtFloat(item.qty)) }}</span>
+            </template>
             <template v-slot:item.rate="{ item }"
               >{{ currencySymbol(pos_profile.currency) }}
               {{ formtCurrency(item.rate) }}</template
             >
-            <template v-slot:item.amount="{ item }"
-              >{{ currencySymbol(pos_profile.currency) }}
-              {{
-                formtCurrency(
-                  flt(item.qty, float_precision) *
-                    flt(item.rate, currency_precision)
-                )
-              }}</template
-            >
+            <template v-slot:item.amount="{ item }">
+              <span class="primary--text" :style="{ whiteSpace:'nowrap' }">
+                {{ currencySymbol(pos_profile.currency) }}
+                {{
+                  formtCurrency(
+                    flt(item.qty, float_precision) *
+                      flt(item.rate, currency_precision)
+                  )
+                }}
+              </span>
+            </template>
             <template v-slot:item.posa_is_offer="{ item }">
               <v-simple-checkbox
                 :value="!!item.posa_is_offer || !!item.posa_is_replace"
@@ -191,72 +176,49 @@
 
             <template v-slot:expanded-item="{ headers, item }">
               <td :colspan="headers.length" class="ma-0 pa-0">
-                <v-row class="ma-0 pa-0">
-                  <v-col cols="1">
-                    <v-btn
-                      :disabled="!!item.posa_is_offer || !!item.posa_is_replace"
-                      icon
-                      color="error"
-                      @click.stop="remove_item(item)"
-                    >
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
+                <v-row class="ma-0 pa-0 align-center">
+                  <v-col cols='6' class='d-flex justify-space-between'>
+                    <v-col cols="4" class='px-0'>
+                      <v-btn
+                        :disabled="!!item.posa_is_offer || !!item.posa_is_replace"
+                        icon
+                        color="error"
+                        @click.stop="remove_item(item)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <v-col cols='8' class='px-0'>
+                      <div :style="{ backgroundColor:'#F3F3F3', height:'40px',borderRadius:'8px' }" class='d-flex justify-end align-center'>
+                        <v-row no-gutters class="justify-end align-center">
+                          <v-col cols="4" class="text-center">
+                            <v-btn
+                              :disabled="!!item.posa_is_offer || !!item.posa_is_replace"
+                              icon
+                              color="black"
+                              @click.stop="subtract_one(item)"
+                            >
+                              <v-icon>mdi-minus</v-icon>
+                            </v-btn>
+                          </v-col>
+                          <v-col cols="4" class="text-center">
+                            {{ item.qty }}
+                          </v-col>
+                          <v-col cols="4" class="text-center">
+                            <v-btn
+                              :disabled="!!item.posa_is_offer || !!item.posa_is_replace"
+                              icon
+                              color="black"
+                              @click.stop="add_one(item)"
+                            >
+                              <v-icon>mdi-plus</v-icon>
+                            </v-btn>
+                          </v-col>
+                        </v-row>
+                      </div>
+                    </v-col>
                   </v-col>
-                  <v-spacer></v-spacer>
-                  <v-col cols="1">
-                    <v-btn
-                      :disabled="!!item.posa_is_offer || !!item.posa_is_replace"
-                      icon
-                      color="secondary"
-                      @click.stop="subtract_one(item)"
-                    >
-                      <v-icon>mdi-minus-circle-outline</v-icon>
-                    </v-btn>
-                  </v-col>
-                  <v-col cols="1">
-                    <v-btn
-                      :disabled="!!item.posa_is_offer || !!item.posa_is_replace"
-                      icon
-                      color="secondary"
-                      @click.stop="add_one(item)"
-                    >
-                      <v-icon>mdi-plus-circle-outline</v-icon>
-                    </v-btn>
-                  </v-col>
-                </v-row>
-                <v-row class="ma-0 pa-0">
-                  <v-col cols="4">
-                    <v-text-field
-                      dense
-                      outlined
-                      color="primary"
-                      :label="frappe._('Item Code')"
-                      background-color="white"
-                      hide-details
-                      v-model="item.item_code"
-                      disabled
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                      dense
-                      outlined
-                      color="primary"
-                      :label="frappe._('QTY')"
-                      background-color="white"
-                      hide-details
-                      :value="formtFloat(item.qty)"
-                      @change="
-                        [
-                          setFormatedFloat(item, 'qty', null, false, $event),
-                          calc_stock_qty(item, $event),
-                        ]
-                      "
-                      :rules="[isNumber]"
-                      :disabled="!!item.posa_is_offer || !!item.posa_is_replace"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="4">
+                  <v-col cols='6'>
                     <v-select
                       dense
                       background-color="white"
@@ -264,6 +226,7 @@
                       v-model="item.uom"
                       :items="item.item_uoms"
                       outlined
+                      :style="{boxShadow:'none'}"
                       item-text="uom"
                       item-value="uom"
                       hide-details
@@ -273,15 +236,51 @@
                         !!item.posa_is_offer ||
                         !!item.posa_is_replace
                       "
-                    >
-                    </v-select>
+                    ></v-select>
                   </v-col>
-                  <v-col cols="4">
+                </v-row>
+                <v-row class="ma-0 pa-0">
+                  <v-col cols="6">
                     <v-text-field
                       dense
                       outlined
                       color="primary"
-                      :label="frappe._('Rate')"
+                      label="รหัสสินค้า"
+                      background-color="white"
+                      hide-details
+                      v-model="item.item_code"
+                      disabled
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-checkbox
+                      dense
+                      label="สินค้าโปรโมชัน"
+                      v-model="item.posa_offer_applied"
+                      readonly
+                      hide-details
+                      class="ma-0"
+                    ></v-checkbox>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-text-field
+                      dense
+                      outlined
+                      color="primary"
+                      label="ราคาสินค้าก่อนลด"
+                      background-color="white"
+                      hide-details
+                      :value="formtCurrency(item.price_list_rate)"
+                      disabled
+                      :prefix="currencySymbol(pos_profile.currency)"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="6">
+                    <v-text-field
+                      dense
+                      outlined
+                      color="primary"
+                      label="ราคาสินค้าหลังลด"
                       background-color="white"
                       hide-details
                       :prefix="currencySymbol(pos_profile.currency)"
@@ -311,12 +310,12 @@
                       "
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="6">
                     <v-text-field
                       dense
                       outlined
                       color="primary"
-                      :label="frappe._('Discount Percentage')"
+                      label="ส่วนลดเปอร์เซ็นต์"
                       background-color="white"
                       hide-details
                       :value="formtFloat(item.discount_percentage)"
@@ -346,12 +345,12 @@
                       suffix="%"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="4">
+                  <v-col cols="6">
                     <v-text-field
                       dense
                       outlined
                       color="primary"
-                      :label="frappe._('Discount Amount')"
+                      label="ส่วนลดระบุจำนวน"
                       background-color="white"
                       hide-details
                       :value="formtCurrency(item.discount_amount)"
@@ -381,77 +380,6 @@
                           : false
                       "
                     ></v-text-field>
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                      dense
-                      outlined
-                      color="primary"
-                      :label="frappe._('Price list Rate')"
-                      background-color="white"
-                      hide-details
-                      :value="formtCurrency(item.price_list_rate)"
-                      disabled
-                      :prefix="currencySymbol(pos_profile.currency)"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                      dense
-                      outlined
-                      color="primary"
-                      :label="frappe._('Available QTY')"
-                      background-color="white"
-                      hide-details
-                      :value="formtFloat(item.actual_qty)"
-                      disabled
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                      dense
-                      outlined
-                      color="primary"
-                      :label="frappe._('Group')"
-                      background-color="white"
-                      hide-details
-                      v-model="item.item_group"
-                      disabled
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                      dense
-                      outlined
-                      color="primary"
-                      :label="frappe._('Stock QTY')"
-                      background-color="white"
-                      hide-details
-                      :value="formtFloat(item.stock_qty)"
-                      disabled
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="4">
-                    <v-text-field
-                      dense
-                      outlined
-                      color="primary"
-                      :label="frappe._('Stock UOM')"
-                      background-color="white"
-                      hide-details
-                      v-model="item.stock_uom"
-                      disabled
-                    ></v-text-field>
-                  </v-col>
-                  <v-col align="center" cols="4" v-if="item.posa_offer_applied">
-                    <v-checkbox
-                      dense
-                      :label="frappe._('Offer Applied')"
-                      v-model="item.posa_offer_applied"
-                      readonly
-                      hide-details
-                      class="shrink mr-2 mt-0"
-                    ></v-checkbox>
                   </v-col>
                   <v-col
                     cols="4"
@@ -548,7 +476,7 @@
                     </v-autocomplete>
                   </v-col>
                   <v-col
-                    cols="4"
+                    cols="6"
                     v-if="
                       pos_profile.posa_allow_sales_order &&
                       invoiceType == 'Order'
@@ -609,7 +537,7 @@
                     </v-menu>
                   </v-col>
                   <v-col
-                    cols="8"
+                    cols="6"
                     v-if="pos_profile.posa_display_additional_notes"
                   >
                     <v-textarea
@@ -631,26 +559,23 @@
           </v-data-table>
         </template>
       </div>
-    </v-card>
-    <v-card class="cards mb-0 mt-3 py-0 grey lighten-5">
-      <v-row no-gutters>
-        <v-col cols="7">
-          <v-row no-gutters class="pa-1 pt-9 pr-1">
-            <v-col cols="6" class="pa-1">
-              <v-text-field
-                :value="formtFloat(total_qty)"
-                :label="frappe._('Total Qty')"
-                outlined
-                dense
-                readonly
-                hide-details
-                color="accent"
-              ></v-text-field>
+    </div>
+    <div class="ma-0 py-0 bg-white" :style="{ boxShadow: '0px 4px 20px 0px #2323231F', position:'fixed',width:'calc(41.6667% + 8px)',bottom:0,right:0 }">
+      <v-col>
+        <v-row no-gutters class="pr-1" v-if="switch_menu == false">
+          <v-col cols="7" class='pr-5'>
+            <v-col cols="12" class="px-1 py-2 d-flex justify-space-between align-center">
+              <p class='ma-0'>จำนวนสินค้าทั้งหมด</p>
+              <p class='ma-0'>{{ Math.round(formtFloat(total_qty)) }} ชิ้น</p>
+            </v-col>
+            <v-col cols="12" class="px-1 py-2 d-flex justify-space-between align-center">
+              <p class='ma-0'>ส่วนลดสินค้า</p>
+              <p class='ma-0'>- {{ currencySymbol(pos_profile.currency) }} {{ formtCurrency(total_items_discount_amount) }}</p>
             </v-col>
             <v-col
               v-if="!pos_profile.posa_use_percentage_discount"
-              cols="6"
-              class="pa-1"
+              cols="12"
+              class="px-1 py-2"
             >
               <v-text-field
                 :value="formtCurrency(discount_amount)"
@@ -664,7 +589,7 @@
                   )
                 "
                 :rules="[isNumber]"
-                :label="frappe._('Additional Discount')"
+                label="ส่วนลดเพิ่มเติม"
                 ref="discount"
                 outlined
                 dense
@@ -681,7 +606,7 @@
             </v-col>
             <v-col
               v-if="pos_profile.posa_use_percentage_discount"
-              cols="6"
+              cols="12"
               class="pa-1"
             >
               <v-text-field
@@ -699,7 +624,7 @@
                   ]
                 "
                 :rules="[isNumber]"
-                :label="frappe._('Additional Discount %')"
+                label="ส่วนลดเพิ่มเติม (%)"
                 suffix="%"
                 ref="percentage_discount"
                 outlined
@@ -714,118 +639,142 @@
                 "
               ></v-text-field>
             </v-col>
-            <v-col cols="6" class="pa-1 mt-2">
-              <v-text-field
-                :value="formtCurrency(total_items_discount_amount)"
-                :prefix="currencySymbol(pos_profile.currency)"
-                :label="frappe._('Items Discounts')"
-                outlined
-                dense
-                color="warning"
-                readonly
-                hide-details
-              ></v-text-field>
-            </v-col>
+          </v-col>
 
-            <v-col cols="6" class="pa-1 mt-2">
-              <v-text-field
-                :value="formtCurrency(subtotal)"
-                :prefix="currencySymbol(pos_profile.currency)"
-                :label="frappe._('Total')"
-                outlined
-                dense
-                readonly
-                hide-details
-                color="success"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col cols="5">
-          <v-row no-gutters class="pa-1 pt-2 pl-0">
-            <v-col cols="6" class="pa-1">
-              <v-btn
-                block
-                class="pa-0"
-                color="warning"
-                dark
-                @click="get_draft_invoices"
-                >{{ __("Held") }}</v-btn
+          <v-col cols="5" class="d-flex flex-column justify-center align-center grey lighten-5" :style="{ borderRadius:'10px' }">
+            <h2 class="to-pay-text">ที่ต้องชำระ</h2>
+            <h1 class='ma-0 total-currency'>{{ currencySymbol(pos_profile.currency) }} {{ formtCurrency(subtotal) }}</h1>
+          </v-col>
+        </v-row>
+
+        <v-row no-gutters class="pa-0 pt-2">
+          <v-col cols="3" class="pa-1">
+            <v-btn
+              block
+              class="pa-0 h-100 elevation-0"
+              :style="{ background: 'linear-gradient(142.02deg, #979797 21.92%, #676767 101.84%)', borderRadius:'10px'}"
+              dark
+              @click="switch_menu = !switch_menu"
               >
-            </v-col>
-            <v-col
-              v-if="pos_profile.custom_allow_select_sales_order === 1"
-              cols="6"
-              class="pa-1"
+                <span class="action-btn d-flex flex-column justify-center align-center">
+                  <v-img v-if="switch_menu == true" src="/assets/poszaviago/js/posapp/components/icons/Reply.svg" max-width="25"></v-img>
+                  <v-img v-else src="/assets/poszaviago/js/posapp/components/icons/Category.svg" max-width="25"></v-img>
+                  {{ switch_menu == true ? "ย้อนกลับ" : "คำสั่งเพิ่มเติม" }}
+                </span>
+              </v-btn
             >
-              <v-btn
-                block
-                class="pa-0"
-                color="info"
-                dark
-                @click="get_draft_orders"
-                >{{ __("Select S.O") }}</v-btn
+          </v-col>
+          <v-col cols="9" v-if="switch_menu == true">
+            <v-row no-gutters>
+              <v-col cols="{ pos_profile.posa_allow_print_draft_invoices ? 8 : 12 }">
+                <v-row no-gutters>
+                  <v-col cols="6" class="pa-1">
+                    <v-btn
+                      block
+                      class="pa-0 elevation-0"
+                      :style="{ background: 'linear-gradient(118.11deg, #E24C4C 0%, #D52525 100.23%)', height:'100px', borderRadius:'10px' }"
+                      dark
+                      @click="cancel_dialog = true"
+                    >
+                      <span class="action-btn d-flex flex-column justify-center align-center">
+                        <v-img src="/assets/poszaviago/js/posapp/components/icons/x-circle.svg" max-width="25"></v-img>
+                        ยกเลิก
+                      </span>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="6" class="pa-1">
+                    <v-btn
+                      block
+                      class="pa-0 elevation-0"
+                      :class="{ 'disable-events': !pos_profile.posa_allow_return }"
+                      :style="{ background: 'linear-gradient(115.18deg, #137448 -1.8%, #004123 129.41%)', height:'100px', borderRadius:'10px' }"
+                      dark
+                      @click="open_returns"
+                    >
+                      <span class="action-btn d-flex flex-column justify-center align-center">
+                        <v-img src="/assets/poszaviago/js/posapp/components/icons/Return.svg" max-width="25"></v-img>
+                        คืนสินค้า
+                      </span>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="6" class="pa-1">
+                    <v-btn
+                      block
+                      class="pa-0 elevation-0"
+                      :style="{ background: 'linear-gradient(118deg, #FFB03C -12.88%, #D78A18 105.28%)', height:'100px', borderRadius:'10px'}"
+                      dark
+                      @click="get_draft_invoices"
+                    >
+                      <span class="action-btn d-flex flex-column justify-center align-center">
+                        <v-img src="/assets/poszaviago/js/posapp/components/icons/warning-polygon.svg" max-width="25"></v-img>
+                        เรียกบิลที่พักไว้
+                      </span>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="6" class="pa-1">
+                    <v-btn
+                      block
+                      class="pa-0 elevation-0"
+                      :style="{ background: 'linear-gradient(115.13deg, #DB35DB 0.54%, #AE3AF7 94.53%)', height:'100px', borderRadius:'10px' }"
+                      dark
+                      @click="new_invoice"
+                    >
+                      <span class="action-btn d-flex flex-column justify-center align-center">
+                        <v-img src="/assets/poszaviago/js/posapp/components/icons/Bill.svg" max-width="25"></v-img>
+                        พัก/บันทึกบิล
+                      </span>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-col>
+              <v-col
+                v-if="pos_profile.posa_allow_print_draft_invoices"
+                cols="4"
+                class="pa-1"
               >
-            </v-col>
-            <v-col cols="6" class="pa-1">
-              <v-btn
-                block
-                class="pa-0"
-                :class="{ 'disable-events': !pos_profile.posa_allow_return }"
-                color="secondary"
-                dark
-                @click="open_returns"
-                >{{ __("Return") }}</v-btn
-              >
-            </v-col>
-            <v-col cols="6" class="pa-1">
-              <v-btn
-                block
-                class="pa-0"
-                color="error"
-                dark
-                @click="cancel_dialog = true"
-                >{{ __("Cancel") }}</v-btn
-              >
-            </v-col>
-            <v-col cols="6" class="pa-1">
-              <v-btn
-                block
-                class="pa-0"
-                color="accent"
-                dark
-                @click="new_invoice"
-                >{{ __("Save/New") }}</v-btn
-              >
-            </v-col>
-            <v-col class="pa-1">
-              <v-btn
-                block
-                class="pa-0"
-                color="success"
-                @click="show_payment"
-                dark
-                >{{ __("PAY") }}</v-btn
-              >
-            </v-col>
-            <v-col
-              v-if="pos_profile.posa_allow_print_draft_invoices"
-              cols="6"
-              class="pa-1"
+                <v-btn
+                  block
+                  class="pa-0 elevation-0 h-100"
+                  :style="{ background: 'linear-gradient(118deg, #0097A7 -12.88%, #007D8A 105.28%)', borderRadius:'10px'}"
+                  @click="print_draft_invoice"
+                  dark
+                >
+                  <span class="action-btn d-flex flex-column justify-center align-center">
+                    <v-img src="/assets/poszaviago/js/posapp/components/icons/Edit.svg" max-width="25"></v-img>
+                    ปริ้นรายการ
+                  </span>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col
+            v-if="pos_profile.custom_allow_select_sales_order === 1"
+            cols="6"
+            class="pa-1"
+          >
+            <v-btn
+              block
+              class="pa-0 elevation-0"
+              color="info"
+              dark
+              @click="get_draft_orders"
+            >{{ __("Select S.O") }}</v-btn>
+          </v-col>
+          <v-col class="pa-1" v-if="switch_menu == false">
+            <v-btn
+              block
+              class="pa-0 elevation-0"
+              :style="{ background:'linear-gradient(137.82deg, #2261FF 23.77%, #0F4DE7 100.01%)', height:'80px', borderRadius:'10px',fontSize:'24px' }"
+              @click="show_payment"
+              dark
             >
-              <v-btn
-                block
-                class="pa-0"
-                color="primary"
-                @click="print_draft_invoice"
-                dark
-                >{{ __("Print Draft") }}</v-btn
-              >
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-card>
+              <v-img src="/assets/poszaviago/js/posapp/components/icons/Wallet.svg" max-width="25" class="mr-2"></v-img>
+              ชำระเงิน
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
+    </div>
   </div>
 </template>
 
@@ -868,18 +817,16 @@ export default {
       selcted_delivery_charges: {},
       invoice_posting_date: false,
       posting_date: frappe.datetime.nowdate(),
+      switch_menu: false,
       items_headers: [
+        { text: "จำนวน", value: "qty", align: "start" },
         {
-          text: __("Name"),
+          text: "ชื่อสินค้า",
           align: "start",
           sortable: true,
           value: "item_name",
         },
-        { text: __("QTY"), value: "qty", align: "center" },
-        { text: __("UOM"), value: "uom", align: "center" },
-        { text: __("Rate"), value: "rate", align: "center" },
-        { text: __("Amount"), value: "amount", align: "center" },
-        { text: __("is Offer"), value: "posa_is_offer", align: "center" },
+        { text: "ยอดรวม", value: "amount", align: "end" },
       ],
     };
   },
@@ -1454,14 +1401,14 @@ export default {
     async show_payment() {
       if (!this.customer) {
         evntBus.$emit("show_mesage", {
-          text: __(`There is no Customer !`),
+          text: "กรุณาเลือกลูกค้า",
           color: "error",
         });
         return;
       }
       if (!this.items.length) {
         evntBus.$emit("show_mesage", {
-          text: __(`There is no Items !`),
+          text: "กรุณาเลือกสินค้า",
           color: "error",
         });
         return;
@@ -3031,5 +2978,33 @@ export default {
 }
 .disable-events {
   pointer-events: none;
+}
+
+.action-btn {
+  font-size:14px !important;
+  gap:6px !important;
+  white-space:normal !important;
+}
+
+.total-currency {
+  font-size:33px !important;
+  color:#056CFE !important
+}
+
+.to-pay-text {
+  font-size:20px !important;
+  margin-bottom:10px !important;
+}
+
+@media (max-width:1280px){
+  .total-currency {
+    font-size:24px !important;
+  }
+  .to-pay-text {
+    font-size:18px !important;
+  }
+  .action-btn {
+    font-size:12px !important;
+  }
 }
 </style>

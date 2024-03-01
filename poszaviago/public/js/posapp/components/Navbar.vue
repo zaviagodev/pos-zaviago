@@ -1,12 +1,12 @@
 <template>
   <nav>
-    <v-app-bar app height="40" class="elevation-2">
-      <v-app-bar-nav-icon
+    <v-app-bar app height="52" class="bg-white elevation-0" :style="{ borderBottom:'1px solid #F4F4F4' }">
+      <!-- <v-app-bar-nav-icon
         @click.stop="drawer = !drawer"
         class="grey--text"
-      ></v-app-bar-nav-icon>
+      ></v-app-bar-nav-icon> -->
       <v-img
-        src="/assets/poszaviago/js/posapp/components/pos/pos.png"
+        src="/assets/poszaviago/js/posapp/components/icons/POS.png"
         alt="POS Zaviago"
         max-width="32"
         class="mr-2"
@@ -14,11 +14,10 @@
       ></v-img>
       <v-toolbar-title
         @click="go_desk"
-        style="cursor: pointer"
-        class="text-uppercase primary--text"
+        style="cursor: pointer;color:#124185"
+        class="text-uppercase"
       >
-        <span class="font-weight-light">pos</span>
-        <span>awesome</span>
+        <span>pos</span>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -28,9 +27,9 @@
       <div class="text-center">
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark text v-bind="attrs" v-on="on"
-              >Menu</v-btn
-            >
+            <v-btn color="black" dark text v-bind="attrs" v-on="on">
+              <v-icon>mdi-menu</v-icon>
+            </v-btn>
           </template>
           <v-card class="mx-auto" max-width="300" tile>
             <v-list dense>
@@ -43,9 +42,7 @@
                     <v-icon>mdi-content-save-move-outline</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    <v-list-item-title>{{
-                      __('Close Shift')
-                    }}</v-list-item-title>
+                    <v-list-item-title>ปิดการขาย</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
                 <v-list-item
@@ -70,15 +67,7 @@
                     <v-icon>mdi-logout</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    <v-list-item-title>{{ __('Logout') }}</v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-list-item @click="go_about">
-                  <v-list-item-icon>
-                    <v-icon>mdi-information-outline</v-icon>
-                  </v-list-item-icon>
-                  <v-list-item-content>
-                    <v-list-item-title>{{ __('About') }}</v-list-item-title>
+                    <v-list-item-title>ออกจากระบบ</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list-item-group>
@@ -87,42 +76,6 @@
         </v-menu>
       </div>
     </v-app-bar>
-    <v-navigation-drawer
-      v-model="drawer"
-      :mini-variant.sync="mini"
-      app
-      class="primary margen-top"
-      width="170"
-    >
-      <v-list dark>
-        <v-list-item class="px-2">
-          <v-list-item-avatar>
-            <v-img :src="company_img"></v-img>
-          </v-list-item-avatar>
-
-          <v-list-item-title>{{ company }}</v-list-item-title>
-
-          <v-btn icon @click.stop="mini = !mini">
-            <v-icon>mdi-chevron-left</v-icon>
-          </v-btn>
-        </v-list-item>
-        <!-- <MyPopup/> -->
-        <v-list-item-group v-model="item" color="white">
-          <v-list-item
-            v-for="item in items"
-            :key="item.text"
-            @click="changePage(item.text)"
-          >
-            <v-list-item-icon>
-              <v-icon v-text="item.icon"></v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title v-text="item.text"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
     <v-snackbar v-model="snack" :timeout="5000" :color="snackColor" top right>
       {{ snackText }}
     </v-snackbar>

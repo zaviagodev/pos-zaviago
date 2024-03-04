@@ -1077,6 +1077,7 @@ def create_customer(
                 customer.territory = territory
             else:
                 customer.territory = "All Territories"
+            customer.flags.ignore_mandatory = True
             customer.save()
             return customer
         else:

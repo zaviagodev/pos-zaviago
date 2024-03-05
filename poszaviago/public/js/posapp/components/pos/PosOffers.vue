@@ -5,7 +5,7 @@
       style="max-height: 80vh; height: 80vh"
     >
       <v-card-title class="ml-n1 pt-6 pb-5 px-5 mr-2" :style="{ borderRight:'1px solid #F4F4F4',borderBottom:'1px solid #DFDFDF' }">
-        <span class="text-h5 font-weight-bold">โปรโมชัน</span>
+        <span class="table-list-title">โปรโมชัน</span>
       </v-card-title>
       <div class="ma-0 ml-n1 px-5 pt-6 overflow-y-auto" :style="{ height: '80vh', maxHeight:'80vh',backgroundColor:'#DFDFDF', scrollbarWidth:'none', width:'calc(100% - 4px)',paddingBottom:'100px' }">
         <template @mouseover="style = 'cursor: pointer'">
@@ -108,8 +108,8 @@ export default {
     items_headers: [
       { text: "ชื่อโปรโมชัน", value: 'name', align: 'start' },
       { text: "ใช้งานกับ", value: 'apply_on', align: 'start' },
-      { text: "ข้อเสนอ", value: 'offer', align: 'start' },
-      { text: "ใช้งาน", value: 'offer_applied', align: 'start' },
+      { text: "ประเภทโปรโมชัน", value: 'offer', align: 'start' },
+      { text: "ใช้งาน?", value: 'offer_applied', align: 'start' },
     ],
   }),
 
@@ -203,7 +203,7 @@ export default {
           }
           this.pos_offers.push(newOffer);
           evntBus.$emit('show_mesage', {
-            text: __('New Offer Available'),
+            text: 'พบโปรโมชันที่ใช้ได้',
             color: 'warning',
           });
         }
@@ -301,6 +301,11 @@ export default {
 
 .table-lists .v-data-table__wrapper table {
   width:120% !important;
+}
+
+.table-list-title {
+  font-weight:600 !important;
+  font-size:28px;
 }
 
 </style>

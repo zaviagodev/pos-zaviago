@@ -6,7 +6,7 @@
       </template>-->
       <v-card class="px-6 py-8" :style="{ borderRadius:'10px' }">
         <v-card-title class="pa-0 pb-8">
-          <span class="headline">เปิดการขาย</span>
+          <span class="modal-title">เปิดการขาย</span>
         </v-card-title>
         <v-card-text class="pa-0">
           <v-container>
@@ -201,3 +201,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.modal-title {
+  font-weight:600 !important;
+  font-size:24px;
+}
+
+</style>

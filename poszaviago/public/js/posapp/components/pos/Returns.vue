@@ -1,17 +1,15 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="invoicesDialog" max-width="800px" min-width="800px">
-      <v-card>
-        <v-card-title>
-          <span class="headline primary--text">{{
-            __('Select Return Invoice')
-          }}</span>
+      <v-card class="px-6 py-8">
+        <v-card-title class="pa-0 pb-8">
+          <span class="modal-title">เลือกบิลที่ต้องการคืนสินค้า</span>
         </v-card-title>
-        <v-container>
-          <v-row class="mb-4">
+        <v-container class="pa-0">
+          <v-row class="mb-4 mr-0">
             <v-text-field
               color="primary"
-              :label="frappe._('Invoice ID')"
+              label="หมายเลขบิล"
               background-color="white"
               hide-details
               v-model="invoice_name"
@@ -25,7 +23,7 @@
               color="primary"
               dark
               @click="search_invoices"
-              >{{ __('Search') }}</v-btn
+              >ค้นหา</v-btn
             >
           </v-row>
           <v-row>
@@ -35,7 +33,7 @@
                   :headers="headers"
                   :items="dialog_data"
                   item-key="name"
-                  class="elevation-1"
+                  class="elevation-0"
                   :single-select="singleSelect"
                   show-select
                   v-model="selected"
@@ -49,16 +47,18 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-card-actions class="mt-4">
+        <v-card-actions class="mt-4 pa-0">
           <v-spacer></v-spacer>
-          <v-btn color="error mx-2" dark @click="close_dialog">Close</v-btn>
+          <v-btn class="elevation-0 px-5" color="gray01" style="color:black;height:50px;border-radius:10px" dark @click="close_dialog">ยกเลิก</v-btn>
           <v-btn
             v-if="selected.length"
-            color="success"
+            class="elevation-0 px-5" color="black" style="height:50px;border-radius:10px"
             dark
             @click="submit_dialog"
-            >{{ __('Select') }}</v-btn
           >
+            <v-icon class='mr-2'>mdi-plus-circle-outline</v-icon>
+            ยืนยัน
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -79,25 +79,25 @@ export default {
     invoice_name: '',
     headers: [
       {
-        text: __('Customer'),
+        text: "ลูกค้า",
         value: 'customer',
         align: 'start',
         sortable: true,
       },
       {
-        text: __('Date'),
+        text:"วันที่",
         align: 'start',
         sortable: true,
         value: 'posting_date',
       },
       {
-        text: __('Invoice'),
+        text: "หมายเลขบิล",
         value: 'name',
         align: 'start',
         sortable: true,
       },
       {
-        text: __('Amount'),
+        text: "ยอดรวม",
         value: 'grand_total',
         align: 'end',
         sortable: false,
@@ -163,3 +163,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.modal-title {
+  font-weight:600 !important;
+  font-size:24px;
+}
+
+</style>

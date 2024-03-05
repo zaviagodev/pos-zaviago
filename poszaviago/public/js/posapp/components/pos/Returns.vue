@@ -14,14 +14,15 @@
               hide-details
               v-model="invoice_name"
               dense
+              outlined
               clearable
               class="mx-4"
             ></v-text-field>
             <v-btn
               text
-              class="ml-2"
+              class="ml-2 elevation-0"
               color="primary"
-              dark
+              :style="{ height:'40px',borderRadius:'10px',backgroundColor:'#EBF8FF' }"
               @click="search_invoices"
               >ค้นหา</v-btn
             >

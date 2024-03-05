@@ -41,7 +41,12 @@
                   class="elevation-1"
                   :single-select="singleSelect"
                   show-select
+                  no-data-text="ยังไม่มีข้อมูล"
                   v-model="selected"
+                  :footer-props="{
+                    'items-per-page-text':'จำนวนแถวต่อหน้า',        
+                    'page-text':'{0}-{1} จาก {2}'
+                  }"
                 >
                   <template v-slot:item.amount="{ item }">{{
                     formtCurrency(item.amount)

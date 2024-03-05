@@ -45,7 +45,7 @@
             </v-col>
           </v-row>
           <v-row justify="end">
-            <v-col cols="4" class="pb-0 mb-2" v-if="pos_profile.posa_input_qty">
+            <v-col cols="3" lg="4" class="pb-0 mb-2" v-if="pos_profile.posa_input_qty">
               <v-text-field
                 dense
                 outlined
@@ -59,7 +59,7 @@
                 @keydown.esc="esc_event"
               ></v-text-field>
             </v-col>
-            <v-col cols="2" class="pb-0 mb-2" v-if="pos_profile.posa_new_line">
+            <v-col cols="3" lg="2" class="pb-0 mb-2" v-if="pos_profile.posa_new_line">
               <v-checkbox
                 v-model="new_line"
                 color="primary"
@@ -126,6 +126,11 @@
                   hide-default-footer
                   @click:row="add_item"
                   :style="{ borderRadius:'10px' }"
+                  no-data-text="ยังไม่มีข้อมูล"
+                  :footer-props="{
+                    'items-per-page-text':'จำนวนแถวต่อหน้า',        
+                    'page-text':'{0}-{1} จาก {2}'
+                  }"
                 >
                   <template v-slot:item.rate="{ item }">
                     <span :style="{ whiteSpace:'nowrap' }">{{ currencySymbol(item.currency) }}
@@ -338,12 +343,13 @@ export default {
           width: "240"
         },
         {
-          text: __("Code"),
+          text: "รหัสสินค้า",
           align: "start",
           sortable: true,
           value: "item_code",
+          width: "200"
         },
-        { text: "ราคา/หน่วย", value: "rate", align: "end" },
+        { text: "ราคา/หน่วย", value: "rate", align: "end", width:"120" },
         { text: "คงเหลือ", value: "actual_qty", align: "end",width:"120" },
         { text: "หน่วย", value: "stock_uom", align: "end",width:"120" },
       ];

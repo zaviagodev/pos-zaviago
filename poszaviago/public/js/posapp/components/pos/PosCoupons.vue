@@ -44,7 +44,12 @@
             class="elevation-0 table-lists"
             :items-per-page="itemsPerPage"
             hide-default-footer
+            no-data-text="ยังไม่มีข้อมูล"
             :style="{ borderRadius:'10px' }"
+            :footer-props="{
+              'items-per-page-text':'จำนวนแถวต่อหน้า',        
+              'page-text':'{0}-{1} จาก {2}'
+            }"
           >
             <template v-slot:item.applied="{ item }">
               <v-simple-checkbox

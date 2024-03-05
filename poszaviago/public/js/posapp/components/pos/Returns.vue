@@ -14,14 +14,15 @@
               hide-details
               v-model="invoice_name"
               dense
+              outlined
               clearable
               class="mx-4"
             ></v-text-field>
             <v-btn
               text
-              class="ml-2"
+              class="ml-2 elevation-0"
               color="primary"
-              dark
+              :style="{ height:'40px',borderRadius:'10px',backgroundColor:'#EBF8FF' }"
               @click="search_invoices"
               >ค้นหา</v-btn
             >
@@ -37,6 +38,12 @@
                   :single-select="singleSelect"
                   show-select
                   v-model="selected"
+                  no-data-text="ยังไม่มีข้อมูล"
+                  rows-per-page-text="จำนวนแถวต่อหน้า"
+                  :footer-props="{
+                    'items-per-page-text':'จำนวนแถวต่อหน้า',        
+                    'page-text':'{0}-{1} จาก {2}'
+                  }"
                 >
                   <template v-slot:item.grand_total="{ item }">
                     {{ currencySymbol(item.currency) }}

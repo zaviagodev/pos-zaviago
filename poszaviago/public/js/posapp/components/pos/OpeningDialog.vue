@@ -39,7 +39,12 @@
                     item-key="mode_of_payment"
                     class="elevation-0"
                     :items-per-page="itemsPerPage"
+                    no-data-text="ยังไม่มีข้อมูล"
                     hide-default-footer
+                    :footer-props="{
+                      'items-per-page-text':'จำนวนแถวต่อหน้า',        
+                      'page-text':'{0}-{1} จาก {2}'
+                    }"
                   >
                     <template v-slot:item.amount="props">
                       <v-edit-dialog :return-value.sync="props.item.amount">

@@ -21,6 +21,11 @@
                     :single-select="singleSelect"
                     show-select
                     v-model="selected"
+                    no-data-text="ยังไม่มีข้อมูล"
+                    :footer-props="{
+                      'items-per-page-text':'จำนวนแถวต่อหน้า',        
+                      'page-text':'{0}-{1} จาก {2}'
+                    }"
                   >
                     <template v-slot:item.posting_time="{ item }">
                       {{ item.posting_time.split('.')[0] }}

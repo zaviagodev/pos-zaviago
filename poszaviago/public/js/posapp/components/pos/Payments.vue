@@ -17,9 +17,9 @@
       <div class="ma-0 ml-n1 px-5 pt-6 overflow-y-auto" :style="{ minHeight: '80vh', maxHeight: '80vh',backgroundColor:'#DFDFDF', scrollbarWidth:'none', width:'calc(100% - 4px)',paddingBottom:'100px'  }">
         <div class="px-4 py-8 bg-white" :style="{ borderRadius:'10px',height:'100%' }">
           <v-row class="mb-8">
-            <v-col cols="6" class="py-0" :style="{ borderLeft:'1px solid #E3E3E3',borderRight:'1px solid #E3E3E3' }">
+            <v-col cols="6" class="py-0" :style="{ borderRight:'1px solid #E3E3E3' }">
               <h3 class="text-center mb-2 payment-info-title">ที่ต้องชำระ</h3>
-              <h2 class="text-center ma-0 payment-info-desc primary--text">{{ currencySymbol(invoice_doc.currency) }} {{ formtCurrency(total_payments) }}</h2>
+              <h2 class="text-center ma-0 payment-info-desc primary--text">{{ currencySymbol(invoice_doc.currency) }} {{ formtCurrency(invoice_doc.net_total) }}</h2>
             </v-col>
             <v-col cols="6" class="py-0">
               <h3 class="text-center mb-2 payment-info-title">{{ frappe._(diff_lable) }}</h3>

@@ -6,7 +6,7 @@
       </template>-->
       <v-card class="px-6 py-8" style="border-radius:10px">
         <v-card-title class="pa-0 pb-8" :style="{ borderRadius:'10px' }">
-          <span class="headline">เรียกบิลที่พักไว้</span>
+          <span class="modal-title">เรียกบิลที่พักไว้</span>
         </v-card-title>
         <v-card-text class="pa-0">
           <v-container class="pa-0">
@@ -79,7 +79,7 @@ export default {
         value: 'posting_time',
       },
       {
-        text: "ใบเสร็จ",
+        text: "หมายเลขบิล",
         value: 'name',
         align: 'start',
         sortable: true,
@@ -113,3 +113,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.modal-title {
+  font-weight:600 !important;
+  font-size:24px;
+}
+
+</style>

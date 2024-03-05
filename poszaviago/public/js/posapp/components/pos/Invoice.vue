@@ -31,7 +31,6 @@
       <v-row
         align="center"
         class="items mt-0 mb-3"
-        v-if="pos_profile.posa_use_delivery_charges"
       >
         <v-col v-if="pos_profile.posa_allow_sales_order" cols="6" class="pb-2">
           <v-select
@@ -41,19 +40,61 @@
             color="primary"
             background-color="white"
             :items="invoiceTypes"
-            :label="frappe._('Type')"
+            label="ประเภท"
             v-model="invoiceType"
             :disabled="invoiceType == 'Return'"
           ></v-select>
         </v-col>
-        <v-col cols="6">
+        <v-col
+          v-if="pos_profile.posa_allow_change_posting_date"
+          cols="6"
+          class="pb-2"
+        >
+          <v-menu
+            ref="invoice_posting_date"
+            v-model="invoice_posting_date"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            max-width="290"
+            dense
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="posting_date"
+                label="วันที่ออกบิล"
+                readonly
+                outlined
+                dense
+                background-color="white"
+                clearable
+                color="primary"
+                hide-details
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="posting_date"
+              no-title
+              scrollable
+              color="primary"
+              :min="
+                frappe.datetime.add_days(frappe.datetime.now_date(true), -7)
+              "
+              :max="frappe.datetime.add_days(frappe.datetime.now_date(true), 7)"
+              @input="invoice_posting_date = false"
+            >
+            </v-date-picker>
+          </v-menu>
+        </v-col>
+        <v-col cols="6" v-if="pos_profile.posa_use_delivery_charges">
           <v-autocomplete
             dense
             clearable
             auto-select-first
             outlined
             color="primary"
-            label="รูปแบบการจัดส่ง"
+            label="วิธีการจัดส่ง"
             v-model="selcted_delivery_charges"
             :items="delivery_charges"
             item-text="name"
@@ -80,59 +121,18 @@
             </template>
           </v-autocomplete>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="6" v-if="pos_profile.posa_use_delivery_charges">
           <v-text-field
             dense
             outlined
             color="primary"
-            label="ราคาค่าจัดส่ง"
+            label="ค่าจัดส่ง"
             background-color="white"
             hide-details
             :value="formtCurrency(delivery_charges_rate)"
             :prefix="currencySymbol(pos_profile.currency)"
             disabled
           ></v-text-field>
-        </v-col>
-        <v-col
-          v-if="pos_profile.posa_allow_change_posting_date"
-          cols="6"
-          class="pb-2"
-        >
-          <v-menu
-            ref="invoice_posting_date"
-            v-model="invoice_posting_date"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            dense
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="posting_date"
-                label="วันที่ออกใบกำกับ/ใบเสร็จ"
-                readonly
-                outlined
-                dense
-                background-color="white"
-                clearable
-                color="primary"
-                hide-details
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="posting_date"
-              no-title
-              scrollable
-              color="primary"
-              :min="
-                frappe.datetime.add_days(frappe.datetime.now_date(true), -7)
-              "
-              :max="frappe.datetime.add_days(frappe.datetime.now_date(true), 7)"
-              @input="invoice_posting_date = false"
-            >
-            </v-date-picker>
-          </v-menu>
         </v-col>
       </v-row>
 
@@ -488,12 +488,13 @@
                       :close-on-content-click="false"
                       :return-value.sync="item.posa_delivery_date"
                       transition="scale-transition"
+                      max-width="290"
                       dense
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
                           v-model="item.posa_delivery_date"
-                          :label="frappe._('Delivery Date')"
+                          label="วันที่จัดส่ง"
                           readonly
                           outlined
                           dense
@@ -548,7 +549,7 @@
                       color="primary"
                       auto-grow
                       rows="1"
-                      :label="frappe._('Additional Notes')"
+                      label="เพิ่มโน้ต"
                       v-model="item.posa_notes"
                       :value="item.posa_notes"
                     ></v-textarea>
@@ -741,7 +742,7 @@
                 >
                   <span class="action-btn d-flex flex-column justify-center align-center">
                     <v-img src="/assets/poszaviago/js/posapp/components/icons/Edit.svg" max-width="25"></v-img>
-                    ปริ้นรายการ
+                    ปรินท์บิล (ร่าง)
                   </span>
                 </v-btn>
               </v-col>
@@ -1032,7 +1033,7 @@ export default {
           callback: function (r) {
             if (r.message) {
               evntBus.$emit("show_mesage", {
-                text: r.message,
+                text: `ลบใบแจ้งหนี้หมายเลข ${doc.name} แล้ว`,
                 color: "warning",
               });
             }

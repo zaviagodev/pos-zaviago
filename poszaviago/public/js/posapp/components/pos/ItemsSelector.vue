@@ -50,7 +50,7 @@
                 dense
                 outlined
                 color="primary"
-                :label="frappe._('QTY')"
+                label="จำนวน"
                 background-color="white"
                 hide-details
                 v-model.number="qty"
@@ -64,7 +64,7 @@
                 v-model="new_line"
                 color="primary"
                 value="true"
-                label="NLine"
+                label="ขึ้นบรรทัดใหม่"
                 dense
                 hide-details
               ></v-checkbox>
@@ -73,7 +73,7 @@
         </v-col>
         <v-col cols="12" class="pa-0 pl-2">
           <div fluid class="items" v-if="items_view == 'card'">
-            <v-row dense class="overflow-y-auto px-3 pt-3 ma-0 mr-5" :style="{ height: '75vh', maxHeight:'75vh',backgroundColor:'#DFDFDF', scrollbarWidth:'none',paddingBottom:'87px' }">
+            <v-row dense class="overflow-y-auto px-3 pt-3 ma-0 mr-5" :style="{ height: '75vh', maxHeight:'75vh',backgroundColor:'#DFDFDF', scrollbarWidth:'none',paddingBottom:'87px', alignContent:'flex-start' }">
               <v-col
                 v-for="(item, idx) in filtred_items"
                 :key="idx"
@@ -180,7 +180,7 @@
               <v-btn class='text-white below-btn' block text @click="show_offers">
                 <span class="d-flex justify-center align-center" style="gap:6px">
                   <v-img src="/assets/poszaviago/js/posapp/components/icons/Bookmark.svg" max-width="20"></v-img>
-                  {{ offersCount }} โปรโมชั่น <!-- : {{ appliedOffersCount }} ใช้แล้ว -->
+                  {{ offersCount }} โปรโมชัน <!-- : {{ appliedOffersCount }} ใช้แล้ว -->
                 </span>
               </v-btn>
             </v-col>
@@ -708,7 +708,7 @@ export default {
   position:fixed  !important;
   bottom:0 !important;
   left:0 !important;
-  bow-shadow:0px 4px 20px 0px #2323233D !important;
+  box-shadow:0px 4px 20px 0px #2323233D !important;
   width:calc(58.3333333% - 8px) !important;
 }
 

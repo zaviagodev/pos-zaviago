@@ -56,9 +56,7 @@
                     <v-icon>mdi-printer</v-icon>
                   </v-list-item-icon>
                   <v-list-item-content>
-                    <v-list-item-title>{{
-                      __('Print Last Invoice')
-                    }}</v-list-item-title>
+                    <v-list-item-title>ปรินท์บิลล่าสุด</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
                 <v-divider class="my-0"></v-divider>

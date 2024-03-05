@@ -7,10 +7,8 @@
     >
       <v-card class="px-6 py-8">
         <v-card-title class="pa-0 pb-8">
-          <span v-if="customer_id" class="headline">{{
-            __('Update Customer')
-          }}</span>
-          <span v-else class="headline">สร้างลูกค้าใหม่</span> 
+          <span v-if="customer_id" class="modal-title">อัปเดตลูกค้า</span>
+          <span v-else class="modal-title">สร้างลูกค้าใหม่</span> 
         </v-card-title>
         <v-card-text class="pa-0">
           <v-container class="pa-0">
@@ -387,3 +385,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.modal-title {
+  font-weight:600 !important;
+  font-size:24px;
+}
+
+</style>

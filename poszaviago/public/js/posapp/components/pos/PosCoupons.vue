@@ -7,7 +7,7 @@
       <v-card-title class="ml-n1 pt-5 pb-4 px-5 mr-2" :style="{ borderRight:'1px solid #F4F4F4',borderBottom:'1px solid #DFDFDF' }">
         <v-row no-gutters align="center" justify="center">
           <v-col cols="6">
-            <span class="text-h5 font-weight-bold">คูปอง</span>
+            <span class="table-list-title">คูปอง</span>
           </v-col>
           <v-col cols="6">
             <div class="d-flex" :style="{ gap:'24px' }">
@@ -15,7 +15,7 @@
                 dense
                 outlined
                 color="primary"
-                label="เพิ่มรหัสคูปอง"
+                label="คูปองโค้ด"
                 background-color="white"
                 hide-details
                 v-model="new_coupon"
@@ -94,8 +94,8 @@ export default {
     items_headers: [
       { text: "คูปอง", value: 'coupon_code', align: 'start' },
       { text: "ประเภท", value: 'type', align: 'start' },
-      { text: "โปรโมชัน", value: 'pos_offer', align: 'start' },
-      { text: "ใช้งาน", value: 'applied', align: 'start' },
+      { text: "รายละเอียด", value: 'pos_offer', align: 'start' },
+      { text: "ใช้งาน?", value: 'applied', align: 'start' },
     ],
   }),
 
@@ -119,7 +119,7 @@ export default {
       );
       if (exist) {
         evntBus.$emit('show_mesage', {
-          text: __('This coupon already used !'),
+          text: 'คูปองถูกใช้แล้ว!',
           color: 'error',
         });
         return;
@@ -137,7 +137,7 @@ export default {
             const res = r.message;
             if (res.msg != 'Apply' || !res.coupon) {
               evntBus.$emit('show_mesage', {
-                text: res.msg,
+                text: "ไม่พบคูปองนี้",
                 color: 'error',
               });
             } else {
@@ -252,6 +252,11 @@ export default {
 
 .table-lists .v-data-table__wrapper table {
   width:120% !important;
+}
+
+.table-list-title {
+  font-weight:600 !important;
+  font-size:28px;
 }
 
 </style>

@@ -5,7 +5,7 @@
       style="max-height: 76vh; height: 76vh"
     >
       <v-card-title class="ml-n1 pt-6 pb-5 px-5 mr-2" :style="{ borderRight:'1px solid #F4F4F4',borderBottom:'1px solid #DFDFDF' }">
-        <span class="text-h5 font-weight-bold">รายละเอียดการชำระเงิน</span>
+        <span class="table-list-title">รายละเอียดการชำระเงิน</span>
       </v-card-title>
       <v-progress-linear
         :active="loading"
@@ -17,21 +17,17 @@
       <div class="ma-0 ml-n1 px-5 pt-6 overflow-y-auto" :style="{ minHeight: '80vh', maxHeight: '80vh',backgroundColor:'#DFDFDF', scrollbarWidth:'none', width:'calc(100% - 4px)',paddingBottom:'100px'  }">
         <div class="px-4 py-8 bg-white" :style="{ borderRadius:'10px',height:'100%' }">
           <v-row class="mb-8">
-            <v-col cols="4" class="py-0">
-              <h3 class="text-center mb-2 payment-info-title">ยอดรวมสุทธิ</h3>
-              <h2 class="text-center primary--text ma-0 payment-info-desc">{{ currencySymbol(invoice_doc.currency) }} {{ formtCurrency(invoice_doc.net_total) }}</h2>
+            <v-col cols="6" class="py-0" :style="{ borderLeft:'1px solid #E3E3E3',borderRight:'1px solid #E3E3E3' }">
+              <h3 class="text-center mb-2 payment-info-title">ที่ต้องชำระ</h3>
+              <h2 class="text-center ma-0 payment-info-desc primary--text">{{ currencySymbol(invoice_doc.currency) }} {{ formtCurrency(total_payments) }}</h2>
             </v-col>
-            <v-col cols="4" class="py-0" :style="{ borderLeft:'1px solid #E3E3E3',borderRight:'1px solid #E3E3E3' }">
-              <h3 class="text-center mb-2 payment-info-title">จำนวนเงินที่ชำระ</h3>
-              <h2 class="text-center ma-0 payment-info-desc">{{ currencySymbol(invoice_doc.currency) }} {{ formtCurrency(total_payments) }}</h2>
-            </v-col>
-            <v-col cols="4" class="py-0">
+            <v-col cols="6" class="py-0">
               <h3 class="text-center mb-2 payment-info-title">{{ frappe._(diff_lable) }}</h3>
-              <h2 class="text-center ma-0 payment-info-desc">{{ currencySymbol(invoice_doc.currency) }} {{ formtCurrency(diff_payment) }}</h2>
+              <h2 class="text-center ma-0 payment-info-desc" :style="{ color:formtCurrency(diff_payment) == 0 ? '#DFDFDF' : 'black' }">{{ currencySymbol(invoice_doc.currency) }} {{ formtCurrency(diff_payment) }}</h2>
             </v-col>
           </v-row>
-          <v-row v-if="invoice_doc" class="px-1 py-0">
-            <!-- <v-col cols="7">
+          <!--  <v-row v-if="invoice_doc" class="px-1 py-0">
+            <v-col cols="7">
               <v-text-field
                 outlined
                 color="primary"
@@ -56,7 +52,7 @@
                 :prefix="currencySymbol(invoice_doc.currency)"
                 dense
               ></v-text-field>
-            </v-col> -->
+            </v-col>
 
             <v-col cols="7" v-if="diff_payment < 0 && !invoice_doc.is_return">
               <v-text-field
@@ -89,7 +85,7 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-divider></v-divider>
+          <v-divider></v-divider> -->
 
           <div v-if="is_cashback">
             <v-row
@@ -254,7 +250,7 @@
                 dense
                 outlined
                 color="primary"
-                label="รวมสุทธิ"
+                label="ราคาสินค้ารวม"
                 background-color="white"
                 hide-details
                 :value="formtCurrency(invoice_doc.net_total)"
@@ -267,7 +263,7 @@
                 dense
                 outlined
                 color="primary"
-                label="ภาษีและเงินทอน"
+                label="ภาษีและค่าธรรมเนียม"
                 background-color="white"
                 hide-details
                 :value="formtCurrency(invoice_doc.total_taxes_and_charges)"
@@ -280,7 +276,7 @@
                 dense
                 outlined
                 color="primary"
-                label="จำนวนเงินทั้งหมด"
+                label="รวมทั้งสิ้น"
                 background-color="white"
                 hide-details
                 :value="formtCurrency(invoice_doc.total)"
@@ -293,7 +289,7 @@
                 dense
                 outlined
                 color="primary"
-                label="ส่วนลดระบุจำนวน"
+                label="ส่วนลด"
                 background-color="white"
                 hide-details
                 :value="formtCurrency(invoice_doc.discount_amount)"
@@ -306,7 +302,7 @@
                 dense
                 outlined
                 color="primary"
-                label="ผลรวมทั้งสิ้น"
+                label="ยอดสุทธิ"
                 background-color="white"
                 hide-details
                 :value="formtCurrency(invoice_doc.grand_total)"
@@ -319,7 +315,7 @@
                 dense
                 outlined
                 color="primary"
-                label="ปัดเศษทั้งหมด"
+                label="ยอดสุทธิ (ปัดเศษ)"
                 background-color="white"
                 hide-details
                 :value="formtCurrency(invoice_doc.rounded_total)"
@@ -336,12 +332,13 @@
                 v-model="order_delivery_date"
                 :close-on-content-click="false"
                 transition="scale-transition"
+                max-width="290"
                 dense
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
                     v-model="invoice_doc.posa_delivery_date"
-                    :label="frappe._('Delivery Date')"
+                    label="วันที่จัดส่ง"
                     readonly
                     outlined
                     dense
@@ -428,7 +425,8 @@
                 color="primary"
                 auto-grow
                 rows="2"
-                :label="frappe._('Additional Notes')"
+                label="เพิ่มโน้ต"
+                hide-details
                 v-model="invoice_doc.posa_notes"
                 :value="invoice_doc.posa_notes"
               ></v-textarea>
@@ -456,6 +454,7 @@
                   v-model="po_date_menu"
                   :close-on-content-click="false"
                   transition="scale-transition"
+                  max-width="290"
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
@@ -482,7 +481,7 @@
               </v-col>
             </v-row>
           </div>
-          <v-row class="px-1 py-0" align="start" no-gutters>
+          <v-row class="px-1 py-3" align="start">
             <v-col
               cols="6"
               v-if="
@@ -496,6 +495,7 @@
                 v-model="is_write_off_change"
                 flat
                 :label="frappe._('Write Off Difference Amount')"
+                hide-details
               ></v-switch>
             </v-col>
             <v-col
@@ -507,6 +507,7 @@
                 flat
                 :label="frappe._('Is Credit Sale')"
                 class="my-0 py-0"
+                hide-details
               ></v-switch>
             </v-col>
             <v-col
@@ -518,6 +519,7 @@
                 flat
                 :label="frappe._('Is Cashback')"
                 class="my-0 py-0"
+                hide-details
               ></v-switch>
             </v-col>
             <v-col cols="6" v-if="is_credit_sale">
@@ -526,6 +528,7 @@
                 v-model="date_menu"
                 :close-on-content-click="false"
                 transition="scale-transition"
+                max-width="290"
               >
                 <template v-slot:activator="{ on, attrs }">
                   <v-text-field
@@ -561,6 +564,7 @@
                 :label="frappe._('Use Customer Credit')"
                 class="my-0 py-0"
                 @change="get_available_credit($event)"
+                hide-details
               ></v-switch>
             </v-col>
           </v-row>
@@ -613,13 +617,13 @@
                 auto-select-first
                 outlined
                 color="primary"
-                label="ลูกค้าหน้าร้าน"
+                label="ทีมเซลล์"
                 v-model="sales_person"
                 :items="sales_persons"
                 item-text="sales_person_name"
                 item-value="name"
                 background-color="white"
-                no-data-text="ไม่พบลูกค้าหน้าร้าน"
+                no-data-text="ไม่พบทีมเซลล์"
                 hide-details
                 :filter="salesPersonFilter"
                 :disabled="readonly"
@@ -690,7 +694,7 @@
                 class="elevation-0 below-btn"
                 :disabled="vaildatPayment"
                 :style="{ background:'#056CFE' }"
-                >ยืนยันและปริ้นใบเสร็จ</v-btn
+                >ยืนยันและปรินท์ใบเสร็จ</v-btn
               >
             </v-col>
           </v-row>
@@ -1528,6 +1532,11 @@ export default {
 
 .payment-info-desc {
   font-size:24px !important
+}
+
+.table-list-title {
+  font-weight:600 !important;
+  font-size:28px;
 }
 
 @media (max-width:1280px){

@@ -38,6 +38,12 @@
                   :single-select="singleSelect"
                   show-select
                   v-model="selected"
+                  no-data-text="ยังไม่มีข้อมูล"
+                  rows-per-page-text="จำนวนแถวต่อหน้า"
+                  :footer-props="{
+                    'items-per-page-text':'จำนวนแถวต่อหน้า',        
+                    'page-text':'{0}-{1} จาก {2}'
+                  }"
                 >
                   <template v-slot:item.grand_total="{ item }">
                     {{ currencySymbol(item.currency) }}

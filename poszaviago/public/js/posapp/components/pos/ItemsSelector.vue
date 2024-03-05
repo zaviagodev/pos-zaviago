@@ -126,6 +126,11 @@
                   hide-default-footer
                   @click:row="add_item"
                   :style="{ borderRadius:'10px' }"
+                  no-data-text="ยังไม่มีข้อมูล"
+                  :footer-props="{
+                    'items-per-page-text':'จำนวนแถวต่อหน้า',        
+                    'page-text':'{0}-{1} จาก {2}'
+                  }"
                 >
                   <template v-slot:item.rate="{ item }">
                     <span :style="{ whiteSpace:'nowrap' }">{{ currencySymbol(item.currency) }}

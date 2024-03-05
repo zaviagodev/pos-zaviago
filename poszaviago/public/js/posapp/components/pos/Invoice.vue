@@ -147,7 +147,12 @@
             item-key="posa_row_id"
             class="elevation-0"
             :items-per-page="itemsPerPage"
+            no-data-text="ยังไม่มีข้อมูล"
             hide-default-footer
+            :footer-props="{
+              'items-per-page-text':'จำนวนแถวต่อหน้า',
+              'page-text':'{0}-{1} จาก {2}'
+            }"
           >
             <template v-slot:item.qty="{ item }">
               <span class="primary--text" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px' }">{{ Math.round(formtFloat(item.qty)) }}</span>

@@ -19,7 +19,7 @@
           <v-row class="mb-8">
             <v-col cols="6" class="py-0" :style="{ borderRight:'1px solid #E3E3E3' }">
               <h3 class="text-center mb-2 payment-info-title">ที่ต้องชำระ</h3>
-              <h2 class="text-center ma-0 payment-info-desc primary--text">{{ currencySymbol(invoice_doc.currency) }} {{ formtCurrency(invoice_doc.net_total) }}</h2>
+              <h2 class="text-center ma-0 payment-info-desc primary--text">{{ currencySymbol(invoice_doc.currency) }} {{ formtCurrency(invoice_doc.grand_total) }}</h2>
             </v-col>
             <v-col cols="6" class="py-0">
               <h3 class="text-center mb-2 payment-info-title">{{ frappe._(diff_lable) }}</h3>

@@ -234,6 +234,7 @@
                       :style="{boxShadow:'none'}"
                       item-text="uom"
                       item-value="uom"
+                      no-data-text="ยังไม่มีข้อมูล"
                       hide-details
                       @change="calc_uom(item, $event)"
                       :disabled="

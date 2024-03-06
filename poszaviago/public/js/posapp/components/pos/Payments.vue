@@ -206,7 +206,7 @@
           </v-row>
 
           <v-row
-            class="pyments px-1 py-0"
+            class="pyments px-1 pt-3 pb-0"
             v-if="
               invoice_doc &&
               available_customer_credit > 0 &&
@@ -489,38 +489,50 @@
                 diff_payment > 0 &&
                 !invoice_doc.is_return
               "
+              class="d-flex align-center"
             >
               <v-switch
                 class="my-0 py-0"
                 v-model="is_write_off_change"
                 flat
-                :label="frappe._('Write Off Difference Amount')"
+                id="write-off"
                 hide-details
               ></v-switch>
+              <v-label for="write-off">
+                <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('Write Off Difference Amount') }}</span>
+              </v-label>
             </v-col>
             <v-col
               cols="6"
               v-if="pos_profile.posa_allow_credit_sale && !invoice_doc.is_return"
+              class="d-flex align-center"
             >
               <v-switch
                 v-model="is_credit_sale"
                 flat
-                :label="frappe._('Is Credit Sale')"
+                id="is-credit-sale"
                 class="my-0 py-0"
                 hide-details
               ></v-switch>
+              <v-label for="is-credit-sale">
+                <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('Is Credit Sale') }}</span>
+              </v-label>
             </v-col>
             <v-col
               cols="6"
               v-if="invoice_doc.is_return && pos_profile.use_cashback"
+              class="d-flex align-center"
             >
               <v-switch
                 v-model="is_cashback"
                 flat
-                :label="frappe._('Is Cashback')"
+                id="is-cashback"
                 class="my-0 py-0"
                 hide-details
               ></v-switch>
+              <v-label for="is-cashback">
+                <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('Is Cashback') }}</span>
+              </v-label>
             </v-col>
             <v-col cols="6" v-if="is_credit_sale">
               <v-menu
@@ -557,15 +569,19 @@
             <v-col
               cols="6"
               v-if="!invoice_doc.is_return && pos_profile.use_customer_credit"
+              class="d-flex align-center"
             >
               <v-switch
                 v-model="redeem_customer_credit"
                 flat
-                :label="frappe._('Use Customer Credit')"
+                id="customer-credit"
                 class="my-0 py-0"
                 @change="get_available_credit($event)"
                 hide-details
               ></v-switch>
+              <v-label for="customer-credit">
+                <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('Use Customer Credit') }}</span>
+              </v-label>
             </v-col>
           </v-row>
           <div

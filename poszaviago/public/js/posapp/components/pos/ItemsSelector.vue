@@ -109,7 +109,7 @@
                       {{ formtCurrency(item.rate) || 0 }}
                     </div>
                     <div class="text-subtitle-2 primary--text font-weight-regular" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px',marginTop:'6px' }">
-                      {{ Math.round(formtFloat(item.actual_qty)) || 0 }}
+                      {{ item.actual_qty || 0 }}
                       {{ item.stock_uom || "" }}
                     </div>
                   </v-card-text>
@@ -142,7 +142,7 @@
                   </template>
                   <template v-slot:item.actual_qty="{ item }">
                     <span class="primary--text" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px' }">{{
-                      Math.round(formtFloat(item.actual_qty))
+                      item.actual_qty
                     }}</span>
                   </template>
                 </v-data-table>

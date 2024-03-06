@@ -257,15 +257,17 @@
                       disabled
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="6" class="d-flex align-center">
                     <v-checkbox
-                      dense
-                      label="สินค้าโปรโมชัน"
                       v-model="item.posa_offer_applied"
                       readonly
+                      id="promo-checkbox"
                       hide-details
                       class="ma-0"
                     ></v-checkbox>
+                    <v-label for="promo-checkbox">
+                      <span class="mt-3 d-inline-block" :style="{ whiteSpace:'pre' }">สินค้าโปรโมชัน</span>
+                    </v-label>
                   </v-col>
                   <v-col cols="6">
                     <v-text-field

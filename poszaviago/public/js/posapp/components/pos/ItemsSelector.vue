@@ -59,15 +59,18 @@
                 @keydown.esc="esc_event"
               ></v-text-field>
             </v-col>
-            <v-col cols="3" lg="2" class="pb-0 mb-2" v-if="pos_profile.posa_new_line">
+            <v-col cols="3" lg="2" class="pb-0 mb-2 d-flex align-center" v-if="pos_profile.posa_new_line">
               <v-checkbox
                 v-model="new_line"
                 color="primary"
                 value="true"
-                label="ขึ้นบรรทัดใหม่"
-                dense
+                id="nline"
                 hide-details
+                class="ma-0"
               ></v-checkbox>
+              <v-label for="nline">
+                <span class="mt-3 d-inline-block" :style="{ whiteSpace:'pre' }">ขึ้นบรรทัดใหม่</span>
+              </v-label>
             </v-col>
           </v-row>
         </v-col>

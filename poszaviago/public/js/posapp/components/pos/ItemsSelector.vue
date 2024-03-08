@@ -45,7 +45,7 @@
             </v-col>
           </v-row>
           <v-row justify="end">
-            <v-col cols="3" lg="4" class="pb-0 mb-2" v-if="pos_profile.posa_input_qty">
+            <v-col cols="3" xl="4" class="pb-0 mb-2" v-if="pos_profile.posa_input_qty">
               <v-text-field
                 dense
                 outlined
@@ -59,7 +59,7 @@
                 @keydown.esc="esc_event"
               ></v-text-field>
             </v-col>
-            <v-col cols="3" lg="2" class="pb-0 mb-2 d-flex align-center" v-if="pos_profile.posa_new_line">
+            <v-col cols="3" xl="2" class="pb-0 mb-2 d-flex align-center" v-if="pos_profile.posa_new_line">
               <v-checkbox
                 v-model="new_line"
                 color="primary"
@@ -188,7 +188,7 @@
               <v-btn class='text-white below-btn' block text @click="show_offers">
                 <span class="d-flex justify-center align-center" style="gap:6px">
                   <v-img src="/assets/poszaviago/js/posapp/components/icons/Bookmark.svg" max-width="20"></v-img>
-                  {{ offersCount }} โปรโมชัน <!-- : {{ appliedOffersCount }} ใช้แล้ว -->
+                  {{ offersCount }} โปรโมชัน
                 </span>
               </v-btn>
             </v-col>

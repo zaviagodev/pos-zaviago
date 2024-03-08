@@ -368,13 +368,13 @@
                 auto-select-first
                 outlined
                 color="primary"
-                :label="frappe._('Address')"
+                label="ที่อยู่"
                 v-model="invoice_doc.shipping_address_name"
                 :items="addresses"
                 item-text="address_title"
                 item-value="name"
                 background-color="white"
-                no-data-text="Address not found"
+                no-data-text="ยังไม่มีที่อยู่ในระบบ"
                 hide-details
                 :filter="addressFilter"
                 append-icon="mdi-plus"

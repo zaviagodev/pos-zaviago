@@ -1,59 +1,62 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="addressDialog" max-width="600px">
-      <v-card>
-        <v-card-title>
-          <span class="headline primary--text">{{
-            __('Add New Address')
-          }}</span>
+      <v-card class="px-6 py-8" :style="{ borderRadius:'10px' }">
+        <v-card-title class="pa-0 pb-8">
+          <span class="modal-title">เพิ่มที่อยู่ใหม่</span>
         </v-card-title>
         <v-card-text class="pa-0">
           <v-container>
             <v-row>
-              <v-col cols="12">
+              <v-col cols="12" class="px-0">
                 <v-text-field
                   dense
+                  outlined
                   color="primary"
-                  :label="frappe._('Address Name')"
+                  label="ชื่อที่อยู่"
                   background-color="white"
                   hide-details
                   v-model="address.name"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" class="px-0">
                 <v-text-field
                   dense
+                  outlined
                   color="primary"
-                  :label="frappe._('Address Line 1')"
+                  label="ที่อยู่บรรทัดที่ 1"
                   background-color="white"
                   hide-details
                   v-model="address.address_line1"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" class="px-0">
                 <v-text-field
                   dense
+                  outlined
                   color="primary"
-                  :label="frappe._('Address Line 2')"
+                  label="แขวง/ตำบล"
                   background-color="white"
                   hide-details
                   v-model="address.address_line2"
                 ></v-text-field>
               </v-col>
-              <v-col cols="6">
+              <v-col cols="6" class="pl-0">
                 <v-text-field
-                  label="City"
+                  label="เขต/อำเภอ"
                   dense
+                  outlined
                   color="primary"
                   background-color="white"
                   hide-details
                   v-model="address.city"
                 ></v-text-field>
               </v-col>
-              <v-col cols="6">
+              <v-col cols="6" class="pr-0">
                 <v-text-field
-                  label="State"
+                  label="จังหวัด"
                   dense
+                  outlined
                   background-color="white"
                   hide-details
                   v-model="address.state"
@@ -62,14 +65,10 @@
             </v-row>
           </v-container>
         </v-card-text>
-        <v-card-actions>
+        <v-card-actions class="pa-0 pt-8">
           <v-spacer></v-spacer>
-          <v-btn color="error" dark @click="close_dialog">{{
-            __('Close')
-          }}</v-btn>
-          <v-btn color="success" dark @click="submit_dialog">{{
-            __('Submit')
-          }}</v-btn>
+          <v-btn class="elevation-0 px-5" color="gray01" style="color:black;height:50px;border-radius:10px" dark @click="close_dialog">ปิด</v-btn>
+          <v-btn class="elevation-0 px-5" color="black" style="height:50px;border-radius:10px" dark @click="submit_dialog">ยืนยัน</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -103,7 +102,7 @@ export default {
           if (!r.exc) {
             evntBus.$emit('add_the_new_address', r.message);
             evntBus.$emit('show_mesage', {
-              text: 'Customer Address created successfully.',
+              text: 'สร้างที่อยู่ใหม่สำเร็จ',
               color: 'success',
             });
             vm.addressDialog = false;
@@ -122,3 +121,12 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+.modal-title {
+  font-weight:600 !important;
+  font-size:24px;
+}
+
+</style>

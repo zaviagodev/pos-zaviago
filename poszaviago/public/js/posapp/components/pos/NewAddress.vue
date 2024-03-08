@@ -67,8 +67,11 @@
         </v-card-text>
         <v-card-actions class="pa-0 pt-8">
           <v-spacer></v-spacer>
-          <v-btn class="elevation-0 px-5" color="gray01" style="color:black;height:50px;border-radius:10px" dark @click="close_dialog">ปิด</v-btn>
-          <v-btn class="elevation-0 px-5" color="black" style="height:50px;border-radius:10px" dark @click="submit_dialog">ยืนยัน</v-btn>
+          <v-btn class="elevation-0 px-5" color="gray01" style="color:black;height:50px;border-radius:10px" dark @click="close_dialog">ยกเลิก</v-btn>
+          <v-btn class="elevation-0 px-5" color="black" style="height:50px;border-radius:10px" dark @click="submit_dialog">
+            <v-icon class='mr-2'>mdi-plus-circle-outline</v-icon>
+            ยืนยัน
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

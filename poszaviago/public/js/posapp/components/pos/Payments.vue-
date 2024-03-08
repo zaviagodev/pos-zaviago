@@ -583,25 +583,6 @@
                 <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('Use Customer Credit') }}</span>
               </v-label>
             </v-col>
-
-
-            <v-col cols="6" class="d-flex align-center">
-              <v-checkbox
-                v-model="invoice_doc.round_rounded_total"
-                flat
-                id="round-total"
-                class="my-0 py-0"
-                @change="update_invoice"
-                hide-details
-              ></v-checkbox>
-              <v-label for="round-total">
-                <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('Round Total') }}</span>
-              </v-label>
-            </v-col>
-            
-
-
-
           </v-row>
           <div
             v-if="
@@ -1171,26 +1152,6 @@ export default {
         textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
       );
     },
-
-    update_invoice() {
-      const vm = this;
-      const doc = this.invoice_doc;
-      frappe.call({
-        method: "poszaviago.poszaviago.api.posapp.round_total_invoice",
-        args: {
-          name: doc.name,
-          round: doc.round_rounded_total,
-        },
-        async: false,
-        callback: function (r) {
-          if (r.message) {
-            this.invoice_doc = r.message;
-          }
-        },
-      });
-      return this.invoice_doc;
-    },
-
     request_payment() {
       this.phone_dialog = false;
       const vm = this;

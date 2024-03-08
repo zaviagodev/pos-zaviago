@@ -21,7 +21,7 @@ from erpnext.accounts.doctype.payment_request.payment_request import (
     get_dummy_message,
     get_existing_payment_request_amount,
 )
-
+import math
 from erpnext.selling.doctype.sales_order.sales_order import make_sales_invoice
 from erpnext.accounts.doctype.loyalty_program.loyalty_program import (
     get_loyalty_program_details_with_points,
@@ -31,6 +31,7 @@ from poszaviago.poszaviago.doctype.delivery_charges.delivery_charges import (
     get_applicable_delivery_charges as _get_applicable_delivery_charges,
 )
 from frappe.utils.caching import redis_cache
+from frappe.utils.data import rounded
 
 
 @frappe.whitelist()
@@ -491,6 +492,16 @@ def update_invoice_from_order(data):
     invoice_doc.save()
     return invoice_doc
 
+@frappe.whitelist()
+def round_total_invoice(name,round):
+    invoice_doc = frappe.get_doc("Sales Invoice",name)
+    if round: 
+        frappe.db.set_value("Sales Invoice",name, 'disable_rounded_total', 0, update_modified=False)
+        invoice_doc.grand_total = invoice_doc.rounded_total
+    else:
+        frappe.db.set_value("Sales Invoice",name, 'disable_rounded_total', 1, update_modified=False)
+            
+    return invoice_doc
 
 @frappe.whitelist()
 def update_invoice(data):
@@ -500,12 +511,11 @@ def update_invoice(data):
         invoice_doc.update(data)
     else:
         invoice_doc = frappe.get_doc(data)
+        
 
     invoice_doc.set_missing_values()
     invoice_doc.flags.ignore_permissions = True
     frappe.flags.ignore_account_permission = True
-    
-    
 
     if invoice_doc.is_return and invoice_doc.return_against:
         ref_doc = frappe.get_cached_doc(invoice_doc.doctype, invoice_doc.return_against)
@@ -542,22 +552,27 @@ def update_invoice(data):
             for tax in invoice_doc.taxes:
                 tax.included_in_print_rate = 1
 
-
-    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "department"):
-        invoice_doc.owner_department = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "department")
-
-    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person"):
-        invoice_doc.sales_name = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person")
-
-
     today_date = getdate()
     if (
         invoice_doc.get("posting_date")
         and getdate(invoice_doc.posting_date) != today_date
     ):
         invoice_doc.set_posting_time = 1
-
+        
+    invoice_doc.disable_rounded_total = 1
+    
+        
+    if data.get("round_rounded_total"): 
+        invoice_doc.disable_rounded_total = 0
+        
+        
+        
     invoice_doc.save()
+    frappe.db.commit()
+    
+    if data.get("round_rounded_total"): 
+        invoice_doc.grand_total = invoice_doc.rounded_total
+            
     return invoice_doc
 
 
@@ -1087,7 +1102,6 @@ def create_customer(
                 customer.territory = territory
             else:
                 customer.territory = "All Territories"
-            customer.flags.ignore_mandatory = True
             customer.save()
             return customer
         else:

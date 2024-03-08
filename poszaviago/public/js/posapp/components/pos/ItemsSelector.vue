@@ -45,7 +45,7 @@
             </v-col>
           </v-row>
           <v-row justify="end">
-            <v-col cols="3" lg="4" class="pb-0 mb-2" v-if="pos_profile.posa_input_qty">
+            <v-col cols="3" xl="4" class="pb-0 mb-2" v-if="pos_profile.posa_input_qty">
               <v-text-field
                 dense
                 outlined
@@ -59,15 +59,18 @@
                 @keydown.esc="esc_event"
               ></v-text-field>
             </v-col>
-            <v-col cols="3" lg="2" class="pb-0 mb-2" v-if="pos_profile.posa_new_line">
+            <v-col cols="3" xl="2" class="pb-0 mb-2 d-flex align-center" v-if="pos_profile.posa_new_line">
               <v-checkbox
                 v-model="new_line"
                 color="primary"
                 value="true"
-                label="ขึ้นบรรทัดใหม่"
-                dense
+                id="nline"
                 hide-details
+                class="ma-0"
               ></v-checkbox>
+              <v-label for="nline">
+                <span class="mt-3 d-inline-block" :style="{ whiteSpace:'pre' }">ขึ้นบรรทัดใหม่</span>
+              </v-label>
             </v-col>
           </v-row>
         </v-col>
@@ -106,7 +109,7 @@
                       {{ formtCurrency(item.rate) || 0 }}
                     </div>
                     <div class="text-subtitle-2 primary--text font-weight-regular" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px',marginTop:'6px' }">
-                      {{ Math.round(formtFloat(item.actual_qty)) || 0 }}
+                      {{ item.actual_qty || 0 }}
                       {{ item.stock_uom || "" }}
                     </div>
                   </v-card-text>
@@ -139,7 +142,7 @@
                   </template>
                   <template v-slot:item.actual_qty="{ item }">
                     <span class="primary--text" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px' }">{{
-                      Math.round(formtFloat(item.actual_qty))
+                      item.actual_qty
                     }}</span>
                   </template>
                 </v-data-table>
@@ -185,7 +188,7 @@
               <v-btn class='text-white below-btn' block text @click="show_offers">
                 <span class="d-flex justify-center align-center" style="gap:6px">
                   <v-img src="/assets/poszaviago/js/posapp/components/icons/Bookmark.svg" max-width="20"></v-img>
-                  {{ offersCount }} โปรโมชัน <!-- : {{ appliedOffersCount }} ใช้แล้ว -->
+                  {{ offersCount }} โปรโมชัน
                 </span>
               </v-btn>
             </v-col>

@@ -100,7 +100,7 @@
             item-text="name"
             return-object
             background-color="white"
-            :no-data-text="__('Charges not found')"
+            no-data-text="ไม่พบค่าใช้จ่าย"
             hide-details
             :filter="deliveryChargesFilter"
             :disabled="readonly"
@@ -114,7 +114,7 @@
                     v-html="data.item.name"
                   ></v-list-item-title>
                   <v-list-item-subtitle
-                    v-html="`Rate: ${data.item.rate}`"
+                    v-html="`อัตรา: ${data.item.rate}`"
                   ></v-list-item-subtitle>
                 </v-list-item-content>
               </template>
@@ -155,7 +155,7 @@
             }"
           >
             <template v-slot:item.qty="{ item }">
-              <span class="primary--text" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px' }">{{ Math.round(formtFloat(item.qty)) }}</span>
+              <span class="primary--text" :style="{ backgroundColor:'#EBF8FF',display:'inline-block',padding:'2px 8px', borderRadius:'6px' }">{{ item.qty }}</span>
             </template>
             <template v-slot:item.rate="{ item }"
               >{{ currencySymbol(pos_profile.currency) }}
@@ -234,6 +234,7 @@
                       :style="{boxShadow:'none'}"
                       item-text="uom"
                       item-value="uom"
+                      no-data-text="ยังไม่มีข้อมูล"
                       hide-details
                       @change="calc_uom(item, $event)"
                       :disabled="
@@ -257,15 +258,17 @@
                       disabled
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="6">
+                  <v-col cols="6" class="d-flex align-center">
                     <v-checkbox
-                      dense
-                      label="สินค้าโปรโมชัน"
                       v-model="item.posa_offer_applied"
                       readonly
+                      id="promo-checkbox"
                       hide-details
                       class="ma-0"
                     ></v-checkbox>
+                    <v-label for="promo-checkbox">
+                      <span class="mt-3 d-inline-block" :style="{ whiteSpace:'pre' }">สินค้าโปรโมชัน</span>
+                    </v-label>
                   </v-col>
                   <v-col cols="6">
                     <v-text-field
@@ -572,7 +575,7 @@
           <v-col cols="7" class='pr-5'>
             <v-col cols="12" class="px-1 py-2 d-flex justify-space-between align-center">
               <p class='ma-0'>จำนวนสินค้าทั้งหมด</p>
-              <p class='ma-0'>{{ Math.round(formtFloat(total_qty)) }} ชิ้น</p>
+              <p class='ma-0'>{{ total_qty }} ชิ้น</p>
             </v-col>
             <v-col cols="12" class="px-1 py-2 d-flex justify-space-between align-center">
               <p class='ma-0'>ส่วนลดสินค้า</p>
@@ -1493,7 +1496,7 @@ export default {
           ) {
             evntBus.$emit("show_mesage", {
               text: __(
-                `The existing quantity '{0}' for item '{1}' is not enough`,
+                `จำนวนสินค้า {1} ไม่พอขาย`,
                 [item.actual_qty, item.item_name]
               ),
               color: "error",
@@ -1554,7 +1557,7 @@ export default {
           const clac_percentage = (this.discount_amount / this.Total) * 100;
           if (clac_percentage > this.pos_profile.posa_max_discount_allowed) {
             evntBus.$emit("show_mesage", {
-              text: __(`The discount should not be higher than {0}%`, [
+              text: __(`ไม่สามารถลดเกิน {0}% ของราคาสินค้า`, [
                 this.pos_profile.posa_max_discount_allowed,
               ]),
               color: "error",

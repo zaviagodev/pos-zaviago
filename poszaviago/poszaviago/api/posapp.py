@@ -552,6 +552,13 @@ def update_invoice(data):
             for tax in invoice_doc.taxes:
                 tax.included_in_print_rate = 1
 
+    
+    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "department"):
+        invoice_doc.owner_department = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "department")
+
+    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person"):
+        invoice_doc.sales_name = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person")
+    
     today_date = getdate()
     if (
         invoice_doc.get("posting_date")

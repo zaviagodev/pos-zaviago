@@ -305,7 +305,7 @@
                 label="ยอดสุทธิ"
                 background-color="white"
                 hide-details
-                :value="formtCurrency(invoice_doc.grand_total)"
+                :value="formtCurrency(invoice_doc.total)"
                 disabled
                 :prefix="currencySymbol(invoice_doc.currency)"
               ></v-text-field>

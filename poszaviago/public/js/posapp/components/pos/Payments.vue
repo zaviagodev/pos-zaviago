@@ -603,7 +603,7 @@
                 hide-details
               ></v-checkbox>
               <v-label for="round-total">
-                <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('Round Total') }}</span>
+                <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('ปัดเศษ') }}</span>
               </v-label>
             </v-col>
             

@@ -587,7 +587,7 @@
 
             <v-col cols="6" class="d-flex align-center">
               <v-checkbox
-                v-model="invoice_doc.round_rounded_total"
+                v-model="invoice_doc.disable_rounded_total"
                 flat
                 id="round-total"
                 class="my-0 py-0"
@@ -1183,14 +1183,13 @@ export default {
         },
         async: false,
         callback: function (r) {
+          console.log(r.message);
           if (r.message) {
-            this.invoice_doc = r.message;
+            vm.invoice_doc = r.message;
           }
         },
       });
-      return this.invoice_doc;
     },
-
     request_payment() {
       this.phone_dialog = false;
       const vm = this;

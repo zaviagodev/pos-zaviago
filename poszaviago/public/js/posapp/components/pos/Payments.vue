@@ -93,6 +93,9 @@
               v-for="payment in invoice_doc.payments"
               :key="payment.name"
             >
+              
+
+            
               <v-col cols="6" v-if="!is_mpesa_c2b_payment(payment)">
                 <v-text-field
                   dense
@@ -111,6 +114,11 @@
                   :readonly="invoice_doc.is_return ? true : false"
                 ></v-text-field>
               </v-col>
+
+
+
+
+
               <v-col
                 v-if="!is_mpesa_c2b_payment(payment)"
                 :cols="
@@ -310,7 +318,7 @@
                 :prefix="currencySymbol(invoice_doc.currency)"
               ></v-text-field>
             </v-col>
-            <v-col v-if="invoice_doc.rounded_total" cols="6">
+            <v-col v-if="invoice_doc.disable_rounded_total == 0" cols="6">
               <v-text-field
                 dense
                 outlined
@@ -587,7 +595,7 @@
 
             <v-col cols="6" class="d-flex align-center">
               <v-checkbox
-                v-model="invoice_doc.disable_rounded_total"
+                v-model="invoice_doc.round_rounded_total"
                 flat
                 id="round-total"
                 class="my-0 py-0"
@@ -1183,13 +1191,35 @@ export default {
         },
         async: false,
         callback: function (r) {
-          console.log(r.message);
+          
+          // if (r.message) {
+          //   res = r.message;
+          //   doc.grand_total = res.rounded_total;
+          //   doc.amount = res.rounded_total;
+          //   doc = res;
+          // }
+
+          
+          
           if (r.message) {
-            vm.invoice_doc = r.message;
+              const res = r.message;
+              for (const key in res) {
+                  if (res.hasOwnProperty(key)) {
+                      doc[key] = res[key];
+                  }
+              }
+
+             //if(round == false){
+              this.invoice_doc.rounded_total = this.invoice_doc.grand_total
+             //} 
+
+            
           }
         },
       });
+      return this.invoice_doc;
     },
+
     request_payment() {
       this.phone_dialog = false;
       const vm = this;

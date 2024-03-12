@@ -293,7 +293,9 @@ def get_items(
                     )
                 item_stock_qty = 0
                 #if pos_profile.get("posa_display_items_in_stock") or use_limit_search:
-                item_stock_qty = get_stock_availability(item_code, pos_profile.get("warehouse"))
+                item_stock_qty = get_stock_availability(
+                    item_code, pos_profile.get("warehouse")
+                )
                 attributes = ""
                 if pos_profile.get("posa_show_template_items") and item.has_variants:
                     attributes = get_item_attributes(item.item_code)
@@ -493,12 +495,76 @@ def update_invoice_from_order(data):
 @frappe.whitelist()
 def round_total_invoice(name,round):
     invoice_doc = frappe.get_doc("Sales Invoice",name)
-    if round: 
+    
+    
+    if round == "true": 
         frappe.db.set_value("Sales Invoice",name, 'disable_rounded_total', 0, update_modified=False)
-        invoice_doc.grand_total = invoice_doc.rounded_total
+        invoice_doc.disable_rounded_total = 0
+        invoice_doc.rounded_totalz = invoice_doc.rounded_total
     else:
         frappe.db.set_value("Sales Invoice",name, 'disable_rounded_total', 1, update_modified=False)
-            
+        invoice_doc.disable_rounded_total = 1
+        invoice_doc.outstanding_amount = invoice_doc.grand_total
+        invoice_doc.rounded_total = invoice_doc.grand_total
+        invoice_doc.rounded_totalz = 0
+
+
+
+    if invoice_doc.is_return and invoice_doc.return_against:
+        ref_doc = frappe.get_cached_doc(invoice_doc.doctype, invoice_doc.return_against)
+        if not ref_doc.update_stock:
+            invoice_doc.update_stock = 0
+        if len(invoice_doc.payments) == 0:
+            invoice_doc.payments = ref_doc.payments
+        invoice_doc.paid_amount = (
+            invoice_doc.rounded_total or invoice_doc.grand_total or invoice_doc.total
+        )
+        for payment in invoice_doc.payments:
+            if payment.default:
+                payment.amount = invoice_doc.paid_amount
+    allow_zero_rated_items = frappe.get_cached_value(
+        "POS Profile", invoice_doc.pos_profile, "posa_allow_zero_rated_items"
+    )
+    for item in invoice_doc.items:
+        if not item.rate or item.rate == 0:
+            if allow_zero_rated_items:
+                item.price_list_rate = 0.00
+                item.is_free_item = 1
+            else:
+                frappe.throw(
+                    _("Rate cannot be zero for item {0}").format(item.item_code)
+                )
+        else:
+            item.is_free_item = 0
+        add_taxes_from_tax_template(item, invoice_doc)
+
+    if frappe.get_cached_value(
+        "POS Profile", invoice_doc.pos_profile, "posa_tax_inclusive"
+    ):
+        if invoice_doc.get("taxes"):
+            for tax in invoice_doc.taxes:
+                tax.included_in_print_rate = 1
+
+    today_date = getdate()
+    if (
+        invoice_doc.get("posting_date")
+        and getdate(invoice_doc.posting_date) != today_date
+    ):
+        invoice_doc.set_posting_time = 1
+  
+  
+    
+    
+    
+    if invoice_doc.disable_rounded_total == 0: 
+        invoice_doc.save()
+        frappe.db.commit()
+        invoice_doc.grand_total = invoice_doc.rounded_total
+        invoice_doc.total = invoice_doc.rounded_total 
+        
+       
+    invoice_doc.total = invoice_doc.base_grand_total
+
     return invoice_doc
 
 @frappe.whitelist()
@@ -550,13 +616,6 @@ def update_invoice(data):
             for tax in invoice_doc.taxes:
                 tax.included_in_print_rate = 1
 
-    
-    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "department"):
-        invoice_doc.owner_department = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "department")
-
-    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person"):
-        invoice_doc.sales_name = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person")
-    
     today_date = getdate()
     if (
         invoice_doc.get("posting_date")
@@ -566,18 +625,18 @@ def update_invoice(data):
         
     invoice_doc.disable_rounded_total = 1
     
+    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "department"):
+        invoice_doc.owner_department = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "department")
+
+    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person"):
+        invoice_doc.sales_name = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person")
         
-    if data.get("round_rounded_total"): 
-        invoice_doc.disable_rounded_total = 0
-        
-        
-        
+    
     invoice_doc.save()
     frappe.db.commit()
     
-    if data.get("round_rounded_total"): 
-        invoice_doc.grand_total = invoice_doc.rounded_total
-            
+    invoice_doc.total = invoice_doc.grand_total
+    
     return invoice_doc
 
 
@@ -666,6 +725,8 @@ def submit_invoice(invoice, data):
             data.get("due_date"),
             update_modified=False,
         )
+        
+    
 
     if frappe.get_value(
         "POS Profile",

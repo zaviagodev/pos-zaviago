@@ -523,7 +523,7 @@ export default {
     trigger_onscan(sCode) {
       if (this.filtred_items.length == 0) {
         evntBus.$emit("show_mesage", {
-          text: `No Item has this barcode "${sCode}"`,
+          text: `ไม่พบสินค้าของบาร์โค้ด "${sCode}"`,
           color: "error",
         });
         frappe.utils.play_sound("error");

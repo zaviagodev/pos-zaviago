@@ -820,7 +820,7 @@ export default {
     submit(event, payment_received = false, print = false) {
       if (!this.invoice_doc.is_return && this.total_payments < 0) {
         evntBus.$emit("show_mesage", {
-          text: `Payments not correct`,
+          text: `การชำระเงินไม่ถูกต้อง`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -856,7 +856,7 @@ export default {
           (this.invoice_doc.rounded_total || this.invoice_doc.grand_total)
       ) {
         evntBus.$emit("show_mesage", {
-          text: `The amount paid is not complete`,
+          text: `จำนวนที่ต้องชำระไม่ครบถ้วน`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -869,7 +869,7 @@ export default {
         this.total_payments == 0
       ) {
         evntBus.$emit("show_mesage", {
-          text: `Please enter the amount paid`,
+          text: `กรุณาระบุจำนวนที่ต้องชำระ`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -893,7 +893,7 @@ export default {
 
       if (this.is_cashback && total_change != -this.diff_payment) {
         evntBus.$emit("show_mesage", {
-          text: `Error in change calculations!`,
+          text: `พบข้อผิดพลาดในการคำนวณเงินทอน!`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -908,7 +908,7 @@ export default {
 
       if (credit_calc_check.length > 0) {
         evntBus.$emit("show_mesage", {
-          text: `redeamed credit can not greater than its total.`,
+          text: `มูลค่าของเครดิตต้องไม่สูงกว่ายอดที่ต้องชำระ`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -921,7 +921,7 @@ export default {
           (this.invoice_doc.rounded_total || this.invoice_doc.grand_total)
       ) {
         evntBus.$emit("show_mesage", {
-          text: `can not redeam customer credit more than invoice total`,
+          text: `จำนวนเครดิตที่ใช้แลกต้องไม่สูงกว่ายอดที่ต้องชำระ`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -1225,7 +1225,7 @@ export default {
       const vm = this;
       if (!this.invoice_doc.contact_mobile) {
         evntBus.$emit("show_mesage", {
-          text: __(`Pleas Set Customer Mobile Number`),
+          text: __(`กรุณาระบุเบอร์มือถือของลูกค้า`),
           color: "error",
         });
         evntBus.$emit("open_edit_customer");
@@ -1233,7 +1233,7 @@ export default {
         return;
       }
       evntBus.$emit("freeze", {
-        title: __(`Waiting for payment... `),
+        title: __(`กำลังรอการชำระเงิน...`),
       });
       this.invoice_doc.payments.forEach((payment) => {
         payment.amount = flt(payment.amount);
@@ -1270,7 +1270,7 @@ export default {
             .fail(() => {
               evntBus.$emit("unfreeze");
               evntBus.$emit("show_mesage", {
-                text: __(`Payment request failed`),
+                text: __(`คำขอชำระเงินล้มเหลว`),
                 color: "error",
               });
             })
@@ -1287,14 +1287,14 @@ export default {
                       evntBus.$emit("unfreeze");
                       evntBus.$emit("show_mesage", {
                         text: __(
-                          `Payment Request took too long to respond. Please try requesting for payment again`
+                          `ใช้เวลาส่งคำขอชำระเงินนานเกินไป กรุณาส่งคำขอชำระเงินอีกครั้ง`
                         ),
                         color: "error",
                       });
                     } else {
                       evntBus.$emit("unfreeze");
                       evntBus.$emit("show_mesage", {
-                        text: __("Payment of {0} received successfully.", [
+                        text: __("การชำระเงินของ {0} สำเร็จ", [
                           vm.formtCurrency(
                             message.grand_total,
                             vm.invoice_doc.currency,
@@ -1547,7 +1547,7 @@ export default {
         this.invoice_doc.redeem_loyalty_points = 0;
         this.invoice_doc.loyalty_points = 0;
         evntBus.$emit("show_mesage", {
-          text: `Loyalty Amount can not be more then ${this.available_pioints_amount}`,
+          text: `จำนวนแต้มไม่สามารถมากกว่า ${this.available_pioints_amount} ได้`,
           color: "error",
         });
       } else {
@@ -1577,7 +1577,7 @@ export default {
     redeemed_customer_credit(value) {
       if (value > this.available_customer_credit) {
         evntBus.$emit("show_mesage", {
-          text: `You can redeem customer credit upto ${this.available_customer_credit}`,
+          text: `คุณสามารถแลกเครดิตของลูกค้าได้ ${this.available_customer_credit}`,
           color: "error",
         });
       }

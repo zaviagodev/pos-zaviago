@@ -327,7 +327,7 @@ export default {
             if (!r.exc && r.message.name) {
               let text = "เพิ่มลูกค้าใหม่สำเร็จ";
               if (vm.customer_id) {
-                text = __('Customer updated successfully.');
+                text = __('แก้ไขข้อมูลลูกค้าสำเร็จ');
               }
               evntBus.$emit('show_mesage', {
                 text: text,
@@ -342,7 +342,7 @@ export default {
             } else {
               frappe.utils.play_sound('error');
               evntBus.$emit('show_mesage', {
-                text: __('Customer creation failed.'),
+                text: __('เพิ่มลูกค้าใหม่ไม่สำเร็จ'),
                 color: 'error',
               });
             }

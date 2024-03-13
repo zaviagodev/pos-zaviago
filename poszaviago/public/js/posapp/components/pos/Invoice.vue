@@ -948,7 +948,7 @@ export default {
         if (item.has_serial_no && item.to_set_serial_no) {
           if (cur_item.serial_no_selected.includes(item.to_set_serial_no)) {
             evntBus.$emit("show_mesage", {
-              text: __(`This Serial Number {0} has already been added!`, [
+              text: __(`มี S/N {0} แล้วในระบบ!`, [
                 item.to_set_serial_no,
               ]),
               color: "warning",
@@ -1479,7 +1479,7 @@ export default {
             ) {
               evntBus.$emit("show_mesage", {
                 text: __(
-                  `Discount percentage for item '{0}' cannot be greater than {1}%`,
+                  `สินค้า '{0}' ไม่สามารถลดเกิน {1}%`,
                   [item.item_name, this.pos_profile.posa_max_discount_allowed]
                 ),
                 color: "error",
@@ -1506,7 +1506,7 @@ export default {
         }
         if (item.qty == 0) {
           evntBus.$emit("show_mesage", {
-            text: __(`Quantity for item '{0}' cannot be Zero (0)`, [
+            text: __(`จำนวนของสินค้า '{0}' ไม่สามารถเป็น 0`, [
               item.item_name,
             ]),
             color: "error",
@@ -1518,7 +1518,7 @@ export default {
           item.discount_percentage > item.max_discount
         ) {
           evntBus.$emit("show_mesage", {
-            text: __(`Maximum discount for Item {0} is {1}%`, [
+            text: __(`สินค้า '{0}' ไม่สามารถลดเกิน {1}%`, [
               item.item_name,
               item.max_discount,
             ]),
@@ -1533,7 +1533,7 @@ export default {
               item.stock_qty != item.serial_no_selected.length)
           ) {
             evntBus.$emit("show_mesage", {
-              text: __(`Selected serial numbers of item {0} is incorrect`, [
+              text: __(`หมายเลข S/N ของ '{0}' ไม่ถูกต้อง`, [
                 item.item_name,
               ]),
               color: "error",
@@ -1545,7 +1545,7 @@ export default {
           if (item.stock_qty > item.actual_batch_qty) {
             evntBus.$emit("show_mesage", {
               text: __(
-                `The existing batch quantity of item {0} is not enough`,
+                `Batch ปัจจุบันของ '{0}' ไม่พอขาย`,
                 [item.item_name]
               ),
               color: "error",
@@ -1568,7 +1568,7 @@ export default {
         if (this.invoice_doc.is_return) {
           if (this.subtotal >= 0) {
             evntBus.$emit("show_mesage", {
-              text: __(`Return Invoice Total Not Correct`),
+              text: __(`ยอดรวมของบิล (คืนสินค้า) ไม่ถูกต้อง`),
               color: "error",
             });
             value = false;
@@ -1576,7 +1576,7 @@ export default {
           }
           if (Math.abs(this.subtotal) > Math.abs(this.return_doc.total)) {
             evntBus.$emit("show_mesage", {
-              text: __(`Return Invoice Total should not be higher than {0}`, [
+              text: __(`ยอดรวมของบิล (คืนสินค้า) ต้องไม่สูงกว่า {0}`, [
                 this.return_doc.total,
               ]),
               color: "error",
@@ -1592,7 +1592,7 @@ export default {
             if (!return_item) {
               evntBus.$emit("show_mesage", {
                 text: __(
-                  `The item {0} cannot be returned because it is not in the invoice {1}`,
+                  `'{0}' ไม่สามารถคืนได้ เนื่องจากไม่ได้อยู่ในบิล {1}`,
                   [item.item_name, this.return_doc.name]
                 ),
                 color: "error",
@@ -1604,7 +1604,7 @@ export default {
               Math.abs(item.qty) == 0
             ) {
               evntBus.$emit("show_mesage", {
-                text: __(`The QTY of the item {0} cannot be greater than {1}`, [
+                text: __(`จำนวนของสินค้า '{0}' ไม่สามารถมากกว่า {1} ได้`, [
                   item.item_name,
                   return_item.qty,
                 ]),
@@ -2562,7 +2562,7 @@ export default {
       }
       if (offer.offer === "Loyalty Point") {
         evntBus.$emit("show_mesage", {
-          text: __("Loyalty Point Offer Applied"),
+          text: __("เพิ่มโปรโมชัน Loyalty Point แล้ว"),
           color: "success",
         });
       }
@@ -2783,7 +2783,7 @@ export default {
     print_draft_invoice() {
       if (!this.pos_profile.posa_allow_print_draft_invoices) {
         evntBus.$emit("show_mesage", {
-          text: __(`You are not allowed to print draft invoices`),
+          text: __(`คุณไม่ได้รับอนุญาตให้ปรินท์บิล​ (ร่าง)`),
           color: "error",
         });
         return;

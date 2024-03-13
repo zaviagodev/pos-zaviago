@@ -93,6 +93,9 @@
               v-for="payment in invoice_doc.payments"
               :key="payment.name"
             >
+              
+
+            
               <v-col cols="6" v-if="!is_mpesa_c2b_payment(payment)">
                 <v-text-field
                   dense
@@ -111,6 +114,11 @@
                   :readonly="invoice_doc.is_return ? true : false"
                 ></v-text-field>
               </v-col>
+
+
+
+
+
               <v-col
                 v-if="!is_mpesa_c2b_payment(payment)"
                 :cols="
@@ -305,12 +313,12 @@
                 label="ยอดสุทธิ"
                 background-color="white"
                 hide-details
-                :value="formtCurrency(invoice_doc.grand_total)"
+                :value="formtCurrency(invoice_doc.total)"
                 disabled
                 :prefix="currencySymbol(invoice_doc.currency)"
               ></v-text-field>
             </v-col>
-            <v-col v-if="invoice_doc.rounded_total" cols="6">
+            <v-col v-if="invoice_doc.disable_rounded_total == 0" cols="6">
               <v-text-field
                 dense
                 outlined
@@ -583,6 +591,25 @@
                 <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('Use Customer Credit') }}</span>
               </v-label>
             </v-col>
+
+
+            <v-col cols="6" class="d-flex align-center">
+              <v-checkbox
+                v-model="invoice_doc.round_rounded_total"
+                flat
+                id="round-total"
+                class="my-0 py-0"
+                @change="update_invoice"
+                hide-details
+              ></v-checkbox>
+              <v-label for="round-total">
+                <span class="mt-2 d-inline-block" :style="{ whiteSpace:'pre' }">{{ frappe._('ปัดเศษ') }}</span>
+              </v-label>
+            </v-col>
+            
+
+
+
           </v-row>
           <div
             v-if="
@@ -793,7 +820,7 @@ export default {
     submit(event, payment_received = false, print = false) {
       if (!this.invoice_doc.is_return && this.total_payments < 0) {
         evntBus.$emit("show_mesage", {
-          text: `Payments not correct`,
+          text: `การชำระเงินไม่ถูกต้อง`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -829,7 +856,7 @@ export default {
           (this.invoice_doc.rounded_total || this.invoice_doc.grand_total)
       ) {
         evntBus.$emit("show_mesage", {
-          text: `The amount paid is not complete`,
+          text: `จำนวนที่ต้องชำระไม่ครบถ้วน`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -842,7 +869,7 @@ export default {
         this.total_payments == 0
       ) {
         evntBus.$emit("show_mesage", {
-          text: `Please enter the amount paid`,
+          text: `กรุณาระบุจำนวนที่ต้องชำระ`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -866,7 +893,7 @@ export default {
 
       if (this.is_cashback && total_change != -this.diff_payment) {
         evntBus.$emit("show_mesage", {
-          text: `Error in change calculations!`,
+          text: `พบข้อผิดพลาดในการคำนวณเงินทอน!`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -881,7 +908,7 @@ export default {
 
       if (credit_calc_check.length > 0) {
         evntBus.$emit("show_mesage", {
-          text: `redeamed credit can not greater than its total.`,
+          text: `มูลค่าของเครดิตต้องไม่สูงกว่ายอดที่ต้องชำระ`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -894,7 +921,7 @@ export default {
           (this.invoice_doc.rounded_total || this.invoice_doc.grand_total)
       ) {
         evntBus.$emit("show_mesage", {
-          text: `can not redeam customer credit more than invoice total`,
+          text: `จำนวนเครดิตที่ใช้แลกต้องไม่สูงกว่ายอดที่ต้องชำระ`,
           color: "error",
         });
         frappe.utils.play_sound("error");
@@ -1152,12 +1179,53 @@ export default {
         textOne.indexOf(searchText) > -1 || textTwo.indexOf(searchText) > -1
       );
     },
+
+    update_invoice() {
+      const vm = this;
+      const doc = this.invoice_doc;
+      frappe.call({
+        method: "poszaviago.poszaviago.api.posapp.round_total_invoice",
+        args: {
+          name: doc.name,
+          round: doc.round_rounded_total,
+        },
+        async: false,
+        callback: function (r) {
+          
+          // if (r.message) {
+          //   res = r.message;
+          //   doc.grand_total = res.rounded_total;
+          //   doc.amount = res.rounded_total;
+          //   doc = res;
+          // }
+
+          
+          
+          if (r.message) {
+              const res = r.message;
+              for (const key in res) {
+                  if (res.hasOwnProperty(key)) {
+                      doc[key] = res[key];
+                  }
+              }
+
+             //if(round == false){
+              this.invoice_doc.rounded_total = this.invoice_doc.grand_total
+             //} 
+
+            
+          }
+        },
+      });
+      return this.invoice_doc;
+    },
+
     request_payment() {
       this.phone_dialog = false;
       const vm = this;
       if (!this.invoice_doc.contact_mobile) {
         evntBus.$emit("show_mesage", {
-          text: __(`Pleas Set Customer Mobile Number`),
+          text: __(`กรุณาระบุเบอร์มือถือของลูกค้า`),
           color: "error",
         });
         evntBus.$emit("open_edit_customer");
@@ -1165,7 +1233,7 @@ export default {
         return;
       }
       evntBus.$emit("freeze", {
-        title: __(`Waiting for payment... `),
+        title: __(`กำลังรอการชำระเงิน...`),
       });
       this.invoice_doc.payments.forEach((payment) => {
         payment.amount = flt(payment.amount);
@@ -1202,7 +1270,7 @@ export default {
             .fail(() => {
               evntBus.$emit("unfreeze");
               evntBus.$emit("show_mesage", {
-                text: __(`Payment request failed`),
+                text: __(`คำขอชำระเงินล้มเหลว`),
                 color: "error",
               });
             })
@@ -1219,14 +1287,14 @@ export default {
                       evntBus.$emit("unfreeze");
                       evntBus.$emit("show_mesage", {
                         text: __(
-                          `Payment Request took too long to respond. Please try requesting for payment again`
+                          `ใช้เวลาส่งคำขอชำระเงินนานเกินไป กรุณาส่งคำขอชำระเงินอีกครั้ง`
                         ),
                         color: "error",
                       });
                     } else {
                       evntBus.$emit("unfreeze");
                       evntBus.$emit("show_mesage", {
-                        text: __("Payment of {0} received successfully.", [
+                        text: __("การชำระเงินของ {0} สำเร็จ", [
                           vm.formtCurrency(
                             message.grand_total,
                             vm.invoice_doc.currency,
@@ -1479,7 +1547,7 @@ export default {
         this.invoice_doc.redeem_loyalty_points = 0;
         this.invoice_doc.loyalty_points = 0;
         evntBus.$emit("show_mesage", {
-          text: `Loyalty Amount can not be more then ${this.available_pioints_amount}`,
+          text: `จำนวนแต้มไม่สามารถมากกว่า ${this.available_pioints_amount} ได้`,
           color: "error",
         });
       } else {
@@ -1509,7 +1577,7 @@ export default {
     redeemed_customer_credit(value) {
       if (value > this.available_customer_credit) {
         evntBus.$emit("show_mesage", {
-          text: `You can redeem customer credit upto ${this.available_customer_credit}`,
+          text: `คุณสามารถแลกเครดิตของลูกค้าได้ ${this.available_customer_credit}`,
           color: "error",
         });
       }

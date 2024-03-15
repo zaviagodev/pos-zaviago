@@ -2684,17 +2684,24 @@ export default {
       if (!offer.name) {
         offer = this.posOffers.find((el) => el.name == offer.offer_name);
       }
-      if (
-        (!this.discount_percentage_offer_name ||
-          this.discount_percentage_offer_name == offer.name) &&
-        offer.discount_percentage > 0 &&
-        offer.discount_percentage <= 100
-      ) {
-        this.discount_amount = this.flt(
-          (flt(this.Total) * flt(offer.discount_percentage)) / 100,
-          this.currency_precision
-        );
+      if(offer.discount_amount > 0){
+        this.discount_amount = offer.discount_amount;
         this.discount_percentage_offer_name = offer.name;
+      }
+      else {
+        if (
+          (!this.discount_percentage_offer_name ||
+            this.discount_percentage_offer_name == offer.name) &&
+           offer.discount_percentage > 0 &&
+          offer.discount_percentage <= 100
+        ) {
+          console.log("Apply on total");
+          this.discount_amount = this.flt(
+            (flt(this.Total) * flt(offer.discount_percentage)) / 100,
+            this.currency_precision
+          );
+          this.discount_percentage_offer_name = offer.name;
+        }
       }
     },
 
@@ -2887,6 +2894,7 @@ export default {
       // evntBus.$emit("set_pos_coupons", data.posa_coupons);
     });
     evntBus.$on("set_offers", (data) => {
+      console.log("set_offers", data);
       this.posOffers = data;
     });
     evntBus.$on("update_invoice_offers", (data) => {

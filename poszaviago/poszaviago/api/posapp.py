@@ -576,10 +576,9 @@ def update_invoice(data):
     else:
         invoice_doc = frappe.get_doc(data)
         
-        
     if data.get("discount_amount"):
         invoice_doc.is_cash_or_non_trade_discount = 1
-        invoice_doc.additional_discount_account = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "discount_account")
+        invoice_doc.additional_discount_account = "5370-04-02 REPAIR AND MAINTENANCE - VEHICLE"
         
     invoice_doc.set_missing_values()
     invoice_doc.flags.ignore_permissions = True

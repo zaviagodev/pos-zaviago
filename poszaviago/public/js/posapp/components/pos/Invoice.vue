@@ -2762,6 +2762,12 @@ export default {
       }
     },
     load_print_page(invoice_name) {
+
+
+
+
+
+
       const print_format =
         this.pos_profile.print_format_for_online ||
         this.pos_profile.print_format;
@@ -2795,16 +2801,32 @@ export default {
         });
         return;
       }
-      let invoice_name = this.invoice_doc.name;
-      frappe.run_serially([
-        () => {
-          const invoice_doc = this.new_invoice();
-          invoice_name = invoice_doc.name ? invoice_doc.name : invoice_name;
-        },
-        () => {
-          this.load_print_page(invoice_name);
-        },
-      ]);
+
+      if (!this.customer) {
+        evntBus.$emit("show_mesage", {
+          text: __(`กรุณาเลือกลูกค้า`),
+          color: "error",
+        });
+        return;
+      }
+      else{
+
+        let invoice_name = this.invoice_doc.name;
+        frappe.run_serially([
+          () => {
+            const invoice_doc = this.new_invoice();
+            invoice_name = invoice_doc.name ? invoice_doc.name : invoice_name;
+          },
+          () => {
+            
+            this.load_print_page(invoice_name);
+          },
+        ]);
+
+      }
+
+
+     
     },
     set_delivery_charges() {
       const vm = this;

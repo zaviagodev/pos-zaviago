@@ -1607,7 +1607,8 @@ export default {
 }
 
 .payment-info-title {
-  font-size:18px !important
+  font-size:18px !important;
+  color:#1F272E !important
 }
 
 .payment-info-desc {

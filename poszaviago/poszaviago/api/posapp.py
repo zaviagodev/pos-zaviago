@@ -596,8 +596,12 @@ def update_invoice(data):
         invoice_doc.additional_discount_account = discount_profile
         
         
+          
+        
     if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "defult_sales_taxes_and_charges_template"):
        invoice_doc.taxes_and_charges = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "defult_sales_taxes_and_charges_template") 
+    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "custom_defult_sales_taxes_and_charges_template"):
+       invoice_doc.taxes_and_charges = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "custom_defult_sales_taxes_and_charges_template") 
         
         
     invoice_doc.save()

@@ -170,12 +170,11 @@ export default {
 
       const fetchCustomersInterval = setInterval(() => {
         this.get_customer_names();
-      }, 30000);
+      }, 15000);
 
       frappe.realtime.on('new_customer', (data) => {
           console.log(data)
       })
-
 
     });
   },

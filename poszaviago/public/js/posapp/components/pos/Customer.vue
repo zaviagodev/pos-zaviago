@@ -167,15 +167,9 @@ export default {
       evntBus.$on('fetch_customer_details', () => {
         this.get_customer_names();
       });
-
-      const fetchCustomersInterval = setInterval(() => {
-        this.get_customer_names();
-      }, 15000);
-
       frappe.realtime.on('new_customer', (data) => {
-          console.log(data)
+          vm.customers.push(data);
       })
-
     });
   },
 

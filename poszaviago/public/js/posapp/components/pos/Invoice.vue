@@ -3033,6 +3033,7 @@ export default {
 .to-pay-text {
   font-size:20px !important;
   margin-bottom:10px !important;
+  color:#1F272E !important
 }
 
 @media (max-width:1280px){

@@ -632,8 +632,8 @@ def update_invoice(data):
     if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person"):
         invoice_doc.sales_name = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person")
     if data.get("discount_amount"):
-        invoice_doc.is_cash_or_non_trade_discount = 1
-        invoice_doc.additional_discount_account = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "discount_account")
+        invoice_doc.is_cash_or_non_trade_discount = 0
+        invoice_doc.additional_discount_account = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "posa_custom_discount_account")
     invoice_doc.save()
     frappe.db.commit()
     

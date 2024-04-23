@@ -592,8 +592,7 @@
               </v-label>
             </v-col>
 
-
-            <v-col cols="6" class="d-flex align-center">
+            <v-col cols="6" v-if="invoice_doc.grand_total && !Number.isInteger(invoice_doc.grand_total) || invoice_doc.round_rounded_total == true" class="d-flex align-center">
               <v-checkbox
                 v-model="invoice_doc.round_rounded_total"
                 flat
@@ -607,9 +606,6 @@
               </v-label>
             </v-col>
             
-
-
-
           </v-row>
           <div
             v-if="

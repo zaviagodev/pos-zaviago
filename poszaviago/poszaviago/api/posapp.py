@@ -424,7 +424,7 @@ def get_customer_names(pos_profile):
         condition += get_customer_group_condition(pos_profile)
         customers = frappe.db.sql(
             """
-            SELECT name, mobile_no, email_id, tax_id, customer_name, primary_address
+            SELECT name, mobile_no, email_id, tax_id, customer_name,full_name,primary_address
             FROM `tabCustomer`
             WHERE {0}
             ORDER by name
@@ -509,53 +509,6 @@ def round_total_invoice(name,round):
         invoice_doc.rounded_totalz = 0
 
 
-
-    if invoice_doc.is_return and invoice_doc.return_against:
-        ref_doc = frappe.get_cached_doc(invoice_doc.doctype, invoice_doc.return_against)
-        if not ref_doc.update_stock:
-            invoice_doc.update_stock = 0
-        if len(invoice_doc.payments) == 0:
-            invoice_doc.payments = ref_doc.payments
-        invoice_doc.paid_amount = (
-            invoice_doc.rounded_total or invoice_doc.grand_total or invoice_doc.total
-        )
-        for payment in invoice_doc.payments:
-            if payment.default:
-                payment.amount = invoice_doc.paid_amount
-    allow_zero_rated_items = frappe.get_cached_value(
-        "POS Profile", invoice_doc.pos_profile, "posa_allow_zero_rated_items"
-    )
-    for item in invoice_doc.items:
-        if not item.rate or item.rate == 0:
-            if allow_zero_rated_items:
-                item.price_list_rate = 0.00
-                item.is_free_item = 1
-            else:
-                frappe.throw(
-                    _("Rate cannot be zero for item {0}").format(item.item_code)
-                )
-        else:
-            item.is_free_item = 0
-        add_taxes_from_tax_template(item, invoice_doc)
-
-    if frappe.get_cached_value(
-        "POS Profile", invoice_doc.pos_profile, "posa_tax_inclusive"
-    ):
-        if invoice_doc.get("taxes"):
-            for tax in invoice_doc.taxes:
-                tax.included_in_print_rate = 1
-
-    today_date = getdate()
-    if (
-        invoice_doc.get("posting_date")
-        and getdate(invoice_doc.posting_date) != today_date
-    ):
-        invoice_doc.set_posting_time = 1
-  
-  
-    
-    
-    
     if invoice_doc.disable_rounded_total == 0: 
         invoice_doc.save()
         frappe.db.commit()
@@ -631,14 +584,23 @@ def update_invoice(data):
 
     if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person"):
         invoice_doc.sales_name = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "sales_person")
+    
+    
     if data.get("discount_amount"):
         invoice_doc.is_cash_or_non_trade_discount = 0
-        invoice_doc.additional_discount_account = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "posa_custom_discount_account")
+        discount_account = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "posa_custom_discount_account")
+        if discount_account:
+            invoice_doc.additional_discount_account = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "posa_custom_discount_account")
+            
+    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "defult_sales_taxes_and_charges_template"):
+       invoice_doc.taxes_and_charges = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "defult_sales_taxes_and_charges_template") 
+    if frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "custom_defult_sales_taxes_and_charges_template"):
+       invoice_doc.taxes_and_charges = frappe.get_cached_value("POS Profile", invoice_doc.pos_profile, "custom_defult_sales_taxes_and_charges_template") 
+        
+        
     invoice_doc.save()
     frappe.db.commit()
-    
     invoice_doc.total = invoice_doc.grand_total
-    
     return invoice_doc
 
 

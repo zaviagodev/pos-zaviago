@@ -48,6 +48,10 @@
                 v-if="data.item.primary_address"
                 v-html="`Primary Address: ${data.item.primary_address}`"
               ></v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-if="data.item.full_name"
+                v-html="`Name: ${data.item.full_name}`"
+              ></v-list-item-subtitle>
             </v-list-item-content>
           </template>
         </template>
@@ -122,6 +126,7 @@ export default {
       const textThree = item.email_id ? item.email_id.toLowerCase() : '';
       const textFour = item.mobile_no ? item.mobile_no.toLowerCase() : '';
       const textFifth = item.name.toLowerCase();
+      const textsix = item.full_name ? item.full_name.toLowerCase() : '';
       const searchText = queryText.toLowerCase();
 
       return (
@@ -129,7 +134,8 @@ export default {
         textTwo.indexOf(searchText) > -1 ||
         textThree.indexOf(searchText) > -1 ||
         textFour.indexOf(searchText) > -1 ||
-        textFifth.indexOf(searchText) > -1
+        textFifth.indexOf(searchText) > -1 || 
+        textsix.indexOf(searchText) > -1 
       );
     },
   },
@@ -161,6 +167,9 @@ export default {
       evntBus.$on('fetch_customer_details', () => {
         this.get_customer_names();
       });
+      frappe.realtime.on('new_customer', (data) => {
+          vm.customers.push(data);
+      })
     });
   },
 
